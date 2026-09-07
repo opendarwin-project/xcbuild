@@ -109,7 +109,16 @@ resolve(
     });
 
     std::string scriptFilePath = phaseEnvironment.expand(scriptPath);
-    std::string contents = (!buildPhase->shellPath().empty() ? "#!" + buildPhase->shellPath() + "\n" : "") + buildPhase->shellScript();
+    std::string shebang;
+    if (!buildPhase->shellPath().empty()) {
+        std::string const &shellPath = buildPhase->shellPath();
+        if (shellPath.find(' ') != std::string::npos) {
+            shebang = "#!/usr/bin/env -S " + shellPath + "\n";
+        } else {
+            shebang = "#!" + shellPath + "\n";
+        }
+    }
+    std::string contents = shebang + buildPhase->shellScript();
     auto scriptFile = Tool::AuxiliaryFile::Data(scriptFilePath, std::vector<uint8_t>(contents.begin(), contents.end()), true);
 
     pbxsetting::Environment scriptEnvironment = pbxsetting::Environment(environment);

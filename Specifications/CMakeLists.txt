@@ -15,6 +15,8 @@ add_subdirectory(BuildSystem)
 add_subdirectory(Compiler)
 add_subdirectory(FileType)
 add_subdirectory(Linker)
+add_subdirectory(ProductType)
+add_subdirectory(PackageType)
 add_subdirectory(Tool)
 
 set(CMAKE_INSTALL_DEFAULT_COMPONENT_NAME ${OLD_DEFAULT_COMPONENT})
