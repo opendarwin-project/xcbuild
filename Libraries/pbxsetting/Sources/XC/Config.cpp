@@ -100,10 +100,17 @@ ParseInclude(std::string const &value)
 static ext::optional<Config::Entry>
 ParseDirective(Filesystem const *filesystem, Environment const &environment, std::string const &directory, std::string const &line)
 {
-    std::string include = "include";
-    if (line.compare(1, 1 + include.size(), include)) {
+    size_t prefixLen = 0;
+    if (line.compare(1, 7, "include") == 0) {
+        prefixLen = 8;
+        if (line.size() > 8 && line[8] == '?') {
+            prefixLen = 9;
+        }
+    }
+
+    if (prefixLen > 0) {
         /* Handle include directive. */
-        std::string value = line.substr(1 + include.size());
+        std::string value = line.substr(prefixLen);
         if (ext::optional<Value> parsed = ParseInclude(value)) {
             /* Determine the path on disk. */
             std::string path = environment.expand(*parsed);
@@ -113,8 +120,8 @@ ParseDirective(Filesystem const *filesystem, Environment const &environment, std
             if (ext::optional<Config> config = Config::Load(filesystem, environment, path)) {
                 return Config::Entry(*parsed, std::make_shared<Config>(*config));
             } else {
-                /* Failed to load included config. */
-                return ext::nullopt;
+                /* Failed to load included config (e.g. missing Apple internal makefiles) - treat as empty rather than failing parent config. */
+                return Config::Entry(*parsed, std::make_shared<Config>(path, std::vector<Config::Entry>()));
             }
         } else {
             /* Failed to parse include. */
