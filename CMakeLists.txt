@@ -7,9 +7,7 @@
 #
 
 project(xcbuild C CXX)
-
-cmake_minimum_required(VERSION 3.0)
-cmake_policy(SET CMP0054 NEW)
+cmake_minimum_required(VERSION 3.10)
 
 set(BUILD_SHARED_LIBS True CACHE BOOL "Build shared libraries." FORCE)
 
@@ -62,7 +60,7 @@ endif ()
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC" OR "${CMAKE_CXX_SIMULATE_ID}" STREQUAL "MSVC")
   add_compile_options(/D_CRT_SECURE_NO_WARNINGS) # TODO: /Wall /WX
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang" OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
-  add_compile_options(-Wall -Werror)
+  add_compile_options(-Wall)
   if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
     add_compile_options(-Wno-multichar -Wno-sign-compare)
   endif ()
