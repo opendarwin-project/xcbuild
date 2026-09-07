@@ -107,6 +107,8 @@ ProcessOperation(std::string const &value, std::string const &operation)
         return FSUtil::GetBaseName(value);
     } else if (operation == "suffix") {
         return "." + FSUtil::GetFileExtension(value);
+    } else if (operation.compare(0, 8, "default=") == 0) {
+        return value.empty() ? operation.substr(8) : value;
     } else {
         fprintf(stderr, "warning: unknown build setting operation '%s'\n", operation.c_str());
         return value;
