@@ -50,16 +50,22 @@ Target::shared_ptr Manager::
 findTarget(Filesystem const *filesystem, std::string const &name) const
 {
     std::string pathFromName = _resolvePath(filesystem, name);
+    std::string unadorned = name;
+    if (unadorned.size() > 9 && unadorned.substr(unadorned.size() - 9) == ".internal") {
+        unadorned = unadorned.substr(0, unadorned.size() - 9);
+    }
+
     for (Platform::shared_ptr const &platform : _platforms) {
         for (Target::shared_ptr const &target : platform->targets()) {
-            /* Try both the name and the path; either are valid. */
-            if (target->canonicalName() == name || target->path() == pathFromName) {
+            /* Try canonical name, bundle name, and paths */
+            if (target->canonicalName() == name || target->canonicalName() == unadorned ||
+                target->bundleName() == name || target->bundleName() == unadorned ||
+                target->path() == pathFromName) {
                 return target;
             }
         }
-
-        /* If the platform name matches but no targets do, use any target. */
-        if (platform->name() == name || platform->path() == pathFromName) {
+        /* If the platform name matches, use target */
+        if (platform->name() == name || platform->name() == unadorned || platform->path() == pathFromName) {
             if (!platform->targets().empty()) {
                 return platform->targets().back();
             }
