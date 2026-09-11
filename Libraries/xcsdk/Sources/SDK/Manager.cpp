@@ -7,6 +7,7 @@
  */
 
 #include <libutil/FSUtil.h>
+#include <libutil/DefaultFilesystem.h>
 #include <pbxsetting/Setting.h>
 #include <pbxsetting/Type.h>
 #include <xcsdk/Configuration.h>
@@ -67,6 +68,25 @@ Target::shared_ptr Manager::findTarget(
 			if (!platform->targets().empty()) {
 				return platform->targets().back();
 			}
+		}
+	}
+
+	if (!pathFromName.empty()) {
+		Platform::shared_ptr defaultPlatform = nullptr;
+		for (Platform::shared_ptr const &platform : _platforms) {
+			if (platform->name() == "macosx") {
+				defaultPlatform = platform;
+				break;
+			}
+		}
+		std::unique_ptr<libutil::DefaultFilesystem> defaultFS;
+		Filesystem const *fs = filesystem;
+		if (fs == nullptr) {
+			defaultFS = std::make_unique<libutil::DefaultFilesystem>();
+			fs = defaultFS.get();
+		}
+		if (auto customTarget = Target::Open(fs, nullptr, defaultPlatform, pathFromName)) {
+			return customTarget;
 		}
 	}
 
