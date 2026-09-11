@@ -77,15 +77,15 @@ endif ()
 
 target_include_directories(plist PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/Headers")
 target_include_directories(plist PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/PrivateHeaders")
-install(TARGETS plist DESTINATION usr/lib)
+install(TARGETS plist DESTINATION ${CMAKE_INSTALL_LIBDIR})
 
 add_executable(plutil Tools/plutil.cpp)
 target_link_libraries(plutil PRIVATE plist process util)
-install(TARGETS plutil DESTINATION usr/bin)
+install(TARGETS plutil DESTINATION ${CMAKE_INSTALL_BINDIR})
 
 add_executable(PlistBuddy Tools/PlistBuddy.cpp)
 target_link_libraries(PlistBuddy PRIVATE plist util)
-install(TARGETS PlistBuddy DESTINATION usr/bin)
+install(TARGETS PlistBuddy DESTINATION ${CMAKE_INSTALL_BINDIR})
 
 if ("${CMAKE_SYSTEM_NAME}" STREQUAL "Windows")
   # TODO

@@ -9,7 +9,7 @@
 project(xcbuild C CXX)
 cmake_minimum_required(VERSION 3.10)
 
-set(BUILD_SHARED_LIBS True CACHE BOOL "Build shared libraries." FORCE)
+include(GNUInstallDirs)
 
 # Platform options.
 if ("${CMAKE_SYSTEM_NAME}" STREQUAL "Windows")
@@ -82,6 +82,7 @@ endif ()
 include(CTest)
 
 if (BUILD_TESTING)
+  set(INSTALL_GTEST OFF)
   add_subdirectory(ThirdParty/googletest)
 
   function (ADD_UNIT_GTEST LIBRARY NAME SOURCES)
