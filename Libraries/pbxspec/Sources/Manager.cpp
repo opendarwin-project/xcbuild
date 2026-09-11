@@ -690,11 +690,16 @@ Manager::PlatformDependentDomains(std::string const &developerRoot)
 std::vector<std::string> Manager::DeveloperBuildRules(
     std::string const &developerRoot)
 {
-	return {
+	std::vector<std::string> rules = {
+#ifdef XCBUILD_INSTALL_PREFIX
+		std::string(XCBUILD_INSTALL_PREFIX) +
+		    "/Library/Xcode/Specifications/BuiltInBuildRules.plist",
+#endif
 		developerRoot +
 		    "/../PlugIns/Xcode3Core.ideplugin/Contents/Frameworks/"
 		    "DevToolsCore.framework/Resources/BuiltInBuildRules.plist",
 		developerRoot +
 		    "/Library/Xcode/Specifications/BuiltInBuildRules.plist",
 	};
+	return rules;
 }
