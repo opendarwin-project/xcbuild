@@ -598,7 +598,10 @@ std::vector<std::pair<std::string, std::string>> Manager::DefaultDomains(
 	std::string embedded = developerRoot +
 	    "/../PlugIns/IDEiOSSupportCore.ideplugin/Contents/Resources";
 
-	return {
+	std::vector<std::pair<std::string, std::string>> domains = {
+#ifdef XCBUILD_INSTALL_PREFIX
+		{ "default", std::string(XCBUILD_INSTALL_PREFIX) + "/Library/Xcode/Specifications" },
+#endif
 		{ "default", developerRoot + "/Library/Xcode/Specifications" },
 		{ "default", frameworks + "/" + "DevToolsCore.framework" },
 		{ "default", plugins + "/" + "Clang LLVM 1.0.xcplugin" },
@@ -615,6 +618,8 @@ std::vector<std::pair<std::string, std::string>> Manager::DefaultDomains(
 		{ "embedded-simulator",
 		    embedded + "/" + "Embedded-Simulator.xcspec" },
 	};
+
+	return domains;
 }
 
 std::vector<std::pair<std::string, std::string>> Manager::PlatformDomains(
