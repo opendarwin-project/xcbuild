@@ -9,6 +9,7 @@
 set(OLD_DEFAULT_COMPONENT ${CMAKE_INSTALL_DEFAULT_COMPONENT_NAME})
 set(CMAKE_INSTALL_DEFAULT_COMPONENT_NAME specifications)
 
+add_subdirectory(Architecture)
 add_subdirectory(BuildPhase)
 add_subdirectory(BuildRules)
 add_subdirectory(BuildSystem)
