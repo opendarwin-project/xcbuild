@@ -11,13 +11,15 @@
 
 #include <xcworkspace/XC/GroupItem.h>
 
-namespace xcworkspace { namespace XC {
+namespace xcworkspace {
+namespace XC {
 
 class FileRef : public GroupItem {
-public:
-    FileRef();
+    public:
+	FileRef();
 };
 
-} }
+}
+}
 
-#endif  // !__xcworkspace_XC_FileRef_h
+#endif // !__xcworkspace_XC_FileRef_h

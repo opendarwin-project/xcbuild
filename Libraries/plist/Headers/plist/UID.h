@@ -15,66 +15,57 @@
 namespace plist {
 
 class UID : public Object {
-private:
-    uint32_t _value;
+    private:
+	uint32_t _value;
 
-public:
-    UID(uint32_t value = 0) :
-        _value(value)
-    {
-    }
+    public:
+	UID(uint32_t value = 0)
+	    : _value(value)
+	{
+	}
 
-public:
-    inline uint32_t value() const
-    {
-        return _value;
-    }
+    public:
+	inline uint32_t value() const { return _value; }
 
-    inline void setValue(uint32_t value)
-    {
-        _value = value;
-    }
+	inline void setValue(uint32_t value) { _value = value; }
 
-public:
-    static std::unique_ptr<UID> New(uint32_t value = 0);
+    public:
+	static std::unique_ptr<UID> New(uint32_t value = 0);
 
-public:
-    static std::unique_ptr<UID> Coerce(Object const *obj);
+    public:
+	static std::unique_ptr<UID> Coerce(Object const *obj);
 
-public:
-    virtual ObjectType type() const
-    {
-        return UID::Type();
-    }
+    public:
+	virtual ObjectType type() const { return UID::Type(); }
 
-    static inline ObjectType Type()
-    {
-        return ObjectType::UID;
-    }
+	static inline ObjectType Type() { return ObjectType::UID; }
 
-protected:
-    virtual std::unique_ptr<Object> _copy() const;
+    protected:
+	virtual std::unique_ptr<Object> _copy() const;
 
-public:
-    std::unique_ptr<UID> copy() const
-    { return plist::static_unique_pointer_cast<UID>(_copy()); }
+    public:
+	std::unique_ptr<UID> copy() const
+	{
+		return plist::static_unique_pointer_cast<UID>(_copy());
+	}
 
-public:
-    virtual bool equals(Object const *obj) const
-    {
-        if (Object::equals(obj))
-            return true;
+    public:
+	virtual bool equals(Object const *obj) const
+	{
+		if (Object::equals(obj))
+			return true;
 
-        UID const *objt = CastTo <UID> (obj);
-        return (objt != nullptr && equals(objt));
-    }
+		UID const *objt = CastTo<UID>(obj);
+		return (objt != nullptr && equals(objt));
+	}
 
-    virtual bool equals(UID const *obj) const
-    {
-        return (obj != nullptr && (obj == this || value() == obj->value()));
-    }
+	virtual bool equals(UID const *obj) const
+	{
+		return (
+		    obj != nullptr && (obj == this || value() == obj->value()));
+	}
 };
 
 }
 
-#endif  // !__plist_UID_h
+#endif // !__plist_UID_h

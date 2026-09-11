@@ -9,32 +9,31 @@
 #ifndef __plist_Format_XML_h
 #define __plist_Format_XML_h
 
+#include <plist/Format/Encoding.h>
 #include <plist/Format/Format.h>
 #include <plist/Format/Type.h>
-#include <plist/Format/Encoding.h>
 
 namespace plist {
 namespace Format {
 
 class XML : public Format<XML> {
-private:
-    Encoding _encoding;
+    private:
+	Encoding _encoding;
 
-private:
-    XML(Encoding encoding);
+    private:
+	XML(Encoding encoding);
 
-public:
-    static Type FormatType();
+    public:
+	static Type FormatType();
 
-public:
-    inline Encoding encoding() const
-    { return _encoding; }
+    public:
+	inline Encoding encoding() const { return _encoding; }
 
-public:
-    static XML Create(Encoding encoding);
+    public:
+	static XML Create(Encoding encoding);
 };
 
 }
 }
 
-#endif  // !__plist_Format_XML_h
+#endif // !__plist_Format_XML_h

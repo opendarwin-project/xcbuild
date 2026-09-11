@@ -12,10 +12,10 @@
 #include <dependency/DependencyInfo.h>
 #include <dependency/DependencyInfoFormat.h>
 
+#include <ext/optional>
 #include <memory>
 #include <string>
 #include <vector>
-#include <ext/optional>
 
 namespace dependency {
 
@@ -23,60 +23,54 @@ namespace dependency {
  * The binary dependency info format used by actool and ld64.
  */
 class BinaryDependencyInfo {
-private:
-    std::string              _version;
-    std::vector<std::string> _missing;
+    private:
+	std::string _version;
+	std::vector<std::string> _missing;
 
-private:
-    DependencyInfo           _dependencyInfo;
+    private:
+	DependencyInfo _dependencyInfo;
 
-public:
-    BinaryDependencyInfo();
+    public:
+	BinaryDependencyInfo();
 
-public:
-    /*
-     * The version string of the creating tool.
-     */
-    std::string const &version() const
-    { return _version; }
-    std::string &version()
-    { return _version; }
+    public:
+	/*
+	 * The version string of the creating tool.
+	 */
+	std::string const &version() const { return _version; }
+	std::string &version() { return _version; }
 
-    /*
-     * Files that were accessed but did not exist.
-     */
-    std::vector<std::string> const &missing() const
-    { return _missing; }
-    std::vector<std::string> &missing()
-    { return _missing; }
+	/*
+	 * Files that were accessed but did not exist.
+	 */
+	std::vector<std::string> const &missing() const { return _missing; }
+	std::vector<std::string> &missing() { return _missing; }
 
-public:
-    /*
-     * The encoded dependency info.
-     */
-    DependencyInfo const &dependencyInfo() const
-    { return _dependencyInfo; }
-    DependencyInfo &dependencyInfo()
-    { return _dependencyInfo; }
+    public:
+	/*
+	 * The encoded dependency info.
+	 */
+	DependencyInfo const &dependencyInfo() const { return _dependencyInfo; }
+	DependencyInfo &dependencyInfo() { return _dependencyInfo; }
 
-public:
-    /*
-     * Serialize the dependency info.
-     */
-    std::vector<uint8_t> serialize() const;
+    public:
+	/*
+	 * Serialize the dependency info.
+	 */
+	std::vector<uint8_t> serialize() const;
 
-public:
-    /*
-     * Load dependency info from binary data.
-     */
-    static ext::optional<BinaryDependencyInfo>
-    Deserialize(std::vector<uint8_t> const &contents);
+    public:
+	/*
+	 * Load dependency info from binary data.
+	 */
+	static ext::optional<BinaryDependencyInfo> Deserialize(
+	    std::vector<uint8_t> const &contents);
 
-public:
-    /*
-     * The dependency info format.
-     */
-    DependencyInfoFormat Format() { return DependencyInfoFormat::Binary; }
+    public:
+	/*
+	 * The dependency info format.
+	 */
+	DependencyInfoFormat Format() { return DependencyInfoFormat::Binary; }
 };
 
 }

@@ -14,15 +14,15 @@
 namespace xcdriver {
 
 class Usage {
-private:
-    Usage();
-    ~Usage();
+    private:
+	Usage();
+	~Usage();
 
-public:
-    /*
-     * Text explaining the usage of the driver.
-     */
-    static std::string Text(std::string const &name);
+    public:
+	/*
+	 * Text explaining the usage of the driver.
+	 */
+	static std::string Text(std::string const &name);
 };
 
 }

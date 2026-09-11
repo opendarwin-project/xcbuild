@@ -10,21 +10,15 @@
 
 using builtin::lsRegisterURL::Options;
 
-Options::
-Options()
+Options::Options() { }
+
+Options::~Options() { }
+
+std::pair<bool, std::string> Options::parseArgument(
+    std::vector<std::string> const &args,
+    std::vector<std::string>::const_iterator *it)
 {
+	std::string const &arg = **it;
+
+	return libutil::Options::Current<std::string>(&_input, arg);
 }
-
-Options::
-~Options()
-{
-}
-
-std::pair<bool, std::string> Options::
-parseArgument(std::vector<std::string> const &args, std::vector<std::string>::const_iterator *it)
-{
-    std::string const &arg = **it;
-
-    return libutil::Options::Current<std::string>(&_input, arg);
-}
-

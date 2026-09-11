@@ -11,20 +11,21 @@
 
 #include <pbxproj/PBX/BuildPhase.h>
 
-namespace pbxproj { namespace PBX {
+namespace pbxproj {
+namespace PBX {
 
 class HeadersBuildPhase : public BuildPhase {
-public:
-    typedef std::shared_ptr <HeadersBuildPhase> shared_ptr;
+    public:
+	typedef std::shared_ptr<HeadersBuildPhase> shared_ptr;
 
-public:
-    HeadersBuildPhase();
+    public:
+	HeadersBuildPhase();
 
-public:
-    static inline char const *Isa()
-    { return ISA::PBXHeadersBuildPhase; }
+    public:
+	static inline char const *Isa() { return ISA::PBXHeadersBuildPhase; }
 };
 
-} }
+}
+}
 
-#endif  // !__pbxproj_PBX_BuildPhase_h
+#endif // !__pbxproj_PBX_BuildPhase_h

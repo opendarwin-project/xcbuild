@@ -13,40 +13,48 @@
 
 #include <string>
 
-namespace plist { class Dictionary; }
+namespace plist {
+class Dictionary;
+}
 
-namespace xcscheme { namespace XC {
+namespace xcscheme {
+namespace XC {
 
 class Action {
-private:
-    std::string           _buildConfiguration;
-    ExecuteAction::vector _preActions;
-    ExecuteAction::vector _postActions;
+    private:
+	std::string _buildConfiguration;
+	ExecuteAction::vector _preActions;
+	ExecuteAction::vector _postActions;
 
-public:
-    Action();
-    virtual ~Action() {}
+    public:
+	Action();
+	virtual ~Action() { }
 
-public:
-    inline std::string const &buildConfiguration() const
-    { return _buildConfiguration; }
+    public:
+	inline std::string const &buildConfiguration() const
+	{
+		return _buildConfiguration;
+	}
 
-public:
-    inline ExecuteAction::vector const &preActions() const
-    { return _preActions; }
-    inline ExecuteAction::vector &preActions()
-    { return _preActions; }
+    public:
+	inline ExecuteAction::vector const &preActions() const
+	{
+		return _preActions;
+	}
+	inline ExecuteAction::vector &preActions() { return _preActions; }
 
-public:
-    inline ExecuteAction::vector const &postActions() const
-    { return _postActions; }
-    inline ExecuteAction::vector &postActions()
-    { return _postActions; }
+    public:
+	inline ExecuteAction::vector const &postActions() const
+	{
+		return _postActions;
+	}
+	inline ExecuteAction::vector &postActions() { return _postActions; }
 
-protected:
-    virtual bool parse(plist::Dictionary const *dict);
+    protected:
+	virtual bool parse(plist::Dictionary const *dict);
 };
 
-} }
+}
+}
 
-#endif  // !__xcscheme_XC_Action_h
+#endif // !__xcscheme_XC_Action_h

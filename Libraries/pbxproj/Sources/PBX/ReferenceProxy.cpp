@@ -6,46 +6,47 @@
  LICENSE file in the root directory of this source tree.
  */
 
-#include <pbxproj/PBX/ReferenceProxy.h>
 #include <pbxproj/Context.h>
+#include <pbxproj/PBX/ReferenceProxy.h>
 
-using pbxproj::PBX::ReferenceProxy;
 using pbxproj::Context;
+using pbxproj::PBX::ReferenceProxy;
 
-ReferenceProxy::
-ReferenceProxy() :
-    GroupItem(Isa(), Type::ReferenceProxy)
+ReferenceProxy::ReferenceProxy()
+    : GroupItem(Isa(), Type::ReferenceProxy)
 {
 }
 
-bool ReferenceProxy::
-parse(Context &context, plist::Dictionary const *dict, std::unordered_set<std::string> *seen, bool check)
+bool ReferenceProxy::parse(Context &context, plist::Dictionary const *dict,
+    std::unordered_set<std::string> *seen, bool check)
 {
-    if (!GroupItem::parse(context, dict, seen, false)) {
-        return false;
-    }
+	if (!GroupItem::parse(context, dict, seen, false)) {
+		return false;
+	}
 
-    auto unpack = plist::Keys::Unpack("ReferenceProxy", dict, seen);
+	auto unpack = plist::Keys::Unpack("ReferenceProxy", dict, seen);
 
-    std::string RRID;
+	std::string RRID;
 
-    auto RR = context.indirect <ContainerItemProxy> (&unpack, "remoteRef", &RRID);
-    auto FT = unpack.cast <plist::String> ("fileType");
+	auto RR = context.indirect<ContainerItemProxy>(
+	    &unpack, "remoteRef", &RRID);
+	auto FT = unpack.cast<plist::String>("fileType");
 
-    if (!unpack.complete(check)) {
-        fprintf(stderr, "%s", unpack.errorText().c_str());
-    }
+	if (!unpack.complete(check)) {
+		fprintf(stderr, "%s", unpack.errorText().c_str());
+	}
 
-    if (RR != nullptr) {
-        _remoteRef = context.parseObject(context.containerItemProxies, RRID, RR);
-        if (_remoteRef == nullptr) {
-            return false;
-        }
-    }
+	if (RR != nullptr) {
+		_remoteRef = context.parseObject(
+		    context.containerItemProxies, RRID, RR);
+		if (_remoteRef == nullptr) {
+			return false;
+		}
+	}
 
-    if (FT != nullptr) {
-        _fileType = FT->value();
-    }
+	if (FT != nullptr) {
+		_fileType = FT->value();
+	}
 
-    return true;
+	return true;
 }

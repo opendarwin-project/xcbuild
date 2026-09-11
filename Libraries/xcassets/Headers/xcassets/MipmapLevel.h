@@ -18,40 +18,40 @@ namespace xcassets {
  * The level of a mipmap.
  */
 enum class MipmapLevel {
-    Base,
-    Level1,
-    Level2,
-    Level3,
-    Level4,
-    Level5,
-    Level6,
-    Level7,
-    Level8,
-    Level9,
-    Level10,
-    Level11,
-    Level12,
-    Level13,
-    Level14,
-    Level15,
-    Level16,
+	Base,
+	Level1,
+	Level2,
+	Level3,
+	Level4,
+	Level5,
+	Level6,
+	Level7,
+	Level8,
+	Level9,
+	Level10,
+	Level11,
+	Level12,
+	Level13,
+	Level14,
+	Level15,
+	Level16,
 };
 
 class MipmapLevels {
-private:
-    MipmapLevels();
-    ~MipmapLevels();
+    private:
+	MipmapLevels();
+	~MipmapLevels();
 
-public:
-    /*
-     * Parse a matching mipmap level from a string, if valid.
-     */
-    static ext::optional<MipmapLevel> Parse(std::string const &value);
+    public:
+	/*
+	 * Parse a matching mipmap level from a string, if valid.
+	 */
+	static ext::optional<MipmapLevel> Parse(std::string const &value);
 
-    /*
-     * Convert an mipmap level to a string.
-     */
-    static std::string String(MipmapLevel mipmapLevel);
+	/*
+	 * Convert an mipmap level to a string.
+	 */
+	static std::string String(MipmapLevel mipmapLevel);
 };
 
 }

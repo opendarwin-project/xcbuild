@@ -19,14 +19,15 @@
 
 namespace libutil {
 
-static inline int strcasecmp(const char *s1, const char *s2) {
+static inline int strcasecmp(const char *s1, const char *s2)
+{
 #if defined(_WIN32)
-  return ::_stricmp(s1, s2);
+	return ::_stricmp(s1, s2);
 #else
-  return ::strcasecmp(s1, s2);
+	return ::strcasecmp(s1, s2);
 #endif
 }
 
 }
 
-#endif  // !__libutil_Strings_h
+#endif // !__libutil_Strings_h

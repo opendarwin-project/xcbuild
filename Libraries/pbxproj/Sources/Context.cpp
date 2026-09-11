@@ -12,16 +12,16 @@
 using pbxproj::Context;
 namespace PBX = pbxproj::PBX;
 
-void Context::
-cacheObject(PBX::Object::shared_ptr const &O, std::string const &id)
+void Context::cacheObject(
+    PBX::Object::shared_ptr const &O, std::string const &id)
 {
-    if (project == nullptr && O->isa <PBX::Project> ()) {
-        project = std::static_pointer_cast <PBX::Project> (O);
-    }
+	if (project == nullptr && O->isa<PBX::Project>()) {
+		project = std::static_pointer_cast<PBX::Project>(O);
+	}
 
-    O->setBlueprintIdentifier(id);
+	O->setBlueprintIdentifier(id);
 
-    if (project != nullptr && project != O) {
-        project->cacheObject(O);
-    }
+	if (project != nullptr && project != O) {
+		project->cacheObject(O);
+	}
 }

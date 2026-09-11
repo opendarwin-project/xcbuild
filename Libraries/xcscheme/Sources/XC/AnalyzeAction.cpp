@@ -10,15 +10,12 @@
 
 using xcscheme::XC::AnalyzeAction;
 
-AnalyzeAction::AnalyzeAction()
-{
-}
+AnalyzeAction::AnalyzeAction() { }
 
-bool AnalyzeAction::
-parse(plist::Dictionary const *dict)
+bool AnalyzeAction::parse(plist::Dictionary const *dict)
 {
-    if (!Action::parse(dict))
-        return false;
+	if (!Action::parse(dict))
+		return false;
 
-    return true;
+	return true;
 }

@@ -11,24 +11,17 @@
 #include <acdriver/Result.h>
 #include <libutil/Filesystem.h>
 
+using acdriver::Result;
 using acdriver::Compile::DataSet;
 using acdriver::Compile::Output;
-using acdriver::Result;
 using libutil::Filesystem;
 
-bool DataSet::
-Compile(
-    xcassets::Asset::DataSet const *dataSet,
-    Filesystem *filesystem,
-    Output *compileOutput,
-    Result *result)
+bool DataSet::Compile(xcassets::Asset::DataSet const *dataSet,
+    Filesystem *filesystem, Output *compileOutput, Result *result)
 {
-    result->document(
-        Result::Severity::Warning,
-        dataSet->path(),
-        { Output::AssetReference(dataSet) },
-        "Not Implemented",
-        "data set not yet supported");
+	result->document(Result::Severity::Warning, dataSet->path(),
+	    { Output::AssetReference(dataSet) }, "Not Implemented",
+	    "data set not yet supported");
 
-    return false;
+	return false;
 }

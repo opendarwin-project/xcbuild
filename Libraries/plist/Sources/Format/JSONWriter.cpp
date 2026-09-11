@@ -12,348 +12,339 @@
 #include <cassert>
 #include <cinttypes>
 
-using plist::Format::JSONWriter;
-using plist::Object;
-using plist::String;
-using plist::Integer;
-using plist::Real;
+using plist::Array;
 using plist::Boolean;
+using plist::CastTo;
 using plist::Data;
 using plist::Date;
-using plist::Array;
-using plist::UID;
 using plist::Dictionary;
-using plist::CastTo;
+using plist::Integer;
+using plist::Object;
+using plist::Real;
+using plist::String;
+using plist::UID;
+using plist::Format::JSONWriter;
 
-JSONWriter::
-JSONWriter(Object const *root) :
-    _root   (root),
-    _indent (0),
-    _lastKey(false)
+JSONWriter::JSONWriter(Object const *root)
+    : _root(root)
+    , _indent(0)
+    , _lastKey(false)
 {
 }
 
-JSONWriter::
-~JSONWriter()
-{
-}
+JSONWriter::~JSONWriter() { }
 
-bool JSONWriter::
-write()
+bool JSONWriter::write()
 {
-    if (!handleObject(_root, true)) {
-        return false;
-    }
+	if (!handleObject(_root, true)) {
+		return false;
+	}
 
-    return true;
+	return true;
 }
 
 /*
  * Low level functions.
  */
 
-bool JSONWriter::
-primitiveWriteString(std::string const &string)
+bool JSONWriter::primitiveWriteString(std::string const &string)
 {
-    _contents.insert(_contents.end(), string.begin(), string.end());
-    return true;
+	_contents.insert(_contents.end(), string.begin(), string.end());
+	return true;
 }
 
-bool JSONWriter::
-primitiveWriteEscapedString(std::string const &string)
+bool JSONWriter::primitiveWriteEscapedString(std::string const &string)
 {
-    _contents.reserve(_contents.size() + string.size());
+	_contents.reserve(_contents.size() + string.size());
 
-    if (!primitiveWriteString("\"")) {
-        return false;
-    }
+	if (!primitiveWriteString("\"")) {
+		return false;
+	}
 
-    for (char c : string) {
-        if (c < 0x20) {
-            char buf[64];
-            int rc = snprintf(buf, sizeof(buf), "\\%04x", c);
-            assert(rc < (int)sizeof(buf));
-            (void)rc;
+	for (char c : string) {
+		if (c < 0x20) {
+			char buf[64];
+			int rc = snprintf(buf, sizeof(buf), "\\%04x", c);
+			assert(rc < (int)sizeof(buf));
+			(void)rc;
 
-            if (!primitiveWriteString(buf)) {
-                return false;
-            }
-        } else {
-            switch (c) {
-                case '"':  if (!primitiveWriteString("\\\"")) { return false; } break;
-                case '\\': if (!primitiveWriteString("\\"))   { return false; } break;
-                default: _contents.push_back(c); break;
-            }
-        }
-    }
+			if (!primitiveWriteString(buf)) {
+				return false;
+			}
+		} else {
+			switch (c) {
+			case '"':
+				if (!primitiveWriteString("\\\"")) {
+					return false;
+				}
+				break;
+			case '\\':
+				if (!primitiveWriteString("\\")) {
+					return false;
+				}
+				break;
+			default:
+				_contents.push_back(c);
+				break;
+			}
+		}
+	}
 
-    if (!primitiveWriteString("\"")) {
-        return false;
-    }
+	if (!primitiveWriteString("\"")) {
+		return false;
+	}
 
-    return true;
+	return true;
 }
 
-bool JSONWriter::
-writeString(std::string const &string, bool final)
+bool JSONWriter::writeString(std::string const &string, bool final)
 {
-    if (final) {
-        for (int n = 0; n < _indent; n++) {
-            if (!primitiveWriteString("\t")) {
-                return false;
-            }
-        }
-    }
+	if (final) {
+		for (int n = 0; n < _indent; n++) {
+			if (!primitiveWriteString("\t")) {
+				return false;
+			}
+		}
+	}
 
-    return primitiveWriteString(string);
+	return primitiveWriteString(string);
 }
 
-bool JSONWriter::
-writeEscapedString(std::string const &string, bool final)
+bool JSONWriter::writeEscapedString(std::string const &string, bool final)
 {
-    if (final) {
-        for (int n = 0; n < _indent; n++) {
-            if (!primitiveWriteString("\t")) {
-                return false;
-            }
-        }
-    }
+	if (final) {
+		for (int n = 0; n < _indent; n++) {
+			if (!primitiveWriteString("\t")) {
+				return false;
+			}
+		}
+	}
 
-    return primitiveWriteEscapedString(string);
+	return primitiveWriteEscapedString(string);
 }
 
 /*
  * Higher level functions.
  */
 
-bool JSONWriter::
-handleObject(Object const *object, bool root)
+bool JSONWriter::handleObject(Object const *object, bool root)
 {
-    if (Dictionary const *dictionary = CastTo<Dictionary>(object)) {
-        if (!handleDictionary(dictionary, root)) {
-            return false;
-        }
-    } else if (Array const *array = CastTo<Array>(object)) {
-        if (!handleArray(array, root)) {
-            return false;
-        }
-    } else if (Boolean const *boolean = CastTo<Boolean>(object)) {
-        if (!handleBoolean(boolean, root)) {
-            return false;
-        }
-    } else if (Integer const *integer = CastTo<Integer>(object)) {
-        if (!handleInteger(integer, root)) {
-            return false;
-        }
-    } else if (Real const *real = CastTo<Real>(object)) {
-        if (!handleReal(real, root)) {
-            return false;
-        }
-    } else if (String const *string = CastTo<String>(object)) {
-        if (!handleString(string, root)) {
-            return false;
-        }
-    } else if (Data const *data = CastTo<Data>(object)) {
-        if (!handleData(data, root)) {
-            return false;
-        }
-    } else if (Date const *date = CastTo<Date>(object)) {
-        if (!handleDate(date, root)) {
-            return false;
-        }
-    } else if (UID const *uid = CastTo<UID>(object)) {
-        if (!handleUID(uid, root)) {
-            return false;
-        }
-    } else {
-        return false;
-    }
+	if (Dictionary const *dictionary = CastTo<Dictionary>(object)) {
+		if (!handleDictionary(dictionary, root)) {
+			return false;
+		}
+	} else if (Array const *array = CastTo<Array>(object)) {
+		if (!handleArray(array, root)) {
+			return false;
+		}
+	} else if (Boolean const *boolean = CastTo<Boolean>(object)) {
+		if (!handleBoolean(boolean, root)) {
+			return false;
+		}
+	} else if (Integer const *integer = CastTo<Integer>(object)) {
+		if (!handleInteger(integer, root)) {
+			return false;
+		}
+	} else if (Real const *real = CastTo<Real>(object)) {
+		if (!handleReal(real, root)) {
+			return false;
+		}
+	} else if (String const *string = CastTo<String>(object)) {
+		if (!handleString(string, root)) {
+			return false;
+		}
+	} else if (Data const *data = CastTo<Data>(object)) {
+		if (!handleData(data, root)) {
+			return false;
+		}
+	} else if (Date const *date = CastTo<Date>(object)) {
+		if (!handleDate(date, root)) {
+			return false;
+		}
+	} else if (UID const *uid = CastTo<UID>(object)) {
+		if (!handleUID(uid, root)) {
+			return false;
+		}
+	} else {
+		return false;
+	}
 
-    return true;
+	return true;
 }
 
-bool JSONWriter::
-handleDictionary(Dictionary const *dictionary, bool root)
+bool JSONWriter::handleDictionary(Dictionary const *dictionary, bool root)
 {
-    /* Write '{'. */
-    if (!writeString("{\n", !_lastKey)) {
-        return false;
-    }
+	/* Write '{'. */
+	if (!writeString("{\n", !_lastKey)) {
+		return false;
+	}
 
-    _indent++;
+	_indent++;
 
-    _lastKey = false;
+	_lastKey = false;
 
-    for (size_t i = 0; i < dictionary->count(); ++i) {
-        /* Write ',' if not first entry. */
-        if (i != 0) {
-            if (!writeString(",\n", false)) {
-                return false;
-            }
-        }
+	for (size_t i = 0; i < dictionary->count(); ++i) {
+		/* Write ',' if not first entry. */
+		if (i != 0) {
+			if (!writeString(",\n", false)) {
+				return false;
+			}
+		}
 
-        _lastKey = false;
+		_lastKey = false;
 
-        if (!writeEscapedString(dictionary->key(i), !_lastKey)) {
-            return false;
-        }
+		if (!writeEscapedString(dictionary->key(i), !_lastKey)) {
+			return false;
+		}
 
-        if (!writeString(": ", false)) {
-            return false;
-        }
+		if (!writeString(": ", false)) {
+			return false;
+		}
 
-        _lastKey = true;
+		_lastKey = true;
 
-        if (!handleObject(dictionary->value(i), false)) {
-            return false;
-        }
-    }
+		if (!handleObject(dictionary->value(i), false)) {
+			return false;
+		}
+	}
 
-    /* Write '}'. */
-    if (!writeString("\n", false)) {
-        return false;
-    }
+	/* Write '}'. */
+	if (!writeString("\n", false)) {
+		return false;
+	}
 
-    _indent--;
-    if (!writeString("}", true)) {
-        return false;
-    }
+	_indent--;
+	if (!writeString("}", true)) {
+		return false;
+	}
 
-    return true;
+	return true;
 }
 
-bool JSONWriter::
-handleArray(Array const *array, bool root)
+bool JSONWriter::handleArray(Array const *array, bool root)
 {
-    /* Write '['. */
-    if (!writeString("[\n", !_lastKey)) {
-        return false;
-    }
+	/* Write '['. */
+	if (!writeString("[\n", !_lastKey)) {
+		return false;
+	}
 
-    _lastKey = false;
+	_lastKey = false;
 
-    _indent++;
+	_indent++;
 
-    for (size_t i = 0; i < array->count(); ++i) {
-        /* Write ',' if not first entry. */
-        if (i != 0) {
-            if (!writeString(",\n", false)) {
-                return false;
-            }
-        }
+	for (size_t i = 0; i < array->count(); ++i) {
+		/* Write ',' if not first entry. */
+		if (i != 0) {
+			if (!writeString(",\n", false)) {
+				return false;
+			}
+		}
 
-        if (!handleObject(array->value(i), false)) {
-            return false;
-        }
-    }
+		if (!handleObject(array->value(i), false)) {
+			return false;
+		}
+	}
 
-    /* Write ']'. */
-    if (!writeString("\n", false)) {
-        return false;
-    }
+	/* Write ']'. */
+	if (!writeString("\n", false)) {
+		return false;
+	}
 
-    _indent--;
-    return writeString("]", true);
+	_indent--;
+	return writeString("]", true);
 }
 
-bool JSONWriter::
-handleBoolean(Boolean const *boolean, bool root)
+bool JSONWriter::handleBoolean(Boolean const *boolean, bool root)
 {
-    if (!writeString(boolean->value() ? "true" : "false", !_lastKey)) {
-        return false;
-    }
+	if (!writeString(boolean->value() ? "true" : "false", !_lastKey)) {
+		return false;
+	}
 
-    _lastKey = false;
-    return true;
+	_lastKey = false;
+	return true;
 }
 
-bool JSONWriter::
-handleString(String const *string, bool root)
+bool JSONWriter::handleString(String const *string, bool root)
 {
-    if (!writeEscapedString(string->value(), !_lastKey)) {
-        return false;
-    }
+	if (!writeEscapedString(string->value(), !_lastKey)) {
+		return false;
+	}
 
-    _lastKey = false;
-    return true;
+	_lastKey = false;
+	return true;
 }
 
-bool JSONWriter::
-handleData(Data const *data, bool root)
+bool JSONWriter::handleData(Data const *data, bool root)
 {
-    if (!writeString("\"", !_lastKey)) {
-        return false;
-    }
+	if (!writeString("\"", !_lastKey)) {
+		return false;
+	}
 
-    _lastKey = false;
+	_lastKey = false;
 
-    std::vector<uint8_t> const &value = data->value();
-    for (auto it : value) {
-        char buf[3];
-        int rc = snprintf(buf, sizeof(buf), "%02x", it);
-        assert(rc < (int)sizeof(buf));
-        (void)rc;
+	std::vector<uint8_t> const &value = data->value();
+	for (auto it : value) {
+		char buf[3];
+		int rc = snprintf(buf, sizeof(buf), "%02x", it);
+		assert(rc < (int)sizeof(buf));
+		(void)rc;
 
-        if (!writeString(buf, false)) {
-            return false;
-        }
-    }
+		if (!writeString(buf, false)) {
+			return false;
+		}
+	}
 
-    return writeString("\"", false);
+	return writeString("\"", false);
 }
 
-bool JSONWriter::
-handleReal(Real const *real, bool root)
+bool JSONWriter::handleReal(Real const *real, bool root)
 {
-    char buf[64];
-    int rc = snprintf(buf, sizeof(buf), "%g", real->value());
-    assert(rc < (int)sizeof(buf));
-    (void)rc;
+	char buf[64];
+	int rc = snprintf(buf, sizeof(buf), "%g", real->value());
+	assert(rc < (int)sizeof(buf));
+	(void)rc;
 
-    if (!writeString(buf, !_lastKey)) {
-        return false;
-    }
+	if (!writeString(buf, !_lastKey)) {
+		return false;
+	}
 
-    _lastKey = false;
+	_lastKey = false;
 
-    return true;
+	return true;
 }
 
-bool JSONWriter::
-handleInteger(Integer const *integer, bool root)
+bool JSONWriter::handleInteger(Integer const *integer, bool root)
 {
-    int               rc;
-    char              buf[32];
+	int rc;
+	char buf[32];
 
-    rc = snprintf(buf, sizeof(buf), "%" PRId64, integer->value());
-    assert(rc < (int)sizeof(buf));
-    (void)rc;
+	rc = snprintf(buf, sizeof(buf), "%" PRId64, integer->value());
+	assert(rc < (int)sizeof(buf));
+	(void)rc;
 
-    if (!writeString(buf, !_lastKey)) {
-        return false;
-    }
+	if (!writeString(buf, !_lastKey)) {
+		return false;
+	}
 
-    _lastKey = false;
+	_lastKey = false;
 
-    return true;
+	return true;
 }
 
-bool JSONWriter::
-handleDate(Date const *date, bool root)
+bool JSONWriter::handleDate(Date const *date, bool root)
 {
-    if (!writeEscapedString(date->stringValue(), !_lastKey)) {
-        return false;
-    }
+	if (!writeEscapedString(date->stringValue(), !_lastKey)) {
+		return false;
+	}
 
-    _lastKey = false;
-    return true;
+	_lastKey = false;
+	return true;
 }
 
-bool JSONWriter::
-handleUID(UID const *uid, bool root)
+bool JSONWriter::handleUID(UID const *uid, bool root)
 {
-    /* Write a CF$UID dictionary. */
-    std::unique_ptr<Dictionary> dictionary = Dictionary::New();
-    dictionary->set("CF$UID", Integer::New(uid->value()));
-    return handleDictionary(dictionary.get(), root);
+	/* Write a CF$UID dictionary. */
+	std::unique_ptr<Dictionary> dictionary = Dictionary::New();
+	dictionary->set("CF$UID", Integer::New(uid->value()));
+	return handleDictionary(dictionary.get(), root);
 }

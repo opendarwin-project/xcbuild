@@ -13,32 +13,33 @@
 using xcassets::WatchComplicationRole;
 using xcassets::WatchComplicationRoles;
 
-ext::optional<WatchComplicationRole> WatchComplicationRoles::
-Parse(std::string const &value)
+ext::optional<WatchComplicationRole> WatchComplicationRoles::Parse(
+    std::string const &value)
 {
-    if (value == "circular") {
-        return WatchComplicationRole::Circular;
-    } else if (value == "modular") {
-        return WatchComplicationRole::Modular;
-    } else if (value == "utilitarian") {
-        return WatchComplicationRole::Utilitarian;
-    } else {
-        fprintf(stderr, "warning: unknown watch complication role %s\n", value.c_str());
-        return ext::nullopt;
-    }
+	if (value == "circular") {
+		return WatchComplicationRole::Circular;
+	} else if (value == "modular") {
+		return WatchComplicationRole::Modular;
+	} else if (value == "utilitarian") {
+		return WatchComplicationRole::Utilitarian;
+	} else {
+		fprintf(stderr, "warning: unknown watch complication role %s\n",
+		    value.c_str());
+		return ext::nullopt;
+	}
 }
 
-std::string WatchComplicationRoles::
-String(WatchComplicationRole watchComplicationRole)
+std::string WatchComplicationRoles::String(
+    WatchComplicationRole watchComplicationRole)
 {
-    switch (watchComplicationRole) {
-        case WatchComplicationRole::Circular:
-            return "circular";
-        case WatchComplicationRole::Modular:
-            return "modular";
-        case WatchComplicationRole::Utilitarian:
-            return "utilitarian";
-    }
+	switch (watchComplicationRole) {
+	case WatchComplicationRole::Circular:
+		return "circular";
+	case WatchComplicationRole::Modular:
+		return "modular";
+	case WatchComplicationRole::Utilitarian:
+		return "utilitarian";
+	}
 
-    abort();
+	abort();
 }

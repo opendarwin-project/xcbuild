@@ -9,15 +9,17 @@
 #ifndef __plist_UnixTime_h
 #define __plist_UnixTime_h
 
+#include <cstdint>
+#include <ctime>
 #include <plist/Base.h>
 
 namespace plist {
 
 struct UnixTime {
-    static void Decode(uint64_t in, struct tm &out);
-    static uint64_t Encode(struct tm const &in);
+	static void Decode(uint64_t in, struct tm &out);
+	static uint64_t Encode(struct tm const &in);
 };
 
 }
 
-#endif  // !__plist_UnixTime_h
+#endif // !__plist_UnixTime_h

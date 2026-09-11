@@ -25,57 +25,66 @@ namespace acdriver {
  * Contains non-standard related logic
  */
 class NonStandard {
-public:
-    /*
-     *  Extra image types (besides PNG and JPEG) to include in ImageSet
-     */
-    enum class ImageType {
-        WEBP,
-    };
-
-    class ImageTypeHash
-    {
     public:
-        std::size_t operator()(ImageType t) const
-        {
-            return static_cast<std::size_t>(t);
-        }
-    };
+	/*
+	 *  Extra image types (besides PNG and JPEG) to include in ImageSet
+	 */
+	enum class ImageType {
+		WEBP,
+	};
 
-    typedef std::unordered_set<ImageType, ImageTypeHash> ImageTypeSet;
+	class ImageTypeHash {
+	    public:
+		std::size_t operator()(ImageType t) const
+		{
+			return static_cast<std::size_t>(t);
+		}
+	};
 
-public:
-    /*
-     * Extension options for actool
-     */
-    class ActoolOptions {
-    private:
-        ext::optional<bool>        _allowNonStandardBehavior;
-        ImageTypeSet               _allowImageTypes;
+	typedef std::unordered_set<ImageType, ImageTypeHash> ImageTypeSet;
 
     public:
-        bool allowNonStandardBehavior() const
-        { return _allowNonStandardBehavior.value_or(false); }
-        ImageTypeSet allowImageTypes() const
-        { return _allowImageTypes; }
+	/*
+	 * Extension options for actool
+	 */
+	class ActoolOptions {
+	    private:
+		ext::optional<bool> _allowNonStandardBehavior;
+		ImageTypeSet _allowImageTypes;
+
+	    public:
+		bool allowNonStandardBehavior() const
+		{
+			return _allowNonStandardBehavior.value_or(false);
+		}
+		ImageTypeSet allowImageTypes() const
+		{
+			return _allowImageTypes;
+		}
+
+	    public:
+		ext::optional<std::pair<bool, std::string>> parseArgument(
+		    std::vector<std::string> const &args,
+		    std::vector<std::string>::const_iterator *it);
+
+	    public:
+		bool isValid(acdriver::Result *result) const;
+	};
 
     public:
-        ext::optional<std::pair<bool, std::string>> parseArgument(std::vector<std::string> const &args, std::vector<std::string>::const_iterator *it);
+	/*
+	 * Translates a filename extension of an acceptable type to ImageType
+	 * enum.
+	 */
+	static ext::optional<ImageType> ImageTypeFromFileExtension(
+	    std::string const &extension);
 
-    public:
-        bool isValid(acdriver::Result *result) const;
-    };
-
-public:
-    /*
-     * Translates a filename extension of an acceptable type to ImageType enum.
-     */
-    static ext::optional<ImageType> ImageTypeFromFileExtension(std::string const &extension);
-
-    /*
-     * Translates an ImageType enum to the proper data format used in car::Rendition
-     */
-    static car::Rendition::Data::Format ImageTypeToDataFormat(ImageType type);
+	/*
+	 * Translates an ImageType enum to the proper data format used in
+	 * car::Rendition
+	 */
+	static car::Rendition::Data::Format ImageTypeToDataFormat(
+	    ImageType type);
 };
 
 }

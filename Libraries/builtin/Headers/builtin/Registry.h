@@ -11,30 +11,29 @@
 
 #include <memory>
 #include <string>
-#include <vector>
 #include <unordered_map>
+#include <vector>
 
 namespace builtin {
 
 class Driver;
 
 class Registry {
-private:
-    std::unordered_map<std::string, std::shared_ptr<Driver>> _drivers;
+    private:
+	std::unordered_map<std::string, std::shared_ptr<Driver>> _drivers;
 
-public:
-    Registry(std::unordered_map<std::string, std::shared_ptr<Driver>> const &drivers);
-    ~Registry();
+    public:
+	Registry(std::unordered_map<std::string, std::shared_ptr<Driver>> const
+		&drivers);
+	~Registry();
 
-public:
-    std::shared_ptr<Driver>
-    driver(std::string const &name);
+    public:
+	std::shared_ptr<Driver> driver(std::string const &name);
 
-public:
-    static Registry
-    Create(std::vector<std::shared_ptr<Driver>> const &drivers);
-    static Registry
-    Default();
+    public:
+	static Registry Create(
+	    std::vector<std::shared_ptr<Driver>> const &drivers);
+	static Registry Default();
 };
 
 }

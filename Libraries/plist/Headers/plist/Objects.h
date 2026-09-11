@@ -9,7 +9,6 @@
 #ifndef __plist_Objects_h
 #define __plist_Objects_h
 
-#include <plist/Object.h>
 #include <plist/Array.h>
 #include <plist/Boolean.h>
 #include <plist/Data.h>
@@ -17,8 +16,9 @@
 #include <plist/Dictionary.h>
 #include <plist/Integer.h>
 #include <plist/Null.h>
+#include <plist/Object.h>
 #include <plist/Real.h>
 #include <plist/String.h>
 #include <plist/UID.h>
 
-#endif  // !__plist_Objects_h
+#endif // !__plist_Objects_h

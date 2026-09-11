@@ -14,52 +14,55 @@
 #include <memory>
 #include <vector>
 
-namespace plist { class Dictionary; }
+namespace plist {
+class Dictionary;
+}
 
-namespace xcscheme { namespace XC {
+namespace xcscheme {
+namespace XC {
 
 class BuildActionEntry {
-public:
-    typedef std::shared_ptr <BuildActionEntry> shared_ptr;
-    typedef std::vector <shared_ptr> vector;
+    public:
+	typedef std::shared_ptr<BuildActionEntry> shared_ptr;
+	typedef std::vector<shared_ptr> vector;
 
-private:
-    bool                           _buildForAnalyzing;
-    bool                           _buildForArchiving;
-    bool                           _buildForProfiling;
-    bool                           _buildForRunning;
-    bool                           _buildForTesting;
-    BuildableReference::shared_ptr _buildableReference;
+    private:
+	bool _buildForAnalyzing;
+	bool _buildForArchiving;
+	bool _buildForProfiling;
+	bool _buildForRunning;
+	bool _buildForTesting;
+	BuildableReference::shared_ptr _buildableReference;
 
-public:
-    BuildActionEntry();
+    public:
+	BuildActionEntry();
 
-public:
-    inline bool buildForAnalyzing() const
-    { return _buildForAnalyzing; }
+    public:
+	inline bool buildForAnalyzing() const { return _buildForAnalyzing; }
 
-    inline bool buildForArchiving() const
-    { return _buildForArchiving; }
+	inline bool buildForArchiving() const { return _buildForArchiving; }
 
-    inline bool buildForProfiling() const
-    { return _buildForProfiling; }
+	inline bool buildForProfiling() const { return _buildForProfiling; }
 
-    inline bool buildForRunning() const
-    { return _buildForRunning; }
+	inline bool buildForRunning() const { return _buildForRunning; }
 
-    inline bool buildForTesting() const
-    { return _buildForTesting; }
+	inline bool buildForTesting() const { return _buildForTesting; }
 
-public:
-    inline BuildableReference::shared_ptr const &buildableReference() const
-    { return _buildableReference; }
-    inline BuildableReference::shared_ptr &buildableReference()
-    { return _buildableReference; }
+    public:
+	inline BuildableReference::shared_ptr const &buildableReference() const
+	{
+		return _buildableReference;
+	}
+	inline BuildableReference::shared_ptr &buildableReference()
+	{
+		return _buildableReference;
+	}
 
-public:
-    bool parse(plist::Dictionary const *dict);
+    public:
+	bool parse(plist::Dictionary const *dict);
 };
 
-} }
+}
+}
 
-#endif  // !__xcscheme_XC_BuildActionEntry_h
+#endif // !__xcscheme_XC_BuildActionEntry_h

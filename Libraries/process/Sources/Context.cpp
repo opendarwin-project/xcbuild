@@ -13,36 +13,28 @@
 
 using process::Context;
 
-Context::
-Context()
+Context::Context() { }
+
+Context::~Context() { }
+
+std::vector<std::string> Context::executableSearchPaths() const
 {
+	std::vector<std::string> paths;
+
+	if (ext::optional<std::string> value = environmentVariable("PATH")) {
+		std::unordered_set<std::string> seen;
+
+		std::string path;
+		std::istringstream is(*value);
+		while (std::getline(is, path, ':')) {
+			if (seen.find(path) != seen.end()) {
+				continue;
+			}
+
+			paths.push_back(path);
+			seen.insert(path);
+		}
+	}
+
+	return paths;
 }
-
-Context::
-~Context()
-{
-}
-
-std::vector<std::string> Context::
-executableSearchPaths() const
-{
-    std::vector<std::string> paths;
-
-    if (ext::optional<std::string> value = environmentVariable("PATH")) {
-        std::unordered_set<std::string> seen;
-
-        std::string path;
-        std::istringstream is(*value);
-        while (std::getline(is, path, ':')) {
-            if (seen.find(path) != seen.end()) {
-                continue;
-            }
-
-            paths.push_back(path);
-            seen.insert(path);
-        }
-    }
-
-    return paths;
-}
-

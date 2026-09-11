@@ -10,15 +10,14 @@
 
 using dependency::DependencyInfo;
 
-DependencyInfo::
-DependencyInfo(std::vector<std::string> const &inputs, std::vector<std::string> const &outputs) :
-    _inputs (inputs),
-    _outputs(outputs)
+DependencyInfo::DependencyInfo(std::vector<std::string> const &inputs,
+    std::vector<std::string> const &outputs)
+    : _inputs(inputs)
+    , _outputs(outputs)
 {
 }
 
-DependencyInfo::
-DependencyInfo() :
-    DependencyInfo(std::vector<std::string>(), std::vector<std::string>())
+DependencyInfo::DependencyInfo()
+    : DependencyInfo(std::vector<std::string>(), std::vector<std::string>())
 {
 }

@@ -6,84 +6,94 @@
  LICENSE file in the root directory of this source tree.
  */
 
-#include <dependency/DependencyInfo.h>
 #include <dependency/BinaryDependencyInfo.h>
+#include <dependency/DependencyInfo.h>
 #include <dependency/DirectoryDependencyInfo.h>
 #include <dependency/MakefileDependencyInfo.h>
 #include <libutil/DefaultFilesystem.h>
 #include <libutil/Filesystem.h>
-#include <process/DefaultContext.h>
 #include <process/Context.h>
+#include <process/DefaultContext.h>
 
 #include <cassert>
 
 using libutil::DefaultFilesystem;
 using libutil::Filesystem;
 
-static void
-DumpDependencyInfo(dependency::DependencyInfo const &dependencyInfo)
+static void DumpDependencyInfo(dependency::DependencyInfo const &dependencyInfo)
 {
-    fprintf(stdout, "input:\n");
-    for (std::string const &input : dependencyInfo.inputs()) {
-        fprintf(stdout, "  %s\n", input.c_str());
-    }
+	fprintf(stdout, "input:\n");
+	for (std::string const &input : dependencyInfo.inputs()) {
+		fprintf(stdout, "  %s\n", input.c_str());
+	}
 
-    fprintf(stdout, "output:\n");
-    for (std::string const &output : dependencyInfo.outputs()) {
-        fprintf(stdout, "  %s\n", output.c_str());
-    }
+	fprintf(stdout, "output:\n");
+	for (std::string const &output : dependencyInfo.outputs()) {
+		fprintf(stdout, "  %s\n", output.c_str());
+	}
 }
 
-static bool
-DumpDependencyInfo(Filesystem const *filesystem, std::string const &path)
+static bool DumpDependencyInfo(
+    Filesystem const *filesystem, std::string const &path)
 {
-    if (auto directoryInfo = dependency::DirectoryDependencyInfo::Deserialize(filesystem, path)) {
-        fprintf(stdout, "directory dependency info\n");
-        fprintf(stdout, "directory: %s\n", directoryInfo->directory().c_str());
-        DumpDependencyInfo(directoryInfo->dependencyInfo());
-    } else {
-        std::vector<uint8_t> contents;
-        if (!filesystem->read(&contents, path)) {
-            fprintf(stderr, "error: failed to open %s\n", path.c_str());
-            return false;
-        }
+	if (auto directoryInfo =
+		dependency::DirectoryDependencyInfo::Deserialize(
+		    filesystem, path)) {
+		fprintf(stdout, "directory dependency info\n");
+		fprintf(stdout, "directory: %s\n",
+		    directoryInfo->directory().c_str());
+		DumpDependencyInfo(directoryInfo->dependencyInfo());
+	} else {
+		std::vector<uint8_t> contents;
+		if (!filesystem->read(&contents, path)) {
+			fprintf(
+			    stderr, "error: failed to open %s\n", path.c_str());
+			return false;
+		}
 
-        if (auto binaryInfo = dependency::BinaryDependencyInfo::Deserialize(contents)) {
-            fprintf(stdout, "binary dependency info\n");
-            fprintf(stdout, "version: %s\n", binaryInfo->version().c_str());
+		if (auto binaryInfo =
+			dependency::BinaryDependencyInfo::Deserialize(
+			    contents)) {
+			fprintf(stdout, "binary dependency info\n");
+			fprintf(stdout, "version: %s\n",
+			    binaryInfo->version().c_str());
 
-            DumpDependencyInfo(binaryInfo->dependencyInfo());
+			DumpDependencyInfo(binaryInfo->dependencyInfo());
 
-            fprintf(stdout, "missing:\n");
-            for (std::string const &missing : binaryInfo->missing()) {
-                fprintf(stdout, "  %s\n", missing.c_str());
-            }
-        } else if (auto makefileInfo = dependency::MakefileDependencyInfo::Deserialize(std::string(contents.begin(), contents.end()))) {
-            fprintf(stdout, "makefile dependency info\n");
-            for (dependency::DependencyInfo const &dependencyInfo : makefileInfo->dependencyInfo()) {
-                DumpDependencyInfo(dependencyInfo);
-            }
-        } else {
-            fprintf(stderr, "error: unknown dependency info type\n");
-            return false;
-        }
-    }
+			fprintf(stdout, "missing:\n");
+			for (std::string const &missing :
+			    binaryInfo->missing()) {
+				fprintf(stdout, "  %s\n", missing.c_str());
+			}
+		} else if (auto makefileInfo =
+			       dependency::MakefileDependencyInfo::Deserialize(
+				   std::string(
+				       contents.begin(), contents.end()))) {
+			fprintf(stdout, "makefile dependency info\n");
+			for (dependency::DependencyInfo const &dependencyInfo :
+			    makefileInfo->dependencyInfo()) {
+				DumpDependencyInfo(dependencyInfo);
+			}
+		} else {
+			fprintf(
+			    stderr, "error: unknown dependency info type\n");
+			return false;
+		}
+	}
 
-    return true;
+	return true;
 }
 
-int
-main(int argc, char **argv)
+int main(int argc, char **argv)
 {
-    DefaultFilesystem filesystem = DefaultFilesystem();
-    process::DefaultContext processContext = process::DefaultContext();
+	DefaultFilesystem filesystem = DefaultFilesystem();
+	process::DefaultContext processContext = process::DefaultContext();
 
-    for (std::string const &input : processContext.commandLineArguments()) {
-        if (!DumpDependencyInfo(&filesystem, input)) {
-            return 1;
-        }
-    }
+	for (std::string const &input : processContext.commandLineArguments()) {
+		if (!DumpDependencyInfo(&filesystem, input)) {
+			return 1;
+		}
+	}
 
-    return 0;
+	return 0;
 }
-

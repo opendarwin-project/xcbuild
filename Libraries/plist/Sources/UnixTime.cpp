@@ -12,21 +12,19 @@
 
 using plist::UnixTime;
 
-void UnixTime::
-Decode(uint64_t in, struct tm &out)
+void UnixTime::Decode(uint64_t in, struct tm &out)
 {
 #if _WIN32
-    time_t const t = in;
-    ::gmtime_s(&out, &t);
+	time_t const t = in;
+	::gmtime_s(&out, &t);
 #else
-    time_t t = in;
-    ::gmtime_r(&t, &out);
+	time_t t = in;
+	::gmtime_r(&t, &out);
 #endif
 }
 
-uint64_t UnixTime::
-Encode(struct tm const &in)
+uint64_t UnixTime::Encode(struct tm const &in)
 {
-    struct tm copy = in;
-    return ::mktime(&copy);
+	struct tm copy = in;
+	return ::mktime(&copy);
 }

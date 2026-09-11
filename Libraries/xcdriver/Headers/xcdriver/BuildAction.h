@@ -9,23 +9,33 @@
 #ifndef __xcdriver_BuildAction_h
 #define __xcdriver_BuildAction_h
 
-namespace libutil { class Filesystem; }
-namespace process { class Context; }
-namespace process { class Launcher; }
-namespace process { class User; }
+namespace libutil {
+class Filesystem;
+}
+namespace process {
+class Context;
+}
+namespace process {
+class Launcher;
+}
+namespace process {
+class User;
+}
 
 namespace xcdriver {
 
 class Options;
 
 class BuildAction {
-private:
-    BuildAction();
-    ~BuildAction();
+    private:
+	BuildAction();
+	~BuildAction();
 
-public:
-    static int
-    Run(process::User const *user, process::Context const *processContext, process::Launcher *processLauncher, libutil::Filesystem *filesystem, Options const &options);
+    public:
+	static int Run(process::User const *user,
+	    process::Context const *processContext,
+	    process::Launcher *processLauncher, libutil::Filesystem *filesystem,
+	    Options const &options);
 };
 
 }

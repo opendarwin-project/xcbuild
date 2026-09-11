@@ -8,44 +8,40 @@
 
 #include <plist/Dictionary.h>
 
-using plist::Object;
 using plist::Dictionary;
+using plist::Object;
 
-std::unique_ptr<Dictionary> Dictionary::
-New()
+std::unique_ptr<Dictionary> Dictionary::New()
 {
-    return std::unique_ptr<Dictionary>(new Dictionary());
+	return std::unique_ptr<Dictionary>(new Dictionary());
 }
 
-std::unique_ptr<Object> Dictionary::
-_copy() const
+std::unique_ptr<Object> Dictionary::_copy() const
 {
-    auto result = Dictionary::New();
-    for (size_t n = 0; n < count(); n++) {
-        result->set(key(n), value(n)->copy());
-    }
-    return plist::static_unique_pointer_cast<Object>(std::move(result));
+	auto result = Dictionary::New();
+	for (size_t n = 0; n < count(); n++) {
+		result->set(key(n), value(n)->copy());
+	}
+	return plist::static_unique_pointer_cast<Object>(std::move(result));
 }
 
-void Dictionary::
-merge(Dictionary const *dict, bool replace)
+void Dictionary::merge(Dictionary const *dict, bool replace)
 {
-    if (dict == nullptr || dict == this)
-        return;
+	if (dict == nullptr || dict == this)
+		return;
 
-    for (auto const &key : *dict) {
-        if (replace || _map.find(key) == _map.end()) {
-            set(key, dict->value(key)->copy());
-        }
-    }
+	for (auto const &key : *dict) {
+		if (replace || _map.find(key) == _map.end()) {
+			set(key, dict->value(key)->copy());
+		}
+	}
 }
 
-std::unique_ptr<Dictionary> Dictionary::
-Coerce(Object const *obj)
+std::unique_ptr<Dictionary> Dictionary::Coerce(Object const *obj)
 {
-    if (Dictionary const *dictionary = CastTo<Dictionary>(obj)) {
-        return dictionary->copy();
-    }
+	if (Dictionary const *dictionary = CastTo<Dictionary>(obj)) {
+		return dictionary->copy();
+	}
 
-    return nullptr;
+	return nullptr;
 }

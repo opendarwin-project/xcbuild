@@ -10,8 +10,8 @@
 #define __pbxbuild_Build_DependencyResolver_h
 
 #include <pbxbuild/Base.h>
-#include <pbxbuild/Build/Environment.h>
 #include <pbxbuild/Build/Context.h>
+#include <pbxbuild/Build/Environment.h>
 #include <pbxbuild/DirectedGraph.h>
 
 namespace pbxbuild {
@@ -22,29 +22,32 @@ namespace Build {
  * in a scheme for a build action.
  */
 class DependencyResolver {
-private:
-    Build::Environment _buildEnvironment;
+    private:
+	Build::Environment _buildEnvironment;
 
-public:
-    DependencyResolver(Build::Environment const &buildEnviroment);
-    ~DependencyResolver();
+    public:
+	DependencyResolver(Build::Environment const &buildEnviroment);
+	~DependencyResolver();
 
-public:
-    /*
-     * Resolves dependencies within a scheme. The scheme used is as specified
-     * by the `Build::Context`, as well as the build action.
-     */
-    DirectedGraph<pbxproj::PBX::Target::shared_ptr>
-    resolveSchemeDependencies(Build::Context const &context) const;
+    public:
+	/*
+	 * Resolves dependencies within a scheme. The scheme used is as
+	 * specified by the `Build::Context`, as well as the build action.
+	 */
+	DirectedGraph<pbxproj::PBX::Target::shared_ptr>
+	resolveSchemeDependencies(Build::Context const &context) const;
 
-public:
-    /*
-     * Resolves legacy dependencies for targets in a project without a scheme.
-     * If `allTargets` is specified, include all targets in the build; if `targets`
-     * is specified, include just those targets; otherwise, include the first target.
-     */
-    DirectedGraph<pbxproj::PBX::Target::shared_ptr>
-    resolveLegacyDependencies(Build::Context const &context, bool allTargets, ext::optional<std::vector<std::string>> const &targets) const;
+    public:
+	/*
+	 * Resolves legacy dependencies for targets in a project without a
+	 * scheme. If `allTargets` is specified, include all targets in the
+	 * build; if `targets` is specified, include just those targets;
+	 * otherwise, include the first target.
+	 */
+	DirectedGraph<pbxproj::PBX::Target::shared_ptr>
+	resolveLegacyDependencies(Build::Context const &context,
+	    bool allTargets,
+	    ext::optional<std::vector<std::string>> const &targets) const;
 };
 
 }

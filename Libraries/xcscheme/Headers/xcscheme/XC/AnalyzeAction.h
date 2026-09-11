@@ -11,19 +11,21 @@
 
 #include <xcscheme/XC/Action.h>
 
-namespace xcscheme { namespace XC {
+namespace xcscheme {
+namespace XC {
 
 class AnalyzeAction : public Action {
-public:
-    typedef std::shared_ptr <AnalyzeAction> shared_ptr;
+    public:
+	typedef std::shared_ptr<AnalyzeAction> shared_ptr;
 
-public:
-    AnalyzeAction();
+    public:
+	AnalyzeAction();
 
-public:
-    bool parse(plist::Dictionary const *dict) override;
+    public:
+	bool parse(plist::Dictionary const *dict) override;
 };
 
-} }
+}
+}
 
-#endif  // !__xcscheme_XC_AnalyzeAction_h
+#endif // !__xcscheme_XC_AnalyzeAction_h

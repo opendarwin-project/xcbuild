@@ -15,33 +15,24 @@ using builtin::copyTiff::Driver;
 using builtin::copyTiff::Options;
 using libutil::Filesystem;
 
-Driver::
-Driver()
-{
-}
+Driver::Driver() { }
 
-Driver::
-~Driver()
-{
-}
+Driver::~Driver() { }
 
-std::string Driver::
-name()
-{
-    return "builtin-copyTiff";
-}
+std::string Driver::name() { return "builtin-copyTiff"; }
 
-int Driver::
-run(process::Context const *processContext, libutil::Filesystem *filesystem)
+int Driver::run(
+    process::Context const *processContext, libutil::Filesystem *filesystem)
 {
-    Options options;
-    std::pair<bool, std::string> result = libutil::Options::Parse<Options>(&options, processContext->commandLineArguments());
-    if (!result.first) {
-        fprintf(stderr, "error: %s\n", result.second.c_str());
-        return 1;
-    }
+	Options options;
+	std::pair<bool, std::string> result = libutil::Options::Parse<Options>(
+	    &options, processContext->commandLineArguments());
+	if (!result.first) {
+		fprintf(stderr, "error: %s\n", result.second.c_str());
+		return 1;
+	}
 
-    // TODO(grp): Implement copy tiff builtin.
-    fprintf(stderr, "error: copy tiff not supported\n");
-    return 1;
+	// TODO(grp): Implement copy tiff builtin.
+	fprintf(stderr, "error: copy tiff not supported\n");
+	return 1;
 }

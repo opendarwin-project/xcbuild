@@ -13,32 +13,31 @@
 using xcassets::MipmapLevelMode;
 using xcassets::MipmapLevelModes;
 
-ext::optional<MipmapLevelMode> MipmapLevelModes::
-Parse(std::string const &value)
+ext::optional<MipmapLevelMode> MipmapLevelModes::Parse(std::string const &value)
 {
-    if (value == "none") {
-        return MipmapLevelMode::None;
-    } else if (value == "all") {
-        return MipmapLevelMode::All;
-    } else if (value == "fixed") {
-        return MipmapLevelMode::Fixed;
-    } else {
-        fprintf(stderr, "warning: unknown mipmap level mode %s\n", value.c_str());
-        return ext::nullopt;
-    }
+	if (value == "none") {
+		return MipmapLevelMode::None;
+	} else if (value == "all") {
+		return MipmapLevelMode::All;
+	} else if (value == "fixed") {
+		return MipmapLevelMode::Fixed;
+	} else {
+		fprintf(stderr, "warning: unknown mipmap level mode %s\n",
+		    value.c_str());
+		return ext::nullopt;
+	}
 }
 
-std::string MipmapLevelModes::
-String(MipmapLevelMode mipmapLevelMode)
+std::string MipmapLevelModes::String(MipmapLevelMode mipmapLevelMode)
 {
-    switch (mipmapLevelMode) {
-        case MipmapLevelMode::None:
-            return "none";
-        case MipmapLevelMode::All:
-            return "all";
-        case MipmapLevelMode::Fixed:
-            return "fixed";
-    }
+	switch (mipmapLevelMode) {
+	case MipmapLevelMode::None:
+		return "none";
+	case MipmapLevelMode::All:
+		return "all";
+	case MipmapLevelMode::Fixed:
+		return "fixed";
+	}
 
-    abort();
+	abort();
 }

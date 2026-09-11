@@ -15,33 +15,24 @@ using builtin::embeddedBinaryValidationUtility::Driver;
 using builtin::embeddedBinaryValidationUtility::Options;
 using libutil::Filesystem;
 
-Driver::
-Driver()
-{
-}
+Driver::Driver() { }
 
-Driver::
-~Driver()
-{
-}
+Driver::~Driver() { }
 
-std::string Driver::
-name()
-{
-    return "builtin-embeddedBinaryValidationUtility";
-}
+std::string Driver::name() { return "builtin-embeddedBinaryValidationUtility"; }
 
-int Driver::
-run(process::Context const *processContext, libutil::Filesystem *filesystem)
+int Driver::run(
+    process::Context const *processContext, libutil::Filesystem *filesystem)
 {
-    Options options;
-    std::pair<bool, std::string> result = libutil::Options::Parse<Options>(&options, processContext->commandLineArguments());
-    if (!result.first) {
-        fprintf(stderr, "error: %s\n", result.second.c_str());
-        return 1;
-    }
+	Options options;
+	std::pair<bool, std::string> result = libutil::Options::Parse<Options>(
+	    &options, processContext->commandLineArguments());
+	if (!result.first) {
+		fprintf(stderr, "error: %s\n", result.second.c_str());
+		return 1;
+	}
 
-    // TODO(grp): Implement embedded binary validation builtin.
-    fprintf(stderr, "error: embedded binary validation not supported\n");
-    return 1;
+	// TODO(grp): Implement embedded binary validation builtin.
+	fprintf(stderr, "error: embedded binary validation not supported\n");
+	return 1;
 }

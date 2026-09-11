@@ -18,19 +18,24 @@ class Environment;
 class Context;
 
 class ShellScriptResolver {
-private:
-    pbxproj::PBX::ShellScriptBuildPhase::shared_ptr _buildPhase;
+    private:
+	pbxproj::PBX::ShellScriptBuildPhase::shared_ptr _buildPhase;
 
-public:
-    explicit ShellScriptResolver(pbxproj::PBX::ShellScriptBuildPhase::shared_ptr const &buildPhase);
-    ~ShellScriptResolver();
+    public:
+	explicit ShellScriptResolver(
+	    pbxproj::PBX::ShellScriptBuildPhase::shared_ptr const &buildPhase);
+	~ShellScriptResolver();
 
-public:
-    pbxproj::PBX::ShellScriptBuildPhase::shared_ptr const &buildPhase() const
-    { return _buildPhase; }
+    public:
+	pbxproj::PBX::ShellScriptBuildPhase::shared_ptr const &
+	buildPhase() const
+	{
+		return _buildPhase;
+	}
 
-public:
-    bool resolve(Phase::Environment const &phaseEnvironment, Phase::Context *phaseContext);
+    public:
+	bool resolve(Phase::Environment const &phaseEnvironment,
+	    Phase::Context *phaseContext);
 };
 
 }

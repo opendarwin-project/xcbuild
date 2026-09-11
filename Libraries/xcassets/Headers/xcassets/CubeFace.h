@@ -18,29 +18,29 @@ namespace xcassets {
  * The faces of a cube.
  */
 enum class CubeFace {
-    NegativeX,
-    PositiveX,
-    NegativeY,
-    PositiveY,
-    NegativeZ,
-    PositiveZ,
+	NegativeX,
+	PositiveX,
+	NegativeY,
+	PositiveY,
+	NegativeZ,
+	PositiveZ,
 };
 
 class CubeFaces {
-private:
-    CubeFaces();
-    ~CubeFaces();
+    private:
+	CubeFaces();
+	~CubeFaces();
 
-public:
-    /*
-     * Parse a matching cube face from a string, if valid.
-     */
-    static ext::optional<CubeFace> Parse(std::string const &value);
+    public:
+	/*
+	 * Parse a matching cube face from a string, if valid.
+	 */
+	static ext::optional<CubeFace> Parse(std::string const &value);
 
-    /*
-     * Convert a cube face to a string.
-     */
-    static std::string String(CubeFace cubeFace);
+	/*
+	 * Convert a cube face to a string.
+	 */
+	static std::string String(CubeFace cubeFace);
 };
 
 }

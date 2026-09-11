@@ -10,8 +10,7 @@
 
 using pbxproj::PBX::VariantGroup;
 
-VariantGroup::
-VariantGroup() :
-    BaseGroup(Isa(), GroupItem::Type::VariantGroup)
+VariantGroup::VariantGroup()
+    : BaseGroup(Isa(), GroupItem::Type::VariantGroup)
 {
 }

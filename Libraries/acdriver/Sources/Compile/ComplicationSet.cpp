@@ -11,24 +11,18 @@
 #include <acdriver/Result.h>
 #include <libutil/Filesystem.h>
 
+using acdriver::Result;
 using acdriver::Compile::ComplicationSet;
 using acdriver::Compile::Output;
-using acdriver::Result;
 using libutil::Filesystem;
 
-bool ComplicationSet::
-Compile(
+bool ComplicationSet::Compile(
     xcassets::Asset::ComplicationSet const *complicationSet,
-    Filesystem *filesystem,
-    Output *compileOutput,
-    Result *result)
+    Filesystem *filesystem, Output *compileOutput, Result *result)
 {
-    result->document(
-        Result::Severity::Warning,
-        complicationSet->path(),
-        { Output::AssetReference(complicationSet) },
-        "Not Implemented",
-        "complication set not yet supported");
+	result->document(Result::Severity::Warning, complicationSet->path(),
+	    { Output::AssetReference(complicationSet) }, "Not Implemented",
+	    "complication set not yet supported");
 
-    return false;
+	return false;
 }

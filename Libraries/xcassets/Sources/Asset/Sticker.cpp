@@ -6,57 +6,56 @@
  LICENSE file in the root directory of this source tree.
  */
 
-#include <xcassets/Asset/Sticker.h>
-#include <plist/Keys/Unpack.h>
 #include <plist/Dictionary.h>
+#include <plist/Keys/Unpack.h>
 #include <plist/String.h>
+#include <xcassets/Asset/Sticker.h>
 
 using xcassets::Asset::Sticker;
 
-bool Sticker::
-parse(plist::Dictionary const *dict, std::unordered_set<std::string> *seen, bool check)
+bool Sticker::parse(plist::Dictionary const *dict,
+    std::unordered_set<std::string> *seen, bool check)
 {
-    if (!this->children().empty()) {
-        fprintf(stderr, "warning: unexpected child assets\n");
-    }
+	if (!this->children().empty()) {
+		fprintf(stderr, "warning: unexpected child assets\n");
+	}
 
-    if (!Asset::parse(dict, seen, false)) {
-        return false;
-    }
+	if (!Asset::parse(dict, seen, false)) {
+		return false;
+	}
 
-    /* Contents is required. */
-    if (dict == nullptr) {
-        return false;
-    }
+	/* Contents is required. */
+	if (dict == nullptr) {
+		return false;
+	}
 
-    auto unpack = plist::Keys::Unpack("Sticker", dict, seen);
+	auto unpack = plist::Keys::Unpack("Sticker", dict, seen);
 
-    auto P = unpack.cast <plist::Dictionary> ("properties");
+	auto P = unpack.cast<plist::Dictionary>("properties");
 
-    if (!unpack.complete(check)) {
-        fprintf(stderr, "%s", unpack.errorText().c_str());
-    }
+	if (!unpack.complete(check)) {
+		fprintf(stderr, "%s", unpack.errorText().c_str());
+	}
 
-    if (P != nullptr) {
-        std::unordered_set<std::string> seen;
-        auto unpack = plist::Keys::Unpack("Properties", P, &seen);
+	if (P != nullptr) {
+		std::unordered_set<std::string> seen;
+		auto unpack = plist::Keys::Unpack("Properties", P, &seen);
 
-        auto AL = unpack.cast <plist::String> ("accessibility-label");
-        auto F  = unpack.cast <plist::String> ("filename");
+		auto AL = unpack.cast<plist::String>("accessibility-label");
+		auto F = unpack.cast<plist::String>("filename");
 
-        if (!unpack.complete(true)) {
-            fprintf(stderr, "%s", unpack.errorText().c_str());
-        }
+		if (!unpack.complete(true)) {
+			fprintf(stderr, "%s", unpack.errorText().c_str());
+		}
 
-        if (AL != nullptr) {
-            _accessibilityLabel = AL->value();
-        }
+		if (AL != nullptr) {
+			_accessibilityLabel = AL->value();
+		}
 
-        if (F != nullptr) {
-            _fileName = F->value();
-        }
-    }
+		if (F != nullptr) {
+			_fileName = F->value();
+		}
+	}
 
-    return true;
+	return true;
 }
-

@@ -13,28 +13,30 @@
 using xcassets::TemplateRenderingIntent;
 using xcassets::TemplateRenderingIntents;
 
-ext::optional<TemplateRenderingIntent> TemplateRenderingIntents::
-Parse(std::string const &value)
+ext::optional<TemplateRenderingIntent> TemplateRenderingIntents::Parse(
+    std::string const &value)
 {
-    if (value == "original") {
-        return TemplateRenderingIntent::Original;
-    } else if (value == "template") {
-        return TemplateRenderingIntent::Template;
-    } else {
-        fprintf(stderr, "warning: unknown template rendering intent %s\n", value.c_str());
-        return ext::nullopt;
-    }
+	if (value == "original") {
+		return TemplateRenderingIntent::Original;
+	} else if (value == "template") {
+		return TemplateRenderingIntent::Template;
+	} else {
+		fprintf(stderr,
+		    "warning: unknown template rendering intent %s\n",
+		    value.c_str());
+		return ext::nullopt;
+	}
 }
 
-std::string TemplateRenderingIntents::
-String(TemplateRenderingIntent templateRenderingIntent)
+std::string TemplateRenderingIntents::String(
+    TemplateRenderingIntent templateRenderingIntent)
 {
-    switch (templateRenderingIntent) {
-        case TemplateRenderingIntent::Original:
-            return "original";
-        case TemplateRenderingIntent::Template:
-            return "template";
-    }
+	switch (templateRenderingIntent) {
+	case TemplateRenderingIntent::Original:
+		return "original";
+	case TemplateRenderingIntent::Template:
+		return "template";
+	}
 
-    abort();
+	abort();
 }

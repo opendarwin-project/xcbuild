@@ -18,19 +18,23 @@ class Environment;
 class Context;
 
 class FrameworksResolver {
-private:
-    pbxproj::PBX::FrameworksBuildPhase::shared_ptr _buildPhase;
+    private:
+	pbxproj::PBX::FrameworksBuildPhase::shared_ptr _buildPhase;
 
-public:
-    explicit FrameworksResolver(pbxproj::PBX::FrameworksBuildPhase::shared_ptr const &buildPhase);
-    ~FrameworksResolver();
+    public:
+	explicit FrameworksResolver(
+	    pbxproj::PBX::FrameworksBuildPhase::shared_ptr const &buildPhase);
+	~FrameworksResolver();
 
-public:
-    pbxproj::PBX::FrameworksBuildPhase::shared_ptr const &buildPhase() const
-    { return _buildPhase; }
+    public:
+	pbxproj::PBX::FrameworksBuildPhase::shared_ptr const &buildPhase() const
+	{
+		return _buildPhase;
+	}
 
-public:
-    bool resolve(Phase::Environment const &phaseEnvironment, Phase::Context *phaseContext);
+    public:
+	bool resolve(Phase::Environment const &phaseEnvironment,
+	    Phase::Context *phaseContext);
 };
 
 }

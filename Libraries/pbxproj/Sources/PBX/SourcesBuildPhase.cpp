@@ -10,8 +10,7 @@
 
 using pbxproj::PBX::SourcesBuildPhase;
 
-SourcesBuildPhase::
-SourcesBuildPhase() :
-    BuildPhase(Isa(), Type::Sources)
+SourcesBuildPhase::SourcesBuildPhase()
+    : BuildPhase(Isa(), Type::Sources)
 {
 }

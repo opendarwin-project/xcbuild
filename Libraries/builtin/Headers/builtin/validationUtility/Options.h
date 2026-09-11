@@ -12,34 +12,38 @@
 #include <libutil/Options.h>
 
 #include <string>
-#include <vector>
 #include <utility>
+#include <vector>
 
 namespace builtin {
 namespace validationUtility {
 
 class Options {
-private:
-    ext::optional<std::string> _input;
-    ext::optional<std::string> _infoPlistPath;
-    ext::optional<bool>        _validateForStore;
+    private:
+	ext::optional<std::string> _input;
+	ext::optional<std::string> _infoPlistPath;
+	ext::optional<bool> _validateForStore;
 
-public:
-    Options();
-    ~Options();
+    public:
+	Options();
+	~Options();
 
-public:
-    ext::optional<std::string> const &input() const
-    { return _input; }
-    ext::optional<std::string> const &infoPlistPath() const
-    { return _infoPlistPath; }
-    bool validateForStore() const
-    { return _validateForStore.value_or(false); }
+    public:
+	ext::optional<std::string> const &input() const { return _input; }
+	ext::optional<std::string> const &infoPlistPath() const
+	{
+		return _infoPlistPath;
+	}
+	bool validateForStore() const
+	{
+		return _validateForStore.value_or(false);
+	}
 
-private:
-    friend class libutil::Options;
-    std::pair<bool, std::string>
-    parseArgument(std::vector<std::string> const &args, std::vector<std::string>::const_iterator *it);
+    private:
+	friend class libutil::Options;
+	std::pair<bool, std::string> parseArgument(
+	    std::vector<std::string> const &args,
+	    std::vector<std::string>::const_iterator *it);
 };
 
 }

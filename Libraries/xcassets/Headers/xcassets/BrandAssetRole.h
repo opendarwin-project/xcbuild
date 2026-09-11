@@ -18,26 +18,26 @@ namespace xcassets {
  * How an asset in a brand assets is used.
  */
 enum class BrandAssetRole {
-    PrimaryAppIcon,
-    TopShelfImage,
-    TopShelfImageWide,
+	PrimaryAppIcon,
+	TopShelfImage,
+	TopShelfImageWide,
 };
 
 class BrandAssetRoles {
-private:
-    BrandAssetRoles();
-    ~BrandAssetRoles();
+    private:
+	BrandAssetRoles();
+	~BrandAssetRoles();
 
-public:
-    /*
-     * Parse a brand asset role string.
-     */
-    static ext::optional<BrandAssetRole> Parse(std::string const &value);
+    public:
+	/*
+	 * Parse a brand asset role string.
+	 */
+	static ext::optional<BrandAssetRole> Parse(std::string const &value);
 
-    /*
-     * String representation of a brand asset role.
-     */
-    static std::string String(BrandAssetRole brandAssetRole);
+	/*
+	 * String representation of a brand asset role.
+	 */
+	static std::string String(BrandAssetRole brandAssetRole);
 };
 
 }

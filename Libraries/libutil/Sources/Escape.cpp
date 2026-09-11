@@ -10,52 +10,54 @@
 
 using libutil::Escape;
 
-std::string Escape::
-Shell(std::string const &value)
+std::string Escape::Shell(std::string const &value)
 {
-    static std::string const *escaped = nullptr;
-    if (escaped == nullptr) {
-        std::string alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        std::string digits = "0123456789";
-        escaped = new std::string(alphabet + digits + "@%_-+=:,./");
-    }
+	static std::string const *escaped = nullptr;
+	if (escaped == nullptr) {
+		std::string alphabet =
+		    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		std::string digits = "0123456789";
+		escaped = new std::string(alphabet + digits + "@%_-+=:,./");
+	}
 
-    if (value.find_first_not_of(*escaped) == std::string::npos) {
-        return value;
-    } else {
-        std::string result;
-        result.reserve(value.size() + 4);
-        result += "'";
+	if (value.find_first_not_of(*escaped) == std::string::npos) {
+		return value;
+	} else {
+		std::string result;
+		result.reserve(value.size() + 4);
+		result += "'";
 
-        std::string::size_type offset = 0;
-        std::string::size_type previous = 0;
-        while ((offset = value.find("'", offset)) != std::string::npos) {
-            result.append(value.data() + previous, offset - previous);
-            result += "'\\''";
+		std::string::size_type offset = 0;
+		std::string::size_type previous = 0;
+		while (
+		    (offset = value.find("'", offset)) != std::string::npos) {
+			result.append(
+			    value.data() + previous, offset - previous);
+			result += "'\\''";
 
-            offset += 1;
-            previous = offset;
-        }
-        result.append(value.data() + previous, value.size() - previous);
+			offset += 1;
+			previous = offset;
+		}
+		result.append(value.data() + previous, value.size() - previous);
 
-        result += "'";
-        return result;
-    }
+		result += "'";
+		return result;
+	}
 }
 
-std::string Escape::
-Makefile(std::string const &value)
+std::string Escape::Makefile(std::string const &value)
 {
-    std::string result;
-    result.reserve(value.size());
+	std::string result;
+	result.reserve(value.size());
 
-    for (char c : value) {
-        if (isspace(c) || c == '#' || c == '$' || c == '%' || c == ':') {
-            result += '\\';
-        }
+	for (char c : value) {
+		if (isspace(c) || c == '#' || c == '$' || c == '%' ||
+		    c == ':') {
+			result += '\\';
+		}
 
-        result += c;
-    }
+		result += c;
+	}
 
-    return result;
+	return result;
 }

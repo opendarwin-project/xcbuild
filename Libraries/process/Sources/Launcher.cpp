@@ -10,13 +10,6 @@
 
 using process::Launcher;
 
-Launcher::
-Launcher()
-{
-}
+Launcher::Launcher() { }
 
-Launcher::
-~Launcher()
-{
-}
-
+Launcher::~Launcher() { }

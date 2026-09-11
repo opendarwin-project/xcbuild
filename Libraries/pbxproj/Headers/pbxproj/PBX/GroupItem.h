@@ -12,58 +12,60 @@
 #include <pbxproj/PBX/Object.h>
 #include <pbxsetting/Value.h>
 
-namespace pbxproj { namespace PBX {
+namespace pbxproj {
+namespace PBX {
 
 class GroupItem : public Object {
-public:
-    typedef std::shared_ptr <GroupItem> shared_ptr;
-    typedef std::vector <shared_ptr> vector;
+    public:
+	typedef std::shared_ptr<GroupItem> shared_ptr;
+	typedef std::vector<shared_ptr> vector;
 
-public:
-    enum class Type {
-        Group,
-        VariantGroup,
-        VersionGroup,
-        FileReference,
-        ReferenceProxy
-    };
+    public:
+	enum class Type {
+		Group,
+		VariantGroup,
+		VersionGroup,
+		FileReference,
+		ReferenceProxy
+	};
 
-private:
-    Type        _type;
+    private:
+	Type _type;
 
-protected:
-    friend class BaseGroup;
-    GroupItem  *_parent;
-    std::string _name;
-    std::string _path;
-    std::string _sourceTree;
+    protected:
+	friend class BaseGroup;
+	GroupItem *_parent;
+	std::string _name;
+	std::string _path;
+	std::string _sourceTree;
 
-protected:
-    GroupItem(std::string const &isa, Type type);
+    protected:
+	GroupItem(std::string const &isa, Type type);
 
-public:
-    inline Type type() const
-    { return _type; }
+    public:
+	inline Type type() const { return _type; }
 
-public:
-    inline std::string const &name() const
-    { return _name.empty() ? _path : _name; }
+    public:
+	inline std::string const &name() const
+	{
+		return _name.empty() ? _path : _name;
+	}
 
-public:
-    inline std::string const &path() const
-    { return _path; }
+    public:
+	inline std::string const &path() const { return _path; }
 
-public:
-    inline std::string const &sourceTree() const
-    { return _sourceTree; }
+    public:
+	inline std::string const &sourceTree() const { return _sourceTree; }
 
-public:
-    pbxsetting::Value resolve(void) const;
+    public:
+	pbxsetting::Value resolve(void) const;
 
-protected:
-    bool parse(Context &context, plist::Dictionary const *dict, std::unordered_set<std::string> *seen, bool check) override;
+    protected:
+	bool parse(Context &context, plist::Dictionary const *dict,
+	    std::unordered_set<std::string> *seen, bool check) override;
 };
 
-} }
+}
+}
 
-#endif  // !__pbxproj_PBX_GroupItem_h
+#endif // !__pbxproj_PBX_GroupItem_h

@@ -10,19 +10,15 @@
 
 namespace Tool = pbxbuild::Tool;
 
-Tool::SwiftModuleInfo::
-SwiftModuleInfo(
-    std::string const &architecture,
-    std::string const &moduleName,
-    std::string const &modulePath,
-    std::string const &docPath,
-    std::string const &headerPath,
-    bool installHeader) :
-    _architecture (architecture),
-    _moduleName   (moduleName),
-    _modulePath   (modulePath),
-    _docPath      (docPath),
-    _headerPath   (headerPath),
-    _installHeader(installHeader)
+Tool::SwiftModuleInfo::SwiftModuleInfo(std::string const &architecture,
+    std::string const &moduleName, std::string const &modulePath,
+    std::string const &docPath, std::string const &headerPath,
+    bool installHeader)
+    : _architecture(architecture)
+    , _moduleName(moduleName)
+    , _modulePath(modulePath)
+    , _docPath(docPath)
+    , _headerPath(headerPath)
+    , _installHeader(installHeader)
 {
 }

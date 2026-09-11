@@ -18,26 +18,27 @@ namespace xcassets {
  * How an asset in a watch complication is used.
  */
 enum class WatchComplicationRole {
-    Circular,
-    Modular,
-    Utilitarian,
+	Circular,
+	Modular,
+	Utilitarian,
 };
 
 class WatchComplicationRoles {
-private:
-    WatchComplicationRoles();
-    ~WatchComplicationRoles();
+    private:
+	WatchComplicationRoles();
+	~WatchComplicationRoles();
 
-public:
-    /*
-     * Parse a watch complication role string.
-     */
-    static ext::optional<WatchComplicationRole> Parse(std::string const &value);
+    public:
+	/*
+	 * Parse a watch complication role string.
+	 */
+	static ext::optional<WatchComplicationRole> Parse(
+	    std::string const &value);
 
-    /*
-     * String representation of a watch complication role.
-     */
-    static std::string String(WatchComplicationRole watchComplicationRole);
+	/*
+	 * String representation of a watch complication role.
+	 */
+	static std::string String(WatchComplicationRole watchComplicationRole);
 };
 
 }

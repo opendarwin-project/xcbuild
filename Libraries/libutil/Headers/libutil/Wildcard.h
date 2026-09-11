@@ -14,9 +14,10 @@
 namespace libutil {
 
 struct Wildcard {
-    static bool Match(std::string const &pattern, std::string const &string);
+	static bool Match(
+	    std::string const &pattern, std::string const &string);
 };
 
 }
 
-#endif  // !__libutil_Wildcard_h
+#endif // !__libutil_Wildcard_h

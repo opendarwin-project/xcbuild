@@ -6,229 +6,263 @@
  LICENSE file in the root directory of this source tree.
  */
 
-#include <xcsdk/SDK/Manager.h>
-#include <xcsdk/Configuration.h>
 #include <libutil/FSUtil.h>
 #include <pbxsetting/Setting.h>
 #include <pbxsetting/Type.h>
+#include <xcsdk/Configuration.h>
+#include <xcsdk/SDK/Manager.h>
 
 #include <algorithm>
 #include <iostream>
 
+using libutil::Filesystem;
+using libutil::FSUtil;
 using xcsdk::Configuration;
 using xcsdk::SDK::Manager;
 using xcsdk::SDK::Platform;
 using xcsdk::SDK::Target;
 using xcsdk::SDK::Toolchain;
-using libutil::Filesystem;
-using libutil::FSUtil;
 
-Manager::
-Manager()
+Manager::Manager() { }
+
+Manager::~Manager() { }
+
+std::string _resolvePath(Filesystem const *filesystem, std::string const &name)
 {
+	if (filesystem != nullptr) {
+		bool directory = false;
+		ext::optional<std::string> target =
+		    filesystem->readSymbolicLinkCanonical(name, &directory);
+		if (target) {
+			return *target;
+		}
+	}
+	return name;
 }
 
-Manager::
-~Manager()
+Target::shared_ptr Manager::findTarget(
+    Filesystem const *filesystem, std::string const &name) const
 {
+	std::string pathFromName = _resolvePath(filesystem, name);
+	std::string unadorned = name;
+	if (unadorned.size() > 9 &&
+	    unadorned.substr(unadorned.size() - 9) == ".internal") {
+		unadorned = unadorned.substr(0, unadorned.size() - 9);
+	}
+
+	for (Platform::shared_ptr const &platform : _platforms) {
+		for (Target::shared_ptr const &target : platform->targets()) {
+			/* Try canonical name, bundle name, and paths */
+			if (target->canonicalName() == name ||
+			    target->canonicalName() == unadorned ||
+			    target->bundleName() == name ||
+			    target->bundleName() == unadorned ||
+			    target->path() == pathFromName) {
+				return target;
+			}
+		}
+		/* If the platform name matches, use target */
+		if (platform->name() == name || platform->name() == unadorned ||
+		    platform->path() == pathFromName) {
+			if (!platform->targets().empty()) {
+				return platform->targets().back();
+			}
+		}
+	}
+
+	return nullptr;
 }
 
-std::string
-_resolvePath(Filesystem const *filesystem, std::string const &name)
+Toolchain::shared_ptr Manager::findToolchain(
+    Filesystem const *filesystem, std::string const &name) const
 {
-    if (filesystem != nullptr) {
-        bool directory = false;
-        ext::optional<std::string> target = filesystem->readSymbolicLinkCanonical(name, &directory);
-        if (target) {
-          return *target;
-        }
-    }
-    return name;
+	std::string pathFromName = _resolvePath(filesystem, name);
+	for (Toolchain::shared_ptr const &toolchain : _toolchains) {
+		/* Match liberally: name, identifier, or path; all are valid. */
+		if (toolchain->name() == name ||
+		    toolchain->identifier() == name ||
+		    toolchain->path() == pathFromName) {
+			return toolchain;
+		}
+	}
+
+	return nullptr;
 }
 
-Target::shared_ptr Manager::
-findTarget(Filesystem const *filesystem, std::string const &name) const
+std::vector<Platform::shared_ptr> Manager::findPlatformFamily(
+    std::string const &identifier)
 {
-    std::string pathFromName = _resolvePath(filesystem, name);
-    std::string unadorned = name;
-    if (unadorned.size() > 9 && unadorned.substr(unadorned.size() - 9) == ".internal") {
-        unadorned = unadorned.substr(0, unadorned.size() - 9);
-    }
+	std::vector<Platform::shared_ptr> platforms;
 
-    for (Platform::shared_ptr const &platform : _platforms) {
-        for (Target::shared_ptr const &target : platform->targets()) {
-            /* Try canonical name, bundle name, and paths */
-            if (target->canonicalName() == name || target->canonicalName() == unadorned ||
-                target->bundleName() == name || target->bundleName() == unadorned ||
-                target->path() == pathFromName) {
-                return target;
-            }
-        }
-        /* If the platform name matches, use target */
-        if (platform->name() == name || platform->name() == unadorned || platform->path() == pathFromName) {
-            if (!platform->targets().empty()) {
-                return platform->targets().back();
-            }
-        }
-    }
+	for (Platform::shared_ptr const &platform : _platforms) {
+		/* Match by family identifier. */
+		if (platform->familyIdentifier() == identifier) {
+			platforms.push_back(platform);
+		}
+	}
 
-    return nullptr;
+	return platforms;
 }
 
-Toolchain::shared_ptr Manager::
-findToolchain(Filesystem const *filesystem, std::string const &name) const
+pbxsetting::Level Manager::computedSettings(void) const
 {
-    std::string pathFromName = _resolvePath(filesystem, name);
-    for (Toolchain::shared_ptr const &toolchain : _toolchains) {
-        /* Match liberally: name, identifier, or path; all are valid. */
-        if (toolchain->name() == name || toolchain->identifier() == name || toolchain->path() == pathFromName) {
-            return toolchain;
-        }
-    }
+	std::vector<pbxsetting::Setting> settings = {
+		pbxsetting::Setting::Create("DEVELOPER_DIR", _path),
+		pbxsetting::Setting::Parse(
+		    "DEVELOPER_USR_DIR", "$(DEVELOPER_DIR)/usr"),
+		pbxsetting::Setting::Parse(
+		    "DEVELOPER_BIN_DIR", "$(DEVELOPER_DIR)/usr/bin"),
+		pbxsetting::Setting::Parse("DEVELOPER_APPLICATIONS_DIR",
+		    "$(DEVELOPER_DIR)/Applications"),
+		pbxsetting::Setting::Parse("DEVELOPER_FRAMEWORKS_DIR",
+		    "$(DEVELOPER_DIR)/Library/Frameworks"),
+		pbxsetting::Setting::Parse("DEVELOPER_FRAMEWORKS_DIR_QUOTED",
+		    "$(DEVELOPER_DIR)/Library/Frameworks"),
+		pbxsetting::Setting::Parse(
+		    "DEVELOPER_LIBRARY_DIR", "$(DEVELOPER_DIR)/Library"),
+		pbxsetting::Setting::Parse(
+		    "DEVELOPER_TOOLS_DIR", "$(DEVELOPER_DIR)/Tools"),
+		pbxsetting::Setting::Parse("DEVELOPER_SDK_DIR",
+		    "$(DEVELOPER_DIR)/Platforms/MacOSX.platform/Developer/"
+		    "SDKs"), // TODO(grp): Verify.
+		pbxsetting::Setting::Parse("LEGACY_DEVELOPER_DIR",
+		    "$(DEVELOPER_DIR)/../PlugIns/Xcode3Core.ideplugin/Contents/"
+		    "SharedSupport/Developer"), // TODO(grp): Verify.
+		pbxsetting::Setting::Parse("DERIVED_DATA_DIR",
+		    "$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData"),
+	};
 
-    return nullptr;
+	if (Toolchain::shared_ptr defaultToolchain = findToolchain(
+		nullptr, Toolchain::DefaultIdentifier())) {
+		settings.push_back(pbxsetting::Setting::Create(
+		    "DT_TOOLCHAIN_DIR", defaultToolchain->path()));
+	} else {
+		settings.push_back(
+		    pbxsetting::Setting::Create("DT_TOOLCHAIN_DIR", ""));
+	}
+
+	std::vector<std::string> platformNames;
+	for (Platform::shared_ptr const &platform : _platforms) {
+		platformNames.push_back(platform->name());
+	}
+	settings.push_back(pbxsetting::Setting::Create("AVAILABLE_PLATFORMS",
+	    pbxsetting::Type::FormatList(platformNames)));
+
+	return pbxsetting::Level(settings);
 }
 
-std::vector<Platform::shared_ptr> Manager::
-findPlatformFamily(std::string const &identifier)
+std::vector<std::string> Manager::executablePaths() const
 {
-    std::vector<Platform::shared_ptr> platforms;
-
-    for (Platform::shared_ptr const &platform : _platforms) {
-        /* Match by family identifier. */
-        if (platform->familyIdentifier() == identifier) {
-            platforms.push_back(platform);
-        }
-    }
-
-    return platforms;
+	return {
+		_path + "/usr/bin",
+		_path + "/usr/local/bin",
+		_path + "/Tools",
+	};
 }
 
-pbxsetting::Level Manager::
-computedSettings(void) const
+std::vector<std::string> Manager::executablePaths(
+    Platform::shared_ptr const &platform, Target::shared_ptr const &target,
+    std::vector<Toolchain::shared_ptr> const &toolchains) const
 {
-    std::vector<pbxsetting::Setting> settings = {
-        pbxsetting::Setting::Create("DEVELOPER_DIR", _path),
-        pbxsetting::Setting::Parse("DEVELOPER_USR_DIR", "$(DEVELOPER_DIR)/usr"),
-        pbxsetting::Setting::Parse("DEVELOPER_BIN_DIR", "$(DEVELOPER_DIR)/usr/bin"),
-        pbxsetting::Setting::Parse("DEVELOPER_APPLICATIONS_DIR", "$(DEVELOPER_DIR)/Applications"),
-        pbxsetting::Setting::Parse("DEVELOPER_FRAMEWORKS_DIR", "$(DEVELOPER_DIR)/Library/Frameworks"),
-        pbxsetting::Setting::Parse("DEVELOPER_FRAMEWORKS_DIR_QUOTED", "$(DEVELOPER_DIR)/Library/Frameworks"),
-        pbxsetting::Setting::Parse("DEVELOPER_LIBRARY_DIR", "$(DEVELOPER_DIR)/Library"),
-        pbxsetting::Setting::Parse("DEVELOPER_TOOLS_DIR", "$(DEVELOPER_DIR)/Tools"),
-        pbxsetting::Setting::Parse("DEVELOPER_SDK_DIR", "$(DEVELOPER_DIR)/Platforms/MacOSX.platform/Developer/SDKs"), // TODO(grp): Verify.
-        pbxsetting::Setting::Parse("LEGACY_DEVELOPER_DIR", "$(DEVELOPER_DIR)/../PlugIns/Xcode3Core.ideplugin/Contents/SharedSupport/Developer"), // TODO(grp): Verify.
-        pbxsetting::Setting::Parse("DERIVED_DATA_DIR", "$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData"),
-    };
+	std::vector<std::string> paths;
 
-    if (Toolchain::shared_ptr defaultToolchain = findToolchain(nullptr, Toolchain::DefaultIdentifier())) {
-        settings.push_back(pbxsetting::Setting::Create("DT_TOOLCHAIN_DIR", defaultToolchain->path()));
-    } else {
-        settings.push_back(pbxsetting::Setting::Create("DT_TOOLCHAIN_DIR", ""));
-    }
+	if (target != nullptr) {
+		std::vector<std::string> targetPaths =
+		    target->executablePaths();
+		paths.insert(
+		    paths.end(), targetPaths.begin(), targetPaths.end());
+	}
 
-    std::vector<std::string> platformNames;
-    for (Platform::shared_ptr const &platform : _platforms) {
-        platformNames.push_back(platform->name());
-    }
-    settings.push_back(pbxsetting::Setting::Create("AVAILABLE_PLATFORMS", pbxsetting::Type::FormatList(platformNames)));
+	if (platform != nullptr) {
+		std::vector<std::string> platformPaths =
+		    platform->executablePaths();
+		paths.insert(
+		    paths.end(), platformPaths.begin(), platformPaths.end());
+	}
 
-    return pbxsetting::Level(settings);
+	for (Toolchain::shared_ptr const &toolchain : toolchains) {
+		std::vector<std::string> toolchainPaths =
+		    toolchain->executablePaths();
+		paths.insert(
+		    paths.end(), toolchainPaths.begin(), toolchainPaths.end());
+	}
+
+	std::vector<std::string> managerPaths = this->executablePaths();
+	paths.insert(paths.end(), managerPaths.begin(), managerPaths.end());
+
+	return paths;
 }
 
-std::vector<std::string> Manager::
-executablePaths() const
+std::shared_ptr<Manager> Manager::Open(Filesystem const *filesystem,
+    std::string const &path, ext::optional<Configuration> const &configuration)
 {
-    return {
-        _path + "/usr/bin",
-        _path + "/usr/local/bin",
-        _path + "/Tools",
-    };
-}
+	if (path.empty()) {
+		fprintf(stderr, "error: empty path for sdk manager\n");
+		return nullptr;
+	}
 
-std::vector<std::string> Manager::
-executablePaths(Platform::shared_ptr const &platform, Target::shared_ptr const &target, std::vector<Toolchain::shared_ptr> const &toolchains) const
-{
-    std::vector<std::string> paths;
+	auto manager = std::make_shared<Manager>();
+	manager->_path = path;
 
-    if (target != nullptr) {
-        std::vector<std::string> targetPaths = target->executablePaths();
-        paths.insert(paths.end(), targetPaths.begin(), targetPaths.end());
-    }
+	std::vector<std::string> toolchainsPaths = { path + "/" +
+		"Toolchains" };
+	if (configuration) {
+		std::vector<std::string> const &extraToolchainsPaths =
+		    configuration->extraToolchainsPaths();
+		toolchainsPaths.insert(toolchainsPaths.end(),
+		    extraToolchainsPaths.begin(), extraToolchainsPaths.end());
+	}
 
-    if (platform != nullptr) {
-        std::vector<std::string> platformPaths = platform->executablePaths();
-        paths.insert(paths.end(), platformPaths.begin(), platformPaths.end());
-    }
+	std::vector<std::shared_ptr<Toolchain>> toolchains;
+	for (std::string const &toolchainsPath : toolchainsPaths) {
+		filesystem->readDirectory(toolchainsPath, false,
+		    [&](std::string const &filename) -> void {
+			    if (FSUtil::GetFileExtension(filename) !=
+				"xctoolchain") {
+				    return;
+			    }
 
-    for (Toolchain::shared_ptr const &toolchain : toolchains) {
-        std::vector<std::string> toolchainPaths = toolchain->executablePaths();
-        paths.insert(paths.end(), toolchainPaths.begin(), toolchainPaths.end());
-    }
+			    auto path = _resolvePath(
+				filesystem, toolchainsPath + "/" + filename);
+			    auto toolchain = SDK::Toolchain::Open(
+				filesystem, path);
+			    if (toolchain != nullptr) {
+				    toolchains.push_back(toolchain);
+			    }
+		    });
+	}
+	manager->_toolchains = toolchains;
 
-    std::vector<std::string> managerPaths = this->executablePaths();
-    paths.insert(paths.end(), managerPaths.begin(), managerPaths.end());
+	std::vector<std::string> platformsPaths = { path + "/" + "Platforms" };
+	if (configuration) {
+		std::vector<std::string> const &extraPlatformsPaths =
+		    configuration->extraPlatformsPaths();
+		platformsPaths.insert(platformsPaths.end(),
+		    extraPlatformsPaths.begin(), extraPlatformsPaths.end());
+	}
 
-    return paths;
-}
+	std::vector<std::shared_ptr<Platform>> platforms;
+	for (std::string const &platformsPath : platformsPaths) {
+		filesystem->readDirectory(platformsPath, false,
+		    [&](std::string const &filename) -> void {
+			    if (FSUtil::GetFileExtension(filename) !=
+				"platform") {
+				    return;
+			    }
 
-std::shared_ptr<Manager> Manager::
-Open(Filesystem const *filesystem, std::string const &path, ext::optional<Configuration> const &configuration)
-{
-    if (path.empty()) {
-        fprintf(stderr, "error: empty path for sdk manager\n");
-        return nullptr;
-    }
+			    auto path = _resolvePath(
+				filesystem, platformsPath + "/" + filename);
+			    auto platform = SDK::Platform::Open(
+				filesystem, manager, path);
+			    if (platform != nullptr) {
+				    platforms.push_back(platform);
+			    }
+		    });
+	}
+	std::sort(platforms.begin(), platforms.end(),
+	    [](Platform::shared_ptr const &a, Platform::shared_ptr const &b)
+		-> bool { return (a->description() < b->description()); });
+	manager->_platforms = platforms;
 
-    auto manager = std::make_shared <Manager> ();
-    manager->_path = path;
-
-    std::vector<std::string> toolchainsPaths = { path + "/" + "Toolchains" };
-    if (configuration) {
-        std::vector<std::string> const &extraToolchainsPaths = configuration->extraToolchainsPaths();
-        toolchainsPaths.insert(toolchainsPaths.end(), extraToolchainsPaths.begin(), extraToolchainsPaths.end());
-    }
-
-    std::vector<std::shared_ptr<Toolchain>> toolchains;
-    for (std::string const &toolchainsPath : toolchainsPaths) {
-        filesystem->readDirectory(toolchainsPath, false, [&](std::string const &filename) -> void {
-            if (FSUtil::GetFileExtension(filename) != "xctoolchain") {
-                return;
-            }
-
-            auto path = _resolvePath(filesystem, toolchainsPath + "/" + filename);
-            auto toolchain = SDK::Toolchain::Open(filesystem, path);
-            if (toolchain != nullptr) {
-                toolchains.push_back(toolchain);
-            }
-        });
-    }
-    manager->_toolchains = toolchains;
-
-    std::vector<std::string> platformsPaths = { path + "/" + "Platforms" };
-    if (configuration) {
-        std::vector<std::string> const &extraPlatformsPaths = configuration->extraPlatformsPaths();
-        platformsPaths.insert(platformsPaths.end(), extraPlatformsPaths.begin(), extraPlatformsPaths.end());
-    }
-
-    std::vector<std::shared_ptr<Platform>> platforms;
-    for (std::string const &platformsPath : platformsPaths) {
-        filesystem->readDirectory(platformsPath, false, [&](std::string const &filename) -> void {
-            if (FSUtil::GetFileExtension(filename) != "platform") {
-                return;
-            }
-
-            auto path = _resolvePath(filesystem, platformsPath + "/" + filename);
-            auto platform = SDK::Platform::Open(filesystem, manager, path);
-            if (platform != nullptr) {
-                platforms.push_back(platform);
-            }
-        });
-    }
-    std::sort(platforms.begin(), platforms.end(), [](Platform::shared_ptr const &a, Platform::shared_ptr const &b) -> bool {
-        return (a->description() < b->description());
-    });
-    manager->_platforms = platforms;
-
-    return manager;
+	return manager;
 }

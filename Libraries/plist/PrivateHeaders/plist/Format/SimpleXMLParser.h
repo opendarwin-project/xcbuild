@@ -9,34 +9,35 @@
 #ifndef __plist_Format_SimpleXMLParser_h
 #define __plist_Format_SimpleXMLParser_h
 
-#include <plist/Format/BaseXMLParser.h>
 #include <plist/Dictionary.h>
+#include <plist/Format/BaseXMLParser.h>
 
 namespace plist {
 namespace Format {
 
 class SimpleXMLParser : public BaseXMLParser {
-private:
-    Dictionary                 *_root;
-    Dictionary                 *_current;
-    std::vector <Dictionary *>  _stack;
+    private:
+	Dictionary *_root;
+	Dictionary *_current;
+	std::vector<Dictionary *> _stack;
 
-public:
-    SimpleXMLParser();
+    public:
+	SimpleXMLParser();
 
-public:
-    Dictionary *parse(std::vector<uint8_t> const &contents);
+    public:
+	Dictionary *parse(std::vector<uint8_t> const &contents);
 
-private:
-    virtual void onBeginParse();
-    virtual void onEndParse(bool success);
+    private:
+	virtual void onBeginParse();
+	virtual void onEndParse(bool success);
 
-private:
-    void onStartElement(std::string const &name, std::unordered_map<std::string, std::string> const &attrs, size_t);
-    void onEndElement(std::string const &name, size_t);
+    private:
+	void onStartElement(std::string const &name,
+	    std::unordered_map<std::string, std::string> const &attrs, size_t);
+	void onEndElement(std::string const &name, size_t);
 };
 
 }
 }
 
-#endif  // !__plist_Format_SimpleXMLParser_h
+#endif // !__plist_Format_SimpleXMLParser_h

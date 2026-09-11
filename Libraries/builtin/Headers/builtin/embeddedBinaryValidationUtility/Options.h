@@ -12,34 +12,38 @@
 #include <libutil/Options.h>
 
 #include <string>
-#include <vector>
 #include <utility>
+#include <vector>
 
 namespace builtin {
 namespace embeddedBinaryValidationUtility {
 
 class Options {
-private:
-    ext::optional<std::string> _input;
-    ext::optional<std::string> _signingCert;
-    ext::optional<std::string> _infoPlistPath;
+    private:
+	ext::optional<std::string> _input;
+	ext::optional<std::string> _signingCert;
+	ext::optional<std::string> _infoPlistPath;
 
-public:
-    Options();
-    ~Options();
+    public:
+	Options();
+	~Options();
 
-public:
-    ext::optional<std::string> const &input() const
-    { return _input; }
-    ext::optional<std::string> const &signingCert() const
-    { return _signingCert; }
-    ext::optional<std::string> const &inputPlistPath() const
-    { return _infoPlistPath; }
+    public:
+	ext::optional<std::string> const &input() const { return _input; }
+	ext::optional<std::string> const &signingCert() const
+	{
+		return _signingCert;
+	}
+	ext::optional<std::string> const &inputPlistPath() const
+	{
+		return _infoPlistPath;
+	}
 
-private:
-    friend class libutil::Options;
-    std::pair<bool, std::string>
-    parseArgument(std::vector<std::string> const &args, std::vector<std::string>::const_iterator *it);
+    private:
+	friend class libutil::Options;
+	std::pair<bool, std::string> parseArgument(
+	    std::vector<std::string> const &args,
+	    std::vector<std::string>::const_iterator *it);
 };
 
 }

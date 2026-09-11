@@ -6,29 +6,27 @@
  LICENSE file in the root directory of this source tree.
  */
 
-#include <xcscheme/XC/ArchiveAction.h>
 #include <plist/Boolean.h>
 #include <plist/Dictionary.h>
+#include <xcscheme/XC/ArchiveAction.h>
 
 using xcscheme::XC::ArchiveAction;
 
-ArchiveAction::
-ArchiveAction() :
-    _revealArchiveInOrganizer(false)
+ArchiveAction::ArchiveAction()
+    : _revealArchiveInOrganizer(false)
 {
 }
 
-bool ArchiveAction::
-parse(plist::Dictionary const *dict)
+bool ArchiveAction::parse(plist::Dictionary const *dict)
 {
-    if (!Action::parse(dict))
-        return false;
+	if (!Action::parse(dict))
+		return false;
 
-    auto RAIO = dict->value <plist::Boolean> ("revealArchiverInOrganize");
+	auto RAIO = dict->value<plist::Boolean>("revealArchiverInOrganize");
 
-    if (RAIO != nullptr) {
-        _revealArchiveInOrganizer = RAIO->value();
-    }
+	if (RAIO != nullptr) {
+		_revealArchiveInOrganizer = RAIO->value();
+	}
 
-    return true;
+	return true;
 }

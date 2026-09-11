@@ -18,60 +18,50 @@
 namespace plist {
 
 class Object {
-protected:
-    Object()
-    {
-    }
+    protected:
+	Object() { }
 
-public:
-    virtual ~Object()
-    {
-    }
+    public:
+	virtual ~Object() { }
 
-public:
-    virtual ObjectType type() const = 0;
+    public:
+	virtual ObjectType type() const = 0;
 
-public:
-    virtual void release() const
-    {
-        delete this;
-    }
+    public:
+	virtual void release() const { delete this; }
 
-protected:
-    virtual std::unique_ptr<Object> _copy() const = 0;
+    protected:
+	virtual std::unique_ptr<Object> _copy() const = 0;
 
-public:
-    std::unique_ptr<Object> copy() const
-    { return _copy(); }
+    public:
+	std::unique_ptr<Object> copy() const { return _copy(); }
 
-public:
-    virtual bool equals(Object const *obj) const
-    {
-        return (obj == this);
-    }
+    public:
+	virtual bool equals(Object const *obj) const { return (obj == this); }
 
-public:
-    static std::unique_ptr<Object> Coerce(Object const *obj);
+    public:
+	static std::unique_ptr<Object> Coerce(Object const *obj);
 
-public:
-    static inline ObjectType Type()
-    {
-        return ObjectType::None;
-    }
+    public:
+	static inline ObjectType Type() { return ObjectType::None; }
 };
 
-template <typename T>
-static inline T *CastTo(Object *obj)
+template <typename T> static inline T *CastTo(Object *obj)
 {
-    return (obj != nullptr && (obj->type() == T::Type() || T::Type() == ObjectType())) ? static_cast <T *> (obj) : nullptr;
+	return (obj != nullptr &&
+		   (obj->type() == T::Type() || T::Type() == ObjectType()))
+	    ? static_cast<T *>(obj)
+	    : nullptr;
 }
 
-template <typename T>
-static inline T const *CastTo(Object const *obj)
+template <typename T> static inline T const *CastTo(Object const *obj)
 {
-    return (obj != nullptr && (obj->type() == T::Type() || T::Type() == ObjectType())) ? static_cast <T const *> (obj) : nullptr;
+	return (obj != nullptr &&
+		   (obj->type() == T::Type() || T::Type() == ObjectType()))
+	    ? static_cast<T const *>(obj)
+	    : nullptr;
 }
 
 }
 
-#endif  // !__plist_Object_h
+#endif // !__plist_Object_h

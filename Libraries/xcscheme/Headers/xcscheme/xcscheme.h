@@ -12,4 +12,4 @@
 #include <xcscheme/SchemeGroup.h>
 #include <xcscheme/XC/Scheme.h>
 
-#endif  // !__xcscheme_xcscheme_h
+#endif // !__xcscheme_xcscheme_h

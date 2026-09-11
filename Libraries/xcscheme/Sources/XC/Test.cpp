@@ -6,25 +6,21 @@
  LICENSE file in the root directory of this source tree.
  */
 
-#include <xcscheme/XC/Test.h>
 #include <plist/Dictionary.h>
 #include <plist/String.h>
+#include <xcscheme/XC/Test.h>
 
 using xcscheme::XC::Test;
 
-Test::
-Test()
+Test::Test() { }
+
+bool Test::parse(plist::Dictionary const *dict)
 {
-}
+	auto I = dict->value<plist::String>("Identifier");
 
-bool Test::
-parse(plist::Dictionary const *dict)
-{
-    auto I = dict->value <plist::String> ("Identifier");
+	if (I != nullptr) {
+		_identifier = I->value();
+	}
 
-    if (I != nullptr) {
-        _identifier = I->value();
-    }
-
-    return true;
+	return true;
 }

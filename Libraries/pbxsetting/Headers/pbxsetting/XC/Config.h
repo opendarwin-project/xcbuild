@@ -14,109 +14,113 @@
 #include <pbxsetting/Setting.h>
 #include <pbxsetting/Value.h>
 
+#include <ext/optional>
 #include <memory>
 #include <vector>
-#include <ext/optional>
 
-namespace libutil { class Filesystem; }
+namespace libutil {
+class Filesystem;
+}
 
-namespace pbxsetting { namespace XC {
+namespace pbxsetting {
+namespace XC {
 
 class Config {
-public:
-    /*
-     * The type of value in the config.
-     */
-    class Entry {
     public:
-        enum class Type {
-            /*
-             * A setting definition.
-             */
-            Setting,
-            /*
-             * An included config.
-             */
-            Include,
-        };
+	/*
+	 * The type of value in the config.
+	 */
+	class Entry {
+	    public:
+		enum class Type {
+			/*
+			 * A setting definition.
+			 */
+			Setting,
+			/*
+			 * An included config.
+			 */
+			Include,
+		};
+
+	    private:
+		Type _type;
+
+	    private:
+		ext::optional<Setting> _setting;
+
+	    private:
+		ext::optional<Value> _path;
+		std::shared_ptr<Config> _config;
+
+	    public:
+		Entry(Setting const &setting);
+		Entry(Value const &path, std::shared_ptr<Config> const &config);
+
+	    public:
+		/*
+		 * The type of entry.
+		 */
+		Type type() const { return _type; }
+
+	    public:
+		/*
+		 * A definition of a build setting.
+		 */
+		ext::optional<Setting> const &setting() const
+		{
+			return _setting;
+		}
+
+	    public:
+		/*
+		 * The included path.
+		 */
+		ext::optional<Value> const &path() const { return _path; }
+
+		/*
+		 * The included config.
+		 */
+		std::shared_ptr<Config> const &config() const
+		{
+			return _config;
+		}
+	};
 
     private:
-        Type                    _type;
-
-    private:
-        ext::optional<Setting>  _setting;
-
-    private:
-        ext::optional<Value>    _path;
-        std::shared_ptr<Config> _config;
+	std::string _path;
+	std::vector<Entry> _contents;
 
     public:
-        Entry(Setting const &setting);
-        Entry(Value const &path, std::shared_ptr<Config> const &config);
+	Config(std::string const &path, std::vector<Entry> const &contents);
+	~Config();
 
     public:
-        /*
-         * The type of entry.
-         */
-        Type type() const
-        { return _type; }
+	/*
+	 * The full path to the config file.
+	 */
+	std::string const &path() const { return _path; }
+
+	/*
+	 * The contents of the config.
+	 */
+	std::vector<Entry> const &contents() const { return _contents; }
 
     public:
-        /*
-         * A definition of a build setting.
-         */
-        ext::optional<Setting> const &setting() const
-        { return _setting; }
+	/*
+	 * The settings defined by the config file.
+	 */
+	Level level() const;
 
     public:
-        /*
-         * The included path.
-         */
-        ext::optional<Value> const &path() const
-        { return _path; }
-
-        /*
-         * The included config.
-         */
-        std::shared_ptr<Config> const &config() const
-        { return _config; }
-    };
-
-private:
-    std::string        _path;
-    std::vector<Entry> _contents;
-
-public:
-    Config(std::string const &path, std::vector<Entry> const &contents);
-    ~Config();
-
-public:
-    /*
-     * The full path to the config file.
-     */
-    std::string const &path() const
-    { return _path; }
-
-    /*
-     * The contents of the config.
-     */
-    std::vector<Entry> const &contents() const
-    { return _contents; }
-
-public:
-    /*
-     * The settings defined by the config file.
-     */
-    Level level() const;
-
-public:
-    /*
-     * Load a config from a file in a filesystem.
-     */
-    static ext::optional<Config>
-    Load(libutil::Filesystem const *filesystem, Environment const &environment, std::string const &path);
+	/*
+	 * Load a config from a file in a filesystem.
+	 */
+	static ext::optional<Config> Load(libutil::Filesystem const *filesystem,
+	    Environment const &environment, std::string const &path);
 };
 
-} }
+}
+}
 
-#endif  // !__pbxsetting_XC_Config_h
+#endif // !__pbxsetting_XC_Config_h

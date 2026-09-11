@@ -6,80 +6,79 @@
  LICENSE file in the root directory of this source tree.
  */
 
-#include <xcassets/Asset/StickerPack.h>
 #include <plist/Array.h>
-#include <plist/String.h>
 #include <plist/Keys/Unpack.h>
+#include <plist/String.h>
+#include <xcassets/Asset/StickerPack.h>
 
 using xcassets::Asset::StickerPack;
 
-bool StickerPack::Sticker::
-parse(plist::Dictionary const *dict)
+bool StickerPack::Sticker::parse(plist::Dictionary const *dict)
 {
-    std::unordered_set<std::string> seen;
-    auto unpack = plist::Keys::Unpack("StickerPackSticker", dict, &seen);
+	std::unordered_set<std::string> seen;
+	auto unpack = plist::Keys::Unpack("StickerPackSticker", dict, &seen);
 
-    auto F = unpack.cast <plist::String> ("filename");
+	auto F = unpack.cast<plist::String>("filename");
 
-    if (!unpack.complete(true)) {
-        fprintf(stderr, "%s", unpack.errorText().c_str());
-    }
+	if (!unpack.complete(true)) {
+		fprintf(stderr, "%s", unpack.errorText().c_str());
+	}
 
-    if (F != nullptr) {
-        _fileName = F->value();
-    }
+	if (F != nullptr) {
+		_fileName = F->value();
+	}
 
-    return true;
+	return true;
 }
 
-bool StickerPack::
-parse(plist::Dictionary const *dict, std::unordered_set<std::string> *seen, bool check)
+bool StickerPack::parse(plist::Dictionary const *dict,
+    std::unordered_set<std::string> *seen, bool check)
 {
-    if (!Asset::parse(dict, seen, false)) {
-        return false;
-    }
+	if (!Asset::parse(dict, seen, false)) {
+		return false;
+	}
 
-    /* Contents is required. */
-    if (dict == nullptr) {
-        return false;
-    }
+	/* Contents is required. */
+	if (dict == nullptr) {
+		return false;
+	}
 
-    auto unpack = plist::Keys::Unpack("StickerPack", dict, seen);
+	auto unpack = plist::Keys::Unpack("StickerPack", dict, seen);
 
-    auto P  = unpack.cast <plist::Dictionary> ("properties");
-    auto Ss = unpack.cast <plist::Array> ("stickers");
+	auto P = unpack.cast<plist::Dictionary>("properties");
+	auto Ss = unpack.cast<plist::Array>("stickers");
 
-    if (!unpack.complete(check)) {
-        fprintf(stderr, "%s", unpack.errorText().c_str());
-    }
+	if (!unpack.complete(check)) {
+		fprintf(stderr, "%s", unpack.errorText().c_str());
+	}
 
-    if (P != nullptr) {
-        std::unordered_set<std::string> seen;
-        auto unpack = plist::Keys::Unpack("Properties", P, &seen);
+	if (P != nullptr) {
+		std::unordered_set<std::string> seen;
+		auto unpack = plist::Keys::Unpack("Properties", P, &seen);
 
-        auto GS = unpack.cast <plist::String> ("grid-size");
+		auto GS = unpack.cast<plist::String>("grid-size");
 
-        if (!unpack.complete(true)) {
-            fprintf(stderr, "%s", unpack.errorText().c_str());
-        }
+		if (!unpack.complete(true)) {
+			fprintf(stderr, "%s", unpack.errorText().c_str());
+		}
 
-        if (GS != nullptr) {
-            _gridSize = StickerGridSizes::Parse(GS->value());
-        }
-    }
+		if (GS != nullptr) {
+			_gridSize = StickerGridSizes::Parse(GS->value());
+		}
+	}
 
-    if (Ss != nullptr) {
-        _stickers = std::vector<Sticker>();
+	if (Ss != nullptr) {
+		_stickers = std::vector<Sticker>();
 
-        for (size_t n = 0; n < Ss->count(); ++n) {
-            if (auto dict = Ss->value<plist::Dictionary>(n)) {
-                Sticker sticker;
-                if (sticker.parse(dict)) {
-                    _stickers->push_back(sticker);
-                }
-            }
-        }
-    }
+		for (size_t n = 0; n < Ss->count(); ++n) {
+			if (auto dict = Ss->value<plist::Dictionary>(n)) {
+				Sticker sticker;
+				if (sticker.parse(dict)) {
+					_stickers->push_back(sticker);
+				}
+			}
+		}
+	}
 
-    return true;
+	return true;
 }

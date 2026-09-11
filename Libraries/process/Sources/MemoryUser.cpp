@@ -10,32 +10,20 @@
 
 using process::MemoryUser;
 
-MemoryUser::
-MemoryUser(
-    std::string const &userID,
-    std::string const &groupID,
-    std::string const &userName,
-    std::string const &groupName) :
-    User      (),
-    _userID   (userID),
-    _groupID  (groupID),
-    _userName (userName),
-    _groupName(groupName)
+MemoryUser::MemoryUser(std::string const &userID, std::string const &groupID,
+    std::string const &userName, std::string const &groupName)
+    : User()
+    , _userID(userID)
+    , _groupID(groupID)
+    , _userName(userName)
+    , _groupName(groupName)
 {
 }
 
-MemoryUser::
-MemoryUser(User const *user) :
-    MemoryUser(
-        user->userID(),
-        user->groupID(),
-        user->userName(),
-        user->groupName())
+MemoryUser::MemoryUser(User const *user)
+    : MemoryUser(
+	  user->userID(), user->groupID(), user->userName(), user->groupName())
 {
 }
 
-MemoryUser::
-~MemoryUser()
-{
-}
-
+MemoryUser::~MemoryUser() { }

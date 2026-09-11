@@ -9,8 +9,8 @@
 #ifndef __acdriver_Compile_AppIconSet_h
 #define __acdriver_Compile_AppIconSet_h
 
-#include <xcassets/Asset/Asset.h>
 #include <xcassets/Asset/AppIconSet.h>
+#include <xcassets/Asset/Asset.h>
 
 #include <memory>
 
@@ -23,15 +23,13 @@ namespace Compile {
 class Output;
 
 class AppIconSet {
-private:
-    AppIconSet();
-    ~AppIconSet();
+    private:
+	AppIconSet();
+	~AppIconSet();
 
-public:
-    static bool Compile(
-        xcassets::Asset::AppIconSet const *appIconSet,
-        Output *compileOutput,
-        Result *result);
+    public:
+	static bool Compile(xcassets::Asset::AppIconSet const *appIconSet,
+	    Output *compileOutput, Result *result);
 };
 
 }

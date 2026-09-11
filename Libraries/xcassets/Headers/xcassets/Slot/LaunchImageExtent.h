@@ -19,25 +19,25 @@ namespace Slot {
  * The visual extent of a launch image.
  */
 enum class LaunchImageExtent {
-    ToStatusBar,
-    FullScreen,
+	ToStatusBar,
+	FullScreen,
 };
 
 class LaunchImageExtents {
-private:
-    LaunchImageExtents();
-    ~LaunchImageExtents();
+    private:
+	LaunchImageExtents();
+	~LaunchImageExtents();
 
-public:
-    /*
-     * Parse an extent from a string.
-     */
-    static ext::optional<LaunchImageExtent> Parse(std::string const &value);
+    public:
+	/*
+	 * Parse an extent from a string.
+	 */
+	static ext::optional<LaunchImageExtent> Parse(std::string const &value);
 
-    /*
-     * Convert an extent to a string.
-     */
-    static std::string String(LaunchImageExtent extent);
+	/*
+	 * Convert an extent to a string.
+	 */
+	static std::string String(LaunchImageExtent extent);
 };
 
 }

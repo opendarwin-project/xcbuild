@@ -18,28 +18,29 @@ namespace xcassets {
  * The way an image is rendered.
  */
 enum class TemplateRenderingIntent {
-    Original,
-    Template,
+	Original,
+	Template,
 };
 
 class TemplateRenderingIntents {
-private:
-    TemplateRenderingIntents();
-    ~TemplateRenderingIntents();
+    private:
+	TemplateRenderingIntents();
+	~TemplateRenderingIntents();
 
-public:
-    /*
-     * Parse a matching template rendering intent from a string, if valid.
-     */
-    static ext::optional<TemplateRenderingIntent> Parse(std::string const &value);
+    public:
+	/*
+	 * Parse a matching template rendering intent from a string, if valid.
+	 */
+	static ext::optional<TemplateRenderingIntent> Parse(
+	    std::string const &value);
 
-    /*
-     * Convert an template rendering intent to a string.
-     */
-    static std::string String(TemplateRenderingIntent templateRenderingIntent);
+	/*
+	 * Convert an template rendering intent to a string.
+	 */
+	static std::string String(
+	    TemplateRenderingIntent templateRenderingIntent);
 };
 
 }
 
 #endif // !__xcassets_TemplateRenderingIntent_h
-

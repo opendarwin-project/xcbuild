@@ -10,12 +10,6 @@
 
 namespace Tool = pbxbuild::Tool;
 
-Tool::HeadermapInfo::
-HeadermapInfo()
-{
-}
+Tool::HeadermapInfo::HeadermapInfo() { }
 
-Tool::HeadermapInfo::
-~HeadermapInfo()
-{
-}
+Tool::HeadermapInfo::~HeadermapInfo() { }

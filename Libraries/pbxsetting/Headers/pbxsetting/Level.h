@@ -13,9 +13,9 @@
 #include <pbxsetting/Setting.h>
 #include <pbxsetting/Value.h>
 
-#include <vector>
-#include <utility>
 #include <memory>
+#include <utility>
+#include <vector>
 
 namespace pbxsetting {
 
@@ -25,32 +25,31 @@ namespace pbxsetting {
  * other in order but *between* levels can refer to previous bindings.
  */
 class Level {
-private:
-    std::shared_ptr<std::vector<Setting>> _settings;
+    private:
+	std::shared_ptr<std::vector<Setting>> _settings;
 
-public:
-    /*
-     * Creates a level with the given settings.
-     */
-    Level(std::vector<Setting> const &settings);
-    ~Level();
+    public:
+	/*
+	 * Creates a level with the given settings.
+	 */
+	Level(std::vector<Setting> const &settings);
+	~Level();
 
-public:
-    /*
-     * The settings in the level.
-     */
-    std::vector<Setting> const &settings() const
-    { return *_settings; }
+    public:
+	/*
+	 * The settings in the level.
+	 */
+	std::vector<Setting> const &settings() const { return *_settings; }
 
-public:
-    /*
-     * Fetches a setting from a level. Fails if the setting is not bound
-     * in this level, or is bound but for a condition that doesn't match.
-     */
-    std::pair<bool, Value>
-    get(std::string const &setting, Condition const &condition) const;
+    public:
+	/*
+	 * Fetches a setting from a level. Fails if the setting is not bound
+	 * in this level, or is bound but for a condition that doesn't match.
+	 */
+	std::pair<bool, Value> get(
+	    std::string const &setting, Condition const &condition) const;
 };
 
 }
 
-#endif  // !__pbxsetting_Level_h
+#endif // !__pbxsetting_Level_h

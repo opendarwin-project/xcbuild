@@ -6,35 +6,35 @@
  LICENSE file in the root directory of this source tree.
  */
 
-#include <pbxbuild/Phase/LegacyTargetResolver.h>
-#include <pbxbuild/Phase/Environment.h>
 #include <pbxbuild/Phase/Context.h>
+#include <pbxbuild/Phase/Environment.h>
+#include <pbxbuild/Phase/LegacyTargetResolver.h>
 #include <pbxbuild/Tool/ScriptResolver.h>
 
 namespace Phase = pbxbuild::Phase;
 namespace Tool = pbxbuild::Tool;
 
-Phase::LegacyTargetResolver::
-LegacyTargetResolver(pbxproj::PBX::LegacyTarget::shared_ptr const &legacyTarget) :
-    _legacyTarget(legacyTarget)
+Phase::LegacyTargetResolver::LegacyTargetResolver(
+    pbxproj::PBX::LegacyTarget::shared_ptr const &legacyTarget)
+    : _legacyTarget(legacyTarget)
 {
 }
 
-Phase::LegacyTargetResolver::
-~LegacyTargetResolver()
+Phase::LegacyTargetResolver::~LegacyTargetResolver() { }
+
+bool Phase::LegacyTargetResolver::resolve(
+    Phase::Environment const &phaseEnvironment, Phase::Context *phaseContext)
 {
-}
+	Tool::ScriptResolver const *scriptResolver =
+	    phaseContext->scriptResolver(phaseEnvironment);
+	if (scriptResolver == nullptr) {
+		return false;
+	}
 
-bool Phase::LegacyTargetResolver::
-resolve(Phase::Environment const &phaseEnvironment, Phase::Context *phaseContext)
-{
-    Tool::ScriptResolver const *scriptResolver = phaseContext->scriptResolver(phaseEnvironment);
-    if (scriptResolver == nullptr) {
-        return false;
-    }
+	pbxsetting::Environment const &environment =
+	    phaseEnvironment.targetEnvironment().environment();
 
-    pbxsetting::Environment const &environment = phaseEnvironment.targetEnvironment().environment();
-
-    scriptResolver->resolve(&phaseContext->toolContext(), environment, _legacyTarget);
-    return true;
+	scriptResolver->resolve(
+	    &phaseContext->toolContext(), environment, _legacyTarget);
+	return true;
 }

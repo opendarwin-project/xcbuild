@@ -11,30 +11,31 @@
 
 #include <pbxproj/PBX/Target.h>
 
-namespace pbxproj { namespace PBX {
+namespace pbxproj {
+namespace PBX {
 
 class AggregateTarget : public Target {
-public:
-    typedef std::shared_ptr <AggregateTarget> shared_ptr;
+    public:
+	typedef std::shared_ptr<AggregateTarget> shared_ptr;
 
-private:
-    std::string  _productName;
+    private:
+	std::string _productName;
 
-public:
-    AggregateTarget();
+    public:
+	AggregateTarget();
 
-public:
-    inline std::string const &productName() const
-    { return _productName; }
+    public:
+	inline std::string const &productName() const { return _productName; }
 
-protected:
-    bool parse(Context &context, plist::Dictionary const *dict, std::unordered_set<std::string> *seen, bool check) override;
+    protected:
+	bool parse(Context &context, plist::Dictionary const *dict,
+	    std::unordered_set<std::string> *seen, bool check) override;
 
-public:
-    static inline char const *Isa()
-    { return ISA::PBXAggregateTarget; }
+    public:
+	static inline char const *Isa() { return ISA::PBXAggregateTarget; }
 };
 
-} }
+}
+}
 
-#endif  // !__pbxproj_PBX_AggregateTarget_h
+#endif // !__pbxproj_PBX_AggregateTarget_h

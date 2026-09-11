@@ -18,25 +18,26 @@ namespace xcassets {
  * The interpretation of the texture.
  */
 enum class TextureInterpretation {
-    Colors,
-    Data,
+	Colors,
+	Data,
 };
 
 class TextureInterpretations {
-private:
-    TextureInterpretations();
-    ~TextureInterpretations();
+    private:
+	TextureInterpretations();
+	~TextureInterpretations();
 
-public:
-    /*
-     * Parse a matching texture interpretation from a string, if valid.
-     */
-    static ext::optional<TextureInterpretation> Parse(std::string const &value);
+    public:
+	/*
+	 * Parse a matching texture interpretation from a string, if valid.
+	 */
+	static ext::optional<TextureInterpretation> Parse(
+	    std::string const &value);
 
-    /*
-     * Convert an texture interpretation to a string.
-     */
-    static std::string String(TextureInterpretation textureInterpretation);
+	/*
+	 * Convert an texture interpretation to a string.
+	 */
+	static std::string String(TextureInterpretation textureInterpretation);
 };
 
 }

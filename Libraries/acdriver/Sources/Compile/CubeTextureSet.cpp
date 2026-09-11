@@ -11,24 +11,18 @@
 #include <acdriver/Result.h>
 #include <libutil/Filesystem.h>
 
+using acdriver::Result;
 using acdriver::Compile::CubeTextureSet;
 using acdriver::Compile::Output;
-using acdriver::Result;
 using libutil::Filesystem;
 
-bool CubeTextureSet::
-Compile(
+bool CubeTextureSet::Compile(
     xcassets::Asset::CubeTextureSet const *cubeTextureSet,
-    Filesystem *filesystem,
-    Output *compileOutput,
-    Result *result)
+    Filesystem *filesystem, Output *compileOutput, Result *result)
 {
-    result->document(
-        Result::Severity::Warning,
-        cubeTextureSet->path(),
-        { Output::AssetReference(cubeTextureSet) },
-        "Not Implemented",
-        "cube texture set not yet supported");
+	result->document(Result::Severity::Warning, cubeTextureSet->path(),
+	    { Output::AssetReference(cubeTextureSet) }, "Not Implemented",
+	    "cube texture set not yet supported");
 
-    return false;
+	return false;
 }

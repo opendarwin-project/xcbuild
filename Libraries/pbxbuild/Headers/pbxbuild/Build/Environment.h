@@ -15,9 +15,15 @@
 
 #include <ext/optional>
 
-namespace libutil { class Filesystem; }
-namespace process { class Context; }
-namespace process { class User; }
+namespace libutil {
+class Filesystem;
+}
+namespace process {
+class Context;
+}
+namespace process {
+class User;
+}
 
 namespace pbxbuild {
 namespace Build {
@@ -27,55 +33,60 @@ namespace Build {
  * are not tied to the build but are used across the build.
  */
 class Environment {
-private:
-    pbxspec::Manager::shared_ptr         _specManager;
-    std::shared_ptr<xcsdk::SDK::Manager> _sdkManager;
-    pbxsetting::Environment              _baseEnvironment;
-    std::vector<std::string>             _baseExecutablePaths;
+    private:
+	pbxspec::Manager::shared_ptr _specManager;
+	std::shared_ptr<xcsdk::SDK::Manager> _sdkManager;
+	pbxsetting::Environment _baseEnvironment;
+	std::vector<std::string> _baseExecutablePaths;
 
-public:
-    Environment(
-        pbxspec::Manager::shared_ptr const &specManager,
-        std::shared_ptr<xcsdk::SDK::Manager> const &sdkManager,
-        pbxsetting::Environment const &baseEnvironment,
-        std::vector<std::string> const &baseExecutablePaths);
+    public:
+	Environment(pbxspec::Manager::shared_ptr const &specManager,
+	    std::shared_ptr<xcsdk::SDK::Manager> const &sdkManager,
+	    pbxsetting::Environment const &baseEnvironment,
+	    std::vector<std::string> const &baseExecutablePaths);
 
-public:
-    /*
-     * The specification manager and specifications for the build.
-     */
-    pbxspec::Manager::shared_ptr const &specManager() const
-    { return _specManager; }
+    public:
+	/*
+	 * The specification manager and specifications for the build.
+	 */
+	pbxspec::Manager::shared_ptr const &specManager() const
+	{
+		return _specManager;
+	}
 
-    /*
-     * The SDK manager for the build.
-     */
-    std::shared_ptr<xcsdk::SDK::Manager> const &sdkManager() const
-    { return _sdkManager; }
+	/*
+	 * The SDK manager for the build.
+	 */
+	std::shared_ptr<xcsdk::SDK::Manager> const &sdkManager() const
+	{
+		return _sdkManager;
+	}
 
-public:
-    /*
-     * The base environment from the system.
-     */
-    pbxsetting::Environment const &baseEnvironment() const
-    { return _baseEnvironment; }
+    public:
+	/*
+	 * The base environment from the system.
+	 */
+	pbxsetting::Environment const &baseEnvironment() const
+	{
+		return _baseEnvironment;
+	}
 
-    /*
-     * The base executable paths from the system.
-     */
-    std::vector<std::string> const &baseExecutablePaths() const
-    { return _baseExecutablePaths; }
+	/*
+	 * The base executable paths from the system.
+	 */
+	std::vector<std::string> const &baseExecutablePaths() const
+	{
+		return _baseExecutablePaths;
+	}
 
-public:
-    /*
-     * Creates a build environment from the default configuration
-     * of each of the build environment's subcomponents.
-     */
-    static ext::optional<Environment>
-    Default(
-        process::User const *user,
-        process::Context const *processContext,
-        libutil::Filesystem const *filesystem);
+    public:
+	/*
+	 * Creates a build environment from the default configuration
+	 * of each of the build environment's subcomponents.
+	 */
+	static ext::optional<Environment> Default(process::User const *user,
+	    process::Context const *processContext,
+	    libutil::Filesystem const *filesystem);
 };
 
 }

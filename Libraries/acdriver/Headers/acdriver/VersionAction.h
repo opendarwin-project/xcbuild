@@ -19,12 +19,12 @@ class Result;
  * Prints the version of the compiler.
  */
 class VersionAction {
-public:
-    VersionAction();
-    ~VersionAction();
+    public:
+	VersionAction();
+	~VersionAction();
 
-public:
-    void run(Options const &options, Output *output, Result *result);
+    public:
+	void run(Options const &options, Output *output, Result *result);
 };
 
 }

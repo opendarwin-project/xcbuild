@@ -20,80 +20,78 @@ namespace ninja {
  * considered for escaping. It may or may not be actually escaped.
  */
 struct Value {
-private:
-    struct Chunk {
-    public:
-        enum class Type {
-            String,
-            Expression,
-        };
+    private:
+	struct Chunk {
+	    public:
+		enum class Type {
+			String,
+			Expression,
+		};
+
+	    private:
+		Type _type;
+		std::string _value;
+
+	    public:
+		Chunk(Type type, std::string const &value);
+
+	    public:
+		bool operator==(Chunk const &rhs) const;
+		bool operator!=(Chunk const &rhs) const;
+
+	    public:
+		Type type() const { return _type; }
+		std::string const &value() const { return _value; }
+	};
 
     private:
-        Type        _type;
-        std::string _value;
+	std::vector<Chunk> _chunks;
+
+    private:
+	explicit Value(std::vector<Chunk> const &chunks);
 
     public:
-        Chunk(Type type, std::string const &value);
+	bool operator==(Value const &rhs) const;
+	bool operator!=(Value const &rhs) const;
+	Value operator+(Value const &rhs) const;
 
     public:
-        bool operator==(Chunk const &rhs) const;
-        bool operator!=(Chunk const &rhs) const;
+	enum class EscapeMode {
+		/*
+		 * Escape for a binding value.
+		 */
+		Value,
+		/*
+		 * Escape for a list of paths.
+		 */
+		PathList,
+		/*
+		 * Escape for a path list in a `build` command.
+		 */
+		BuildPathList,
+	};
 
     public:
-        Type type() const
-        { return _type; }
-        std::string const &value() const
-        { return _value; }
-    };
+	/*
+	 * The value to put in the Ninja file.
+	 */
+	std::string resolve(EscapeMode mode) const;
 
-private:
-    std::vector<Chunk> _chunks;
+    public:
+	/*
+	 * Create an empty Ninja value.
+	 */
+	static Value Empty();
 
-private:
-    explicit Value(std::vector<Chunk> const &chunks);
+	/*
+	 * Create a Ninja value by escpaing a string.
+	 */
+	static Value String(std::string const &string);
 
-public:
-    bool operator==(Value const &rhs) const;
-    bool operator!=(Value const &rhs) const;
-    Value operator+(Value const &rhs) const;
-
-public:
-    enum class EscapeMode {
-        /*
-         * Escape for a binding value.
-         */
-        Value,
-        /*
-         * Escape for a list of paths.
-         */
-        PathList,
-        /*
-         * Escape for a path list in a `build` command.
-         */
-        BuildPathList,
-    };
-
-public:
-    /*
-     * The value to put in the Ninja file.
-     */
-    std::string resolve(EscapeMode mode) const;
-
-public:
-    /*
-     * Create an empty Ninja value.
-     */
-    static Value Empty();
-
-    /*
-     * Create a Ninja value by escpaing a string.
-     */
-    static Value String(std::string const &string);
-
-    /*
-     * Create a Ninja value from a raw, unescaped expression.
-     */
-    static Value Expression(std::string const &expression);
+	/*
+	 * Create a Ninja value from a raw, unescaped expression.
+	 */
+	static Value Expression(std::string const &expression);
 };
 
 /*

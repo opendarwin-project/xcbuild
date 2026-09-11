@@ -9,22 +9,22 @@
 #ifndef __plist_Format_JSON_h
 #define __plist_Format_JSON_h
 
+#include <plist/Format/Encoding.h>
 #include <plist/Format/Format.h>
 #include <plist/Format/Type.h>
-#include <plist/Format/Encoding.h>
 
 namespace plist {
 namespace Format {
 
 class JSON : public Format<JSON> {
-private:
-    JSON();
+    private:
+	JSON();
 
-public:
-    static JSON Create();
+    public:
+	static JSON Create();
 };
 
 }
 }
 
-#endif  // !__plist_Format_JSON_h
+#endif // !__plist_Format_JSON_h

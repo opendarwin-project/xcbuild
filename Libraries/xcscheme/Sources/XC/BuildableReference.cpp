@@ -6,69 +6,68 @@
  LICENSE file in the root directory of this source tree.
  */
 
-#include <xcscheme/XC/BuildableReference.h>
-#include <xcscheme/SchemeGroup.h>
 #include <plist/Dictionary.h>
 #include <plist/String.h>
+#include <xcscheme/SchemeGroup.h>
+#include <xcscheme/XC/BuildableReference.h>
 
-using xcscheme::XC::BuildableReference;
 using xcscheme::SchemeGroup;
+using xcscheme::XC::BuildableReference;
 
-BuildableReference::
-BuildableReference()
+BuildableReference::BuildableReference() { }
+
+std::string BuildableReference::resolve(
+    std::shared_ptr<SchemeGroup> const &container) const
 {
+	std::string referencedContainer = _referencedContainer.empty()
+	    ? ""
+	    : "/" + _referencedContainer;
+
+	if (_referencedContainerType == "container") {
+		return container->basePath() + referencedContainer;
+	} else if (_referencedContainerType == "absolute") {
+		return referencedContainer;
+	} else if (_referencedContainerType == "developer") {
+		// TODO(grp): Look in DEVELOPER_DIR.
+		return referencedContainer;
+	} else {
+		fprintf(stderr, "error: unknown container type %s\n",
+		    _referencedContainerType.c_str());
+		return referencedContainer;
+	}
 }
 
-std::string BuildableReference::
-resolve(std::shared_ptr<SchemeGroup> const &container) const
+bool BuildableReference::parse(plist::Dictionary const *dict)
 {
-    std::string referencedContainer = _referencedContainer.empty() ? "" : "/" + _referencedContainer;
+	auto BlI = dict->value<plist::String>("BlueprintIdentifier");
+	auto BlN = dict->value<plist::String>("BlueprintName");
+	auto BuI = dict->value<plist::String>("BuildableIdentifier");
+	auto BuN = dict->value<plist::String>("BuildableName");
+	auto RC = dict->value<plist::String>("ReferencedContainer");
 
-    if (_referencedContainerType == "container") {
-        return container->basePath() + referencedContainer;
-    } else if (_referencedContainerType == "absolute") {
-        return referencedContainer;
-    } else if (_referencedContainerType == "developer") {
-        // TODO(grp): Look in DEVELOPER_DIR.
-        return referencedContainer;
-    } else {
-        fprintf(stderr, "error: unknown container type %s\n", _referencedContainerType.c_str());
-        return referencedContainer;
-    }
-}
+	if (BlI != nullptr) {
+		_blueprintIdentifier = BlI->value();
+	}
 
-bool BuildableReference::
-parse(plist::Dictionary const *dict)
-{
-    auto BlI = dict->value <plist::String> ("BlueprintIdentifier");
-    auto BlN = dict->value <plist::String> ("BlueprintName");
-    auto BuI = dict->value <plist::String> ("BuildableIdentifier");
-    auto BuN = dict->value <plist::String> ("BuildableName");
-    auto RC  = dict->value <plist::String> ("ReferencedContainer");
+	if (BlN != nullptr) {
+		_blueprintName = BlN->value();
+	}
 
-    if (BlI != nullptr) {
-        _blueprintIdentifier = BlI->value();
-    }
+	if (BuI != nullptr) {
+		_buildableIdentifier = BuI->value();
+	}
 
-    if (BlN != nullptr) {
-        _blueprintName = BlN->value();
-    }
+	if (BuN != nullptr) {
+		_buildableName = BuN->value();
+	}
 
-    if (BuI != nullptr) {
-        _buildableIdentifier = BuI->value();
-    }
+	if (RC != nullptr) {
+		std::string location = RC->value();
+		size_t colon = location.find(':');
 
-    if (BuN != nullptr) {
-        _buildableName = BuN->value();
-    }
+		_referencedContainerType = location.substr(0, colon);
+		_referencedContainer = location.substr(colon + 1);
+	}
 
-    if (RC != nullptr) {
-        std::string location = RC->value();
-        size_t      colon    = location.find(':');
-
-        _referencedContainerType = location.substr(0, colon);
-        _referencedContainer     = location.substr(colon + 1);
-    }
-
-    return true;
+	return true;
 }

@@ -10,13 +10,6 @@
 
 using builtin::Driver;
 
-Driver::
-Driver()
-{
-}
+Driver::Driver() { }
 
-Driver::
-~Driver()
-{
-}
-
+Driver::~Driver() { }

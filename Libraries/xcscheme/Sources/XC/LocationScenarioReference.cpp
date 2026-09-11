@@ -6,31 +6,29 @@
  LICENSE file in the root directory of this source tree.
  */
 
-#include <xcscheme/XC/LocationScenarioReference.h>
 #include <plist/Dictionary.h>
 #include <plist/String.h>
+#include <xcscheme/XC/LocationScenarioReference.h>
 
 using xcscheme::XC::LocationScenarioReference;
 
-LocationScenarioReference::
-LocationScenarioReference() :
-    _referenceType(0)
+LocationScenarioReference::LocationScenarioReference()
+    : _referenceType(0)
 {
 }
 
-bool LocationScenarioReference::
-parse(plist::Dictionary const *dict)
+bool LocationScenarioReference::parse(plist::Dictionary const *dict)
 {
-    auto I  = dict->value <plist::String> ("identifier");
-    auto RT = dict->value <plist::String> ("referenceType");
+	auto I = dict->value<plist::String>("identifier");
+	auto RT = dict->value<plist::String>("referenceType");
 
-    if (I != nullptr) {
-        _identifier = I->value();
-    }
+	if (I != nullptr) {
+		_identifier = I->value();
+	}
 
-    if (RT != nullptr) {
-        _referenceType = std::stoi(RT->value());
-    }
+	if (RT != nullptr) {
+		_referenceType = std::stoi(RT->value());
+	}
 
-    return true;
+	return true;
 }

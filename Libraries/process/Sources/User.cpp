@@ -10,13 +10,6 @@
 
 using process::User;
 
-User::
-User()
-{
-}
+User::User() { }
 
-User::
-~User()
-{
-}
-
+User::~User() { }

@@ -12,49 +12,45 @@
 #include <libutil/Options.h>
 
 #include <string>
-#include <vector>
 #include <utility>
+#include <vector>
 
 namespace builtin {
 namespace productPackagingUtility {
 
 class Options {
-private:
-    ext::optional<std::string> _input;
-    ext::optional<std::string> _output;
+    private:
+	ext::optional<std::string> _input;
+	ext::optional<std::string> _output;
 
-private:
-    ext::optional<bool>        _removeFile;
-    ext::optional<bool>        _entitlements;
-    ext::optional<bool>        _resourceRules;
+    private:
+	ext::optional<bool> _removeFile;
+	ext::optional<bool> _entitlements;
+	ext::optional<bool> _resourceRules;
 
-private:
-    ext::optional<std::string> _format;
+    private:
+	ext::optional<std::string> _format;
 
-public:
-    Options();
-    ~Options();
+    public:
+	Options();
+	~Options();
 
-public:
-    ext::optional<std::string> const &input() const
-    { return _input; }
-    ext::optional<std::string> const &output() const
-    { return _output; }
+    public:
+	ext::optional<std::string> const &input() const { return _input; }
+	ext::optional<std::string> const &output() const { return _output; }
 
-private:
-    bool removeFile() const
-    { return _removeFile.value_or(false); }
-    bool entitlements() const
-    { return _entitlements.value_or(false); }
+    private:
+	bool removeFile() const { return _removeFile.value_or(false); }
+	bool entitlements() const { return _entitlements.value_or(false); }
 
-public:
-    ext::optional<std::string> const &format() const
-    { return _format; }
+    public:
+	ext::optional<std::string> const &format() const { return _format; }
 
-private:
-    friend class libutil::Options;
-    std::pair<bool, std::string>
-    parseArgument(std::vector<std::string> const &args, std::vector<std::string>::const_iterator *it);
+    private:
+	friend class libutil::Options;
+	std::pair<bool, std::string> parseArgument(
+	    std::vector<std::string> const &args,
+	    std::vector<std::string>::const_iterator *it);
 };
 
 }

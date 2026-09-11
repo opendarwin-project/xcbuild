@@ -6,47 +6,48 @@
  LICENSE file in the root directory of this source tree.
  */
 
-#include <pbxbuild/Tool/DittoResolver.h>
-#include <pbxbuild/Tool/Context.h>
 #include <libutil/FSUtil.h>
+#include <pbxbuild/Tool/Context.h>
+#include <pbxbuild/Tool/DittoResolver.h>
 
 namespace Tool = pbxbuild::Tool;
 using libutil::FSUtil;
 
-Tool::DittoResolver::
-DittoResolver(pbxspec::PBX::Tool::shared_ptr const &tool) :
-    _tool(tool)
+Tool::DittoResolver::DittoResolver(pbxspec::PBX::Tool::shared_ptr const &tool)
+    : _tool(tool)
 {
 }
 
-void Tool::DittoResolver::
-resolve(
-    Tool::Context *toolContext,
-    std::string const &sourcePath,
-    std::string const &targetPath) const
+void Tool::DittoResolver::resolve(Tool::Context *toolContext,
+    std::string const &sourcePath, std::string const &targetPath) const
 {
-    std::string logMessage = "Ditto " + targetPath + " " + sourcePath;
+	std::string logMessage = "Ditto " + targetPath + " " + sourcePath;
 
-    Tool::Invocation invocation;
-    invocation.executable() = Tool::Invocation::Executable::External("/usr/bin/ditto"); // TODO(grp): Ditto is not portable.
-    invocation.arguments() = { "-rsrc", sourcePath, targetPath };
-    invocation.workingDirectory() = toolContext->workingDirectory();
-    invocation.inputs() = { FSUtil::ResolveRelativePath(sourcePath, toolContext->workingDirectory()) };
-    invocation.outputs() = { FSUtil::ResolveRelativePath(targetPath, toolContext->workingDirectory()) };
-    invocation.logMessage() = logMessage;
-    invocation.priority() = toolContext->currentPhaseInvocationPriority();
-    toolContext->invocations().push_back(invocation);
+	Tool::Invocation invocation;
+	invocation.executable() = Tool::Invocation::Executable::External(
+	    "/usr/bin/ditto"); // TODO(grp): Ditto is not portable.
+	invocation.arguments() = { "-rsrc", sourcePath, targetPath };
+	invocation.workingDirectory() = toolContext->workingDirectory();
+	invocation.inputs() = { FSUtil::ResolveRelativePath(
+	    sourcePath, toolContext->workingDirectory()) };
+	invocation.outputs() = { FSUtil::ResolveRelativePath(
+	    targetPath, toolContext->workingDirectory()) };
+	invocation.logMessage() = logMessage;
+	invocation.priority() = toolContext->currentPhaseInvocationPriority();
+	toolContext->invocations().push_back(invocation);
 }
 
-std::unique_ptr<Tool::DittoResolver> Tool::DittoResolver::
-Create(pbxspec::Manager::shared_ptr const &specManager, std::vector<std::string> const &specDomains)
+std::unique_ptr<Tool::DittoResolver> Tool::DittoResolver::Create(
+    pbxspec::Manager::shared_ptr const &specManager,
+    std::vector<std::string> const &specDomains)
 {
-    pbxspec::PBX::Tool::shared_ptr dittoTool = specManager->tool(Tool::DittoResolver::ToolIdentifier(), specDomains);
-    if (dittoTool == nullptr) {
-        fprintf(stderr, "warning: could not find ditto tool\n");
-        return nullptr;
-    }
+	pbxspec::PBX::Tool::shared_ptr dittoTool = specManager->tool(
+	    Tool::DittoResolver::ToolIdentifier(), specDomains);
+	if (dittoTool == nullptr) {
+		fprintf(stderr, "warning: could not find ditto tool\n");
+		return nullptr;
+	}
 
-    return std::unique_ptr<Tool::DittoResolver>(new Tool::DittoResolver(dittoTool));
+	return std::unique_ptr<Tool::DittoResolver>(
+	    new Tool::DittoResolver(dittoTool));
 }
-

@@ -9,35 +9,33 @@
 #ifndef __plist_Format_ASCII_h
 #define __plist_Format_ASCII_h
 
+#include <plist/Format/Encoding.h>
 #include <plist/Format/Format.h>
 #include <plist/Format/Type.h>
-#include <plist/Format/Encoding.h>
 
 namespace plist {
 namespace Format {
 
 class ASCII : public Format<ASCII> {
-private:
-    bool     _strings;
-    Encoding _encoding;
+    private:
+	bool _strings;
+	Encoding _encoding;
 
-private:
-    ASCII(bool strings, Encoding encoding);
+    private:
+	ASCII(bool strings, Encoding encoding);
 
-public:
-    static Type FormatType();
+    public:
+	static Type FormatType();
 
-public:
-    inline bool strings() const
-    { return _strings; }
-    inline Encoding encoding() const
-    { return _encoding; }
+    public:
+	inline bool strings() const { return _strings; }
+	inline Encoding encoding() const { return _encoding; }
 
-public:
-    static ASCII Create(bool strings, Encoding encoding);
+    public:
+	static ASCII Create(bool strings, Encoding encoding);
 };
 
 }
 }
 
-#endif  // !__plist_Format_ASCII_h
+#endif // !__plist_Format_ASCII_h

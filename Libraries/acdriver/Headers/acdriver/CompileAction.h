@@ -9,7 +9,9 @@
 #ifndef __acdriver_CompileAction_h
 #define __acdriver_CompileAction_h
 
-namespace libutil { class Filesystem; }
+namespace libutil {
+class Filesystem;
+}
 
 namespace acdriver {
 
@@ -21,12 +23,13 @@ class Result;
  * Compiles an asset catalog.
  */
 class CompileAction {
-public:
-    CompileAction();
-    ~CompileAction();
+    public:
+	CompileAction();
+	~CompileAction();
 
-public:
-    void run(libutil::Filesystem *filesystem, Options const &options, Output *output, Result *result);
+    public:
+	void run(libutil::Filesystem *filesystem, Options const &options,
+	    Output *output, Result *result);
 };
 
 }

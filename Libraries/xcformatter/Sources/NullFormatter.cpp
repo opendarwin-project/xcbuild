@@ -6,124 +6,118 @@
  LICENSE file in the root directory of this source tree.
  */
 
-#include <xcformatter/NullFormatter.h>
-#include <pbxbuild/Tool/Invocation.h>
 #include <pbxbuild/Build/Context.h>
+#include <pbxbuild/Tool/Invocation.h>
+#include <xcformatter/NullFormatter.h>
 
 #include <algorithm>
 
 using xcformatter::NullFormatter;
 
-NullFormatter::
-NullFormatter() :
-    Formatter()
+NullFormatter::NullFormatter()
+    : Formatter()
 {
 }
 
-NullFormatter::
-~NullFormatter()
+NullFormatter::~NullFormatter() { }
+
+std::string NullFormatter::begin(pbxbuild::Build::Context const &buildContext)
 {
+	return std::string();
 }
 
-std::string NullFormatter::
-begin(pbxbuild::Build::Context const &buildContext)
+std::string NullFormatter::success(pbxbuild::Build::Context const &buildContext)
 {
-    return std::string();
+	return std::string();
 }
 
-std::string NullFormatter::
-success(pbxbuild::Build::Context const &buildContext)
+std::string NullFormatter::failure(pbxbuild::Build::Context const &buildContext,
+    std::vector<pbxbuild::Tool::Invocation> const &failingInvocations)
 {
-    return std::string();
+	return std::string();
 }
 
-std::string NullFormatter::
-failure(pbxbuild::Build::Context const &buildContext, std::vector<pbxbuild::Tool::Invocation> const &failingInvocations)
+std::string NullFormatter::beginTarget(
+    pbxbuild::Build::Context const &buildContext,
+    pbxproj::PBX::Target::shared_ptr const &target)
 {
-    return std::string();
+	return std::string();
 }
 
-std::string NullFormatter::
-beginTarget(pbxbuild::Build::Context const &buildContext, pbxproj::PBX::Target::shared_ptr const &target)
+std::string NullFormatter::finishTarget(
+    pbxbuild::Build::Context const &buildContext,
+    pbxproj::PBX::Target::shared_ptr const &target)
 {
-    return std::string();
+	return std::string();
 }
 
-std::string NullFormatter::
-finishTarget(pbxbuild::Build::Context const &buildContext, pbxproj::PBX::Target::shared_ptr const &target)
+std::string NullFormatter::beginCheckDependencies(
+    pbxproj::PBX::Target::shared_ptr const &target)
 {
-    return std::string();
+	return std::string();
 }
 
-std::string NullFormatter::
-beginCheckDependencies(pbxproj::PBX::Target::shared_ptr const &target)
+std::string NullFormatter::finishCheckDependencies(
+    pbxproj::PBX::Target::shared_ptr const &target)
 {
-    return std::string();
+	return std::string();
 }
 
-std::string NullFormatter::
-finishCheckDependencies(pbxproj::PBX::Target::shared_ptr const &target)
+std::string NullFormatter::beginWriteAuxiliaryFiles(
+    pbxproj::PBX::Target::shared_ptr const &target)
 {
-    return std::string();
+	return std::string();
 }
 
-std::string NullFormatter::
-beginWriteAuxiliaryFiles(pbxproj::PBX::Target::shared_ptr const &target)
+std::string NullFormatter::createAuxiliaryDirectory(
+    std::string const &directory)
 {
-    return std::string();
+	return std::string();
 }
 
-std::string NullFormatter::
-createAuxiliaryDirectory(std::string const &directory)
+std::string NullFormatter::writeAuxiliaryFile(std::string const &file)
 {
-    return std::string();
+	return std::string();
 }
 
-std::string NullFormatter::
-writeAuxiliaryFile(std::string const &file)
+std::string NullFormatter::setAuxiliaryExecutable(std::string const &file)
 {
-    return std::string();
+	return std::string();
 }
 
-std::string NullFormatter::
-setAuxiliaryExecutable(std::string const &file)
+std::string NullFormatter::finishWriteAuxiliaryFiles(
+    pbxproj::PBX::Target::shared_ptr const &target)
 {
-    return std::string();
+	return std::string();
 }
 
-std::string NullFormatter::
-finishWriteAuxiliaryFiles(pbxproj::PBX::Target::shared_ptr const &target)
+std::string NullFormatter::beginCreateProductStructure(
+    pbxproj::PBX::Target::shared_ptr const &target)
 {
-    return std::string();
+	return std::string();
 }
 
-std::string NullFormatter::
-beginCreateProductStructure(pbxproj::PBX::Target::shared_ptr const &target)
+std::string NullFormatter::finishCreateProductStructure(
+    pbxproj::PBX::Target::shared_ptr const &target)
 {
-    return std::string();
+	return std::string();
 }
 
-std::string NullFormatter::
-finishCreateProductStructure(pbxproj::PBX::Target::shared_ptr const &target)
+std::string NullFormatter::beginInvocation(
+    pbxbuild::Tool::Invocation const &invocation, std::string const &executable,
+    bool simple)
 {
-    return std::string();
+	return std::string();
 }
 
-std::string NullFormatter::
-beginInvocation(pbxbuild::Tool::Invocation const &invocation, std::string const &executable, bool simple)
+std::string NullFormatter::finishInvocation(
+    pbxbuild::Tool::Invocation const &invocation, std::string const &executable,
+    bool simple)
 {
-    return std::string();
+	return std::string();
 }
 
-std::string NullFormatter::
-finishInvocation(pbxbuild::Tool::Invocation const &invocation, std::string const &executable, bool simple)
+std::shared_ptr<NullFormatter> NullFormatter::Create()
 {
-    return std::string();
+	return std::make_shared<NullFormatter>();
 }
-
-std::shared_ptr<NullFormatter> NullFormatter::
-Create()
-{
-    return std::make_shared<NullFormatter>();
-}
-

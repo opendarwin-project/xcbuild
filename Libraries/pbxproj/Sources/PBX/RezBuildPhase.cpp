@@ -10,8 +10,7 @@
 
 using pbxproj::PBX::RezBuildPhase;
 
-RezBuildPhase::
-RezBuildPhase() :
-    BuildPhase(Isa(), Type::Rez)
+RezBuildPhase::RezBuildPhase()
+    : BuildPhase(Isa(), Type::Rez)
 {
 }

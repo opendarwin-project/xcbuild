@@ -10,43 +10,32 @@
 #define __libutil_Base_h
 
 #include <algorithm>
+#include <cctype>
 #include <functional>
 #include <memory>
+#include <ranges>
 #include <string>
-#include <cctype>
+#include <string_view>
 
 namespace libutil {
 
-// trim from start
-static inline std::string &ltrim(std::string &s)
+static inline std::string trim(std::string_view s)
 {
-    s.erase(s.begin(), std::find_if(s.begin(), s.end(),
-                std::not1(std::ptr_fun<int, int>(::isspace))));
-    return s;
+	auto is_space = [](unsigned char ch) { return std::isspace(ch); };
+	auto trimmed = s | std::views::drop_while(is_space) |
+	    std::views::reverse | std::views::drop_while(is_space) |
+	    std::views::reverse;
+
+	return std::ranges::to<std::string>(trimmed);
 }
 
-// trim from end
-static inline std::string &rtrim(std::string &s)
+template <typename T, typename U>
+static inline std::unique_ptr<T> static_unique_pointer_cast(
+    std::unique_ptr<U> &&p)
 {
-    s.erase(std::find_if(s.rbegin(), s.rend(),
-                std::not1(std::ptr_fun<int, int>(::isspace))).base(),
-            s.end());
-    return s;
-}
-
-// trim from both ends
-static inline std::string &trim(std::string &s)
-{
-    return ltrim(rtrim(s));
-}
-
-template<typename T, typename U>
-static inline std::unique_ptr<T>
-static_unique_pointer_cast(std::unique_ptr<U> &&p)
-{
-    return std::unique_ptr<T>(static_cast<T *>(p.release()));
+	return std::unique_ptr<T>(static_cast<T *>(p.release()));
 }
 
 }
 
-#endif  // !__libutil_Base_h
+#endif // !__libutil_Base_h

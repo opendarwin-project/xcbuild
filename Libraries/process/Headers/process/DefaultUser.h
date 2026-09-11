@@ -18,20 +18,20 @@ namespace process {
  * created in `main()` and passed down to anywhere else that needs it.
  */
 class DefaultUser : public User {
-public:
-    explicit DefaultUser();
-    virtual ~DefaultUser();
+    public:
+	explicit DefaultUser();
+	virtual ~DefaultUser();
 
-public:
-    virtual std::string const &userID() const;
-    virtual std::string const &groupID() const;
-    virtual std::string const &userName() const;
-    virtual std::string const &groupName() const;
+    public:
+	virtual std::string const &userID() const;
+	virtual std::string const &groupID() const;
+	virtual std::string const &userName() const;
+	virtual std::string const &groupName() const;
 
-public:
-    virtual ext::optional<std::string> userHomeDirectory() const;
+    public:
+	virtual ext::optional<std::string> userHomeDirectory() const;
 };
 
 }
 
-#endif  // !__process_DefaultUser_h
+#endif // !__process_DefaultUser_h

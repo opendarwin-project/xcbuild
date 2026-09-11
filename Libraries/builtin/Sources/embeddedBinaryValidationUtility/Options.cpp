@@ -10,29 +10,25 @@
 
 using builtin::embeddedBinaryValidationUtility::Options;
 
-Options::
-Options()
+Options::Options() { }
+
+Options::~Options() { }
+
+std::pair<bool, std::string> Options::parseArgument(
+    std::vector<std::string> const &args,
+    std::vector<std::string>::const_iterator *it)
 {
+	std::string const &arg = **it;
+
+	if (arg == "-signing-cert") {
+		return libutil::Options::Next<std::string>(
+		    &_signingCert, args, it);
+	} else if (arg == "-info-plist-path") {
+		return libutil::Options::Next<std::string>(
+		    &_infoPlistPath, args, it);
+	} else if (!arg.empty() && arg[0] != '-') {
+		return libutil::Options::Current<std::string>(&_input, arg);
+	} else {
+		return std::make_pair(false, "unknown argument " + arg);
+	}
 }
-
-Options::
-~Options()
-{
-}
-
-std::pair<bool, std::string> Options::
-parseArgument(std::vector<std::string> const &args, std::vector<std::string>::const_iterator *it)
-{
-    std::string const &arg = **it;
-
-    if (arg == "-signing-cert") {
-        return libutil::Options::Next<std::string>(&_signingCert, args, it);
-    } else if (arg == "-info-plist-path") {
-        return libutil::Options::Next<std::string>(&_infoPlistPath, args, it);
-    } else if (!arg.empty() && arg[0] != '-') {
-        return libutil::Options::Current<std::string>(&_input, arg);
-    } else {
-        return std::make_pair(false, "unknown argument " + arg);
-    }
-}
-

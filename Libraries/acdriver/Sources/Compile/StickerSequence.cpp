@@ -6,29 +6,23 @@
  LICENSE file in the root directory of this source tree.
  */
 
-#include <acdriver/Compile/StickerSequence.h>
 #include <acdriver/Compile/Output.h>
+#include <acdriver/Compile/StickerSequence.h>
 #include <acdriver/Result.h>
 #include <libutil/Filesystem.h>
 
-using acdriver::Compile::StickerSequence;
-using acdriver::Compile::Output;
 using acdriver::Result;
+using acdriver::Compile::Output;
+using acdriver::Compile::StickerSequence;
 using libutil::Filesystem;
 
-bool StickerSequence::
-Compile(
+bool StickerSequence::Compile(
     xcassets::Asset::StickerSequence const *stickerSequence,
-    Filesystem *filesystem,
-    Output *compileOutput,
-    Result *result)
+    Filesystem *filesystem, Output *compileOutput, Result *result)
 {
-    result->document(
-        Result::Severity::Warning,
-        stickerSequence->path(),
-        { Output::AssetReference(stickerSequence) },
-        "Not Implemented",
-        "sticker sequence not yet supported");
+	result->document(Result::Severity::Warning, stickerSequence->path(),
+	    { Output::AssetReference(stickerSequence) }, "Not Implemented",
+	    "sticker sequence not yet supported");
 
-    return false;
+	return false;
 }

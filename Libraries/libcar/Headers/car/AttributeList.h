@@ -13,16 +13,16 @@
 #include <car/car_format.h>
 #include <ext/optional>
 
-#include <vector>
-#include <unordered_map>
 #include <cstdio>
+#include <unordered_map>
+#include <vector>
 
 namespace std {
-template<> struct hash<enum car_attribute_identifier> {
-    size_t operator()(enum car_attribute_identifier identifier) const
-    {
-        return (size_t)identifier;
-    }
+template <> struct hash<enum car_attribute_identifier> {
+	size_t operator()(enum car_attribute_identifier identifier) const
+	{
+		return (size_t)identifier;
+	}
 };
 }
 
@@ -33,69 +33,67 @@ namespace car {
  * renditions, which are uniquely identified by their attribute list.
  */
 class AttributeList {
-private:
-    std::unordered_map<enum car_attribute_identifier, uint16_t> _values;
+    private:
+	std::unordered_map<enum car_attribute_identifier, uint16_t> _values;
 
-public:
-    AttributeList(std::unordered_map<enum car_attribute_identifier, uint16_t> const &values);
+    public:
+	AttributeList(
+	    std::unordered_map<enum car_attribute_identifier, uint16_t> const
+		&values);
 
-public:
-    /*
-     * Get the value of an attribute.
-     */
-    ext::optional<uint16_t> get(enum car_attribute_identifier identifier) const;
+    public:
+	/*
+	 * Get the value of an attribute.
+	 */
+	ext::optional<uint16_t> get(
+	    enum car_attribute_identifier identifier) const;
 
-    /*
-     * Set the value of an attribute. Appends the attribute if not found.
-     */
-    void set(enum car_attribute_identifier identifier, uint16_t value);
+	/*
+	 * Set the value of an attribute. Appends the attribute if not found.
+	 */
+	void set(enum car_attribute_identifier identifier, uint16_t value);
 
-    /*
-     * Iterate over the contents of the attribute list. Unordered.
-     */
-    template<typename T>
-    void iterate(T iterator) const
-    {
-        for (auto const &entry : _values) {
-            iterator(entry.first, entry.second);
-        }
-    }
+	/*
+	 * Iterate over the contents of the attribute list. Unordered.
+	 */
+	template <typename T> void iterate(T iterator) const
+	{
+		for (auto const &entry : _values) {
+			iterator(entry.first, entry.second);
+		}
+	}
 
-    /*
-     * The number of attributes in the list.
-     */
-    size_t count() const;
+	/*
+	 * The number of attributes in the list.
+	 */
+	size_t count() const;
 
-public:
-    /*
-     * Write an attribute list into an a vector of bytes using the identifier
-     * order provided.
-     */
-    std::vector<uint8_t> write(
-        size_t count,
-        uint32_t const *identifiers) const;
+    public:
+	/*
+	 * Write an attribute list into an a vector of bytes using the
+	 * identifier order provided.
+	 */
+	std::vector<uint8_t> write(
+	    size_t count, uint32_t const *identifiers) const;
 
-public:
-    /*
-     * Print debugging information about the list.
-     */
-    void dump() const;
+    public:
+	/*
+	 * Print debugging information about the list.
+	 */
+	void dump() const;
 
-public:
-    /*
-     * Load an attribute list from buffers of identifiers and values.
-     */
-    static AttributeList Load(
-        size_t count,
-        uint32_t const *identifiers,
-        uint16_t const *values);
+    public:
+	/*
+	 * Load an attribute list from buffers of identifiers and values.
+	 */
+	static AttributeList Load(
+	    size_t count, uint32_t const *identifiers, uint16_t const *values);
 
-    /*
-     * Load an attribute list from a buffer of identifier value pairs.
-     */
-    static AttributeList Load(
-        size_t count,
-        struct car_attribute_pair const *pairs);
+	/*
+	 * Load an attribute list from a buffer of identifier value pairs.
+	 */
+	static AttributeList Load(
+	    size_t count, struct car_attribute_pair const *pairs);
 };
 
 }

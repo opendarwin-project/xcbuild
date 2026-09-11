@@ -11,45 +11,55 @@
 
 #include <pbxproj/PBX/Target.h>
 
-namespace pbxproj { namespace PBX {
+namespace pbxproj {
+namespace PBX {
 
 class LegacyTarget : public Target {
-public:
-    typedef std::shared_ptr <LegacyTarget> shared_ptr;
+    public:
+	typedef std::shared_ptr<LegacyTarget> shared_ptr;
 
-private:
-    std::string       _buildWorkingDirectory;
-    std::string       _buildToolPath;
-    pbxsetting::Value _buildArgumentsString;
-    bool              _passBuildSettingsInEnvironment;
+    private:
+	std::string _buildWorkingDirectory;
+	std::string _buildToolPath;
+	pbxsetting::Value _buildArgumentsString;
+	bool _passBuildSettingsInEnvironment;
 
-public:
-    LegacyTarget();
+    public:
+	LegacyTarget();
 
-public:
-    inline std::string const &buildToolPath() const
-    { return _buildToolPath; }
+    public:
+	inline std::string const &buildToolPath() const
+	{
+		return _buildToolPath;
+	}
 
-public:
-    inline pbxsetting::Value const &buildArgumentsString() const
-    { return _buildArgumentsString; }
+    public:
+	inline pbxsetting::Value const &buildArgumentsString() const
+	{
+		return _buildArgumentsString;
+	}
 
-public:
-    inline std::string const &buildWorkingDirectory() const
-    { return _buildWorkingDirectory; }
+    public:
+	inline std::string const &buildWorkingDirectory() const
+	{
+		return _buildWorkingDirectory;
+	}
 
-public:
-    inline bool passBuildSettingsInEnvironment() const
-    { return _passBuildSettingsInEnvironment; }
+    public:
+	inline bool passBuildSettingsInEnvironment() const
+	{
+		return _passBuildSettingsInEnvironment;
+	}
 
-protected:
-    bool parse(Context &context, plist::Dictionary const *dict, std::unordered_set<std::string> *seen, bool check) override;
+    protected:
+	bool parse(Context &context, plist::Dictionary const *dict,
+	    std::unordered_set<std::string> *seen, bool check) override;
 
-public:
-    static inline char const *Isa()
-    { return ISA::PBXLegacyTarget; }
+    public:
+	static inline char const *Isa() { return ISA::PBXLegacyTarget; }
 };
 
-} }
+}
+}
 
-#endif  // !__pbxproj_PBX_LegacyTarget_h
+#endif // !__pbxproj_PBX_LegacyTarget_h

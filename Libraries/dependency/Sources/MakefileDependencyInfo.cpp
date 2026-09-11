@@ -6,205 +6,209 @@
  LICENSE file in the root directory of this source tree.
  */
 
-#include <dependency/MakefileDependencyInfo.h>
 #include <dependency/DependencyInfo.h>
+#include <dependency/MakefileDependencyInfo.h>
 #include <libutil/Escape.h>
 
-#include <unordered_set>
 #include <cassert>
+#include <unordered_set>
 
-using dependency::MakefileDependencyInfo;
 using dependency::DependencyInfo;
+using dependency::MakefileDependencyInfo;
 using libutil::Escape;
 
-MakefileDependencyInfo::
-MakefileDependencyInfo()
+MakefileDependencyInfo::MakefileDependencyInfo() { }
+
+std::string MakefileDependencyInfo::serialize() const
 {
+	std::string result;
+
+	for (DependencyInfo const &dependencyInfo : _dependencyInfo) {
+		/* Add outputs. */
+		for (std::string const &output : dependencyInfo.outputs()) {
+			if (&output != &dependencyInfo.outputs().front()) {
+				/* Outputs after the first need a separator. */
+				result += " ";
+			}
+
+			/* Add the output. */
+			result += Escape::Makefile(output);
+		}
+
+		/* Add separator. */
+		result += ":";
+
+		/* Add inputs. */
+		for (std::string const &input : dependencyInfo.inputs()) {
+			result += " \\\n";
+			result += "  ";
+			result += Escape::Makefile(input);
+		}
+
+		if (&dependencyInfo != &_dependencyInfo.back()) {
+			/* Separator for next info. */
+			result += "\n\n";
+		}
+	}
+
+	return result;
 }
 
-std::string MakefileDependencyInfo::
-serialize() const
+ext::optional<MakefileDependencyInfo> MakefileDependencyInfo::Deserialize(
+    std::string const &contents)
 {
-    std::string result;
+	std::vector<DependencyInfo> dependencyInfo;
 
-    for (DependencyInfo const &dependencyInfo : _dependencyInfo) {
-        /* Add outputs. */
-        for (std::string const &output : dependencyInfo.outputs()) {
-            if (&output != &dependencyInfo.outputs().front()) {
-                /* Outputs after the first need a separator. */
-                result += " ";
-            }
+	enum class State {
+		Begin,
+		Comment,
+		Output,
+		Inputs,
+	};
 
-            /* Add the output. */
-            result += Escape::Makefile(output);
-        }
+	State state = State::Begin;
 
-        /* Add separator. */
-        result += ":";
+	std::string current;
+	DependencyInfo currentDependencyInfo;
 
-        /* Add inputs. */
-        for (std::string const &input : dependencyInfo.inputs()) {
-            result += " \\\n";
-            result += "  ";
-            result += Escape::Makefile(input);
-        }
+	for (auto it = contents.begin(), prev = contents.end();
+	    it != contents.end(); prev = it, ++it) {
+		bool escaped = (prev != contents.end() && *prev == '\\');
 
-        if (&dependencyInfo != &_dependencyInfo.back()) {
-            /* Separator for next info. */
-            result += "\n\n";
-        }
-    }
+		if (!escaped && *it == '#') {
+			/* Begin comment. */
+			state = State::Comment;
+		} else if (!escaped && *it == '\n') {
+			switch (state) {
+			case State::Begin:
+				break;
+			case State::Output:
+				/* Output without inputs. */
+				return ext::nullopt;
+			case State::Comment:
+			case State::Inputs:
+				/* Current input. */
+				if (!current.empty()) {
+					currentDependencyInfo.inputs()
+					    .push_back(current);
+					current = std::string();
+				}
 
-    return result;
-}
+				/* Store this output and inputs. */
+				if (!currentDependencyInfo.outputs().empty()) {
+					dependencyInfo.push_back(
+					    currentDependencyInfo);
 
-ext::optional<MakefileDependencyInfo> MakefileDependencyInfo::
-Deserialize(std::string const &contents)
-{
-    std::vector<DependencyInfo> dependencyInfo;
+					/* Reset for next entry. */
+					currentDependencyInfo =
+					    DependencyInfo();
+				}
 
-    enum class State {
-        Begin,
-        Comment,
-        Output,
-        Inputs,
-    };
+				state = State::Begin;
+				break;
+			}
+		} else if ((!escaped && isspace(*it)) ||
+		    (escaped && *it == '\n')) {
+			switch (state) {
+			case State::Begin:
+			case State::Comment:
+			case State::Output:
+				break;
+			case State::Inputs:
+				/* Remove escape character. */
+				if (!current.empty() && escaped) {
+					current.resize(current.size() - 1);
+				}
 
-    State state = State::Begin;
+				/* Next input. */
+				if (!current.empty()) {
+					currentDependencyInfo.inputs()
+					    .push_back(current);
+					current = std::string();
+				}
+				break;
+			}
+		} else if (!escaped && *it == ':') {
+			switch (state) {
+			case State::Begin:
+				/* Invalid character. */
+				return ext::nullopt;
+			case State::Comment:
+				break;
+			case State::Output:
+				assert(!current.empty());
 
-    std::string current;
-    DependencyInfo currentDependencyInfo;
+				/* Wait for inputs. */
+				currentDependencyInfo.outputs().push_back(
+				    current);
+				current = std::string();
+				state = State::Inputs;
+				break;
+			case State::Inputs:
+				/* Invalid character. */
+				return ext::nullopt;
+			}
+		} else if (*it == '#' || *it == '%' ||
+		    (escaped && isspace(*it))) {
+			switch (state) {
+			case State::Begin:
+				/* Invalid character. */
+				return ext::nullopt;
+			case State::Comment:
+				break;
+			case State::Output:
+			case State::Inputs:
+				if (escaped) {
+					/* Unescape; replace backslash. */
+					current[current.size() - 1] = *it;
+					break;
+				} else {
+					/* Invalid character. */
+					return ext::nullopt;
+				}
+			}
+		} else {
+			switch (state) {
+			case State::Begin:
+				/* Start of output. */
+				state = State::Output;
 
-    for (auto it = contents.begin(), prev = contents.end(); it != contents.end(); prev = it, ++it) {
-        bool escaped = (prev != contents.end() && *prev == '\\');
+				/* Add character. */
+				current += *it;
+				break;
+			case State::Comment:
+				break;
+			case State::Output:
+			case State::Inputs:
+				/* Add character. */
+				current += *it;
+				break;
+			}
+		}
+	}
 
-        if (!escaped && *it == '#') {
-            /* Begin comment. */
-            state = State::Comment;
-        } else if (!escaped && *it == '\n') {
-            switch (state) {
-                case State::Begin:
-                    break;
-                case State::Output:
-                    /* Output without inputs. */
-                    return ext::nullopt;
-                case State::Comment:
-                case State::Inputs:
-                    /* Current input. */
-                    if (!current.empty()) {
-                        currentDependencyInfo.inputs().push_back(current);
-                        current = std::string();
-                    }
+	switch (state) {
+	case State::Begin:
+		break;
+	case State::Output:
+		/* Output without inputs. */
+		return ext::nullopt;
+	case State::Comment:
+	case State::Inputs:
+		/* Current input. */
+		if (!current.empty()) {
+			currentDependencyInfo.inputs().push_back(current);
+		}
 
-                    /* Store this output and inputs. */
-                    if (!currentDependencyInfo.outputs().empty()) {
-                        dependencyInfo.push_back(currentDependencyInfo);
+		/* Store this output and inputs. */
+		if (!currentDependencyInfo.outputs().empty()) {
+			dependencyInfo.push_back(currentDependencyInfo);
+		}
+		break;
+	}
 
-                        /* Reset for next entry. */
-                        currentDependencyInfo = DependencyInfo();
-                    }
-
-                    state = State::Begin;
-                    break;
-            }
-        } else if ((!escaped && isspace(*it)) || (escaped && *it == '\n')) {
-            switch (state) {
-                case State::Begin:
-                case State::Comment:
-                case State::Output:
-                    break;
-                case State::Inputs:
-                    /* Remove escape character. */
-                    if (!current.empty() && escaped) {
-                        current.resize(current.size() - 1);
-                    }
-
-                    /* Next input. */
-                    if (!current.empty()) {
-                        currentDependencyInfo.inputs().push_back(current);
-                        current = std::string();
-                    }
-                    break;
-            }
-        } else if (!escaped && *it == ':') {
-            switch (state) {
-                case State::Begin:
-                    /* Invalid character. */
-                    return ext::nullopt;
-                case State::Comment:
-                    break;
-                case State::Output:
-                    assert(!current.empty());
-
-                    /* Wait for inputs. */
-                    currentDependencyInfo.outputs().push_back(current);
-                    current = std::string();
-                    state = State::Inputs;
-                    break;
-                case State::Inputs:
-                    /* Invalid character. */
-                    return ext::nullopt;
-            }
-        } else if (*it == '#' || *it == '%' || (escaped && isspace(*it))) {
-            switch (state) {
-                case State::Begin:
-                    /* Invalid character. */
-                    return ext::nullopt;
-                case State::Comment:
-                    break;
-                case State::Output:
-                case State::Inputs:
-                    if (escaped) {
-                        /* Unescape; replace backslash. */
-                        current[current.size() - 1] = *it;
-                        break;
-                    } else {
-                        /* Invalid character. */
-                        return ext::nullopt;
-                    }
-            }
-        } else {
-            switch (state) {
-                case State::Begin:
-                    /* Start of output. */
-                    state = State::Output;
-
-                    /* Add character. */
-                    current += *it;
-                    break;
-                case State::Comment:
-                    break;
-                case State::Output:
-                case State::Inputs:
-                    /* Add character. */
-                    current += *it;
-                    break;
-            }
-        }
-    }
-
-    switch (state) {
-        case State::Begin:
-            break;
-        case State::Output:
-            /* Output without inputs. */
-            return ext::nullopt;
-        case State::Comment:
-        case State::Inputs:
-            /* Current input. */
-            if (!current.empty()) {
-                currentDependencyInfo.inputs().push_back(current);
-            }
-
-            /* Store this output and inputs. */
-            if (!currentDependencyInfo.outputs().empty()) {
-                dependencyInfo.push_back(currentDependencyInfo);
-            }
-            break;
-    }
-
-    /* Create dependency info. */
-    MakefileDependencyInfo makefileInfo;
-    makefileInfo.dependencyInfo() = dependencyInfo;
-    return makefileInfo;
+	/* Create dependency info. */
+	MakefileDependencyInfo makefileInfo;
+	makefileInfo.dependencyInfo() = dependencyInfo;
+	return makefileInfo;
 }

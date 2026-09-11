@@ -17,52 +17,49 @@
 namespace pbxbuild {
 
 /*
- * The path within derived data that a workspace is stored. Creatable without loading
- * a workspace or project as the only input is the path to the workspace or project.
+ * The path within derived data that a workspace is stored. Creatable without
+ * loading a workspace or project as the only input is the path to the workspace
+ * or project.
  */
 class DerivedDataHash {
-private:
-    std::string _name;
-    std::string _hash;
+    private:
+	std::string _name;
+	std::string _hash;
 
-public:
-    DerivedDataHash(
-        std::string const &name,
-        std::string const &hash);
+    public:
+	DerivedDataHash(std::string const &name, std::string const &hash);
 
-public:
-    /*
-     * The base name of the input path.
-     */
-    std::string const &name() const
-    { return _name; }
+    public:
+	/*
+	 * The base name of the input path.
+	 */
+	std::string const &name() const { return _name; }
 
-    /*
-     * The computed hash of the input path.
-     */
-    std::string const &hash() const
-    { return _hash; }
+	/*
+	 * The computed hash of the input path.
+	 */
+	std::string const &hash() const { return _hash; }
 
-public:
-    /*
-     * The derived data path.
-     */
-    std::string derivedDataHash() const;
+    public:
+	/*
+	 * The derived data path.
+	 */
+	std::string derivedDataHash() const;
 
-    /*
-     * Build setting overrides to use the derived data path.
-     */
-    std::vector<pbxsetting::Setting> overrideSettings() const;
+	/*
+	 * Build setting overrides to use the derived data path.
+	 */
+	std::vector<pbxsetting::Setting> overrideSettings() const;
 
-public:
-    /*
-     * Create a derived data hash. The path is the path to the loaded file, either
-     * a workspace or a project file. The absolute path and base name are used.
-     */
-    static DerivedDataHash
-    Create(std::string const &path);
+    public:
+	/*
+	 * Create a derived data hash. The path is the path to the loaded file,
+	 * either a workspace or a project file. The absolute path and base name
+	 * are used.
+	 */
+	static DerivedDataHash Create(std::string const &path);
 };
 
 }
 
-#endif  // !__pbxbuild_DerivedDataHash_h
+#endif // !__pbxbuild_DerivedDataHash_h

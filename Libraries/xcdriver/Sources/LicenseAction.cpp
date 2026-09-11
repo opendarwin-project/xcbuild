@@ -29,21 +29,14 @@ static char const LICENSE[] = "<unavailable>";
 
 using xcdriver::LicenseAction;
 
-LicenseAction::
-LicenseAction()
-{
-}
+LicenseAction::LicenseAction() { }
 
-LicenseAction::
-~LicenseAction()
-{
-}
+LicenseAction::~LicenseAction() { }
 
-int LicenseAction::
-Run()
+int LicenseAction::Run()
 {
-    std::string license = std::string(LICENSE, sizeof(LICENSE));
-    fprintf(stdout, "%s\n", license.c_str());
+	std::string license = std::string(LICENSE, sizeof(LICENSE));
+	fprintf(stdout, "%s\n", license.c_str());
 
-    return 0;
+	return 0;
 }

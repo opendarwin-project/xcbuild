@@ -6,29 +6,22 @@
  LICENSE file in the root directory of this source tree.
  */
 
-#include <acdriver/Compile/SpriteAtlas.h>
 #include <acdriver/Compile/Output.h>
+#include <acdriver/Compile/SpriteAtlas.h>
 #include <acdriver/Result.h>
 #include <libutil/Filesystem.h>
 
-using acdriver::Compile::SpriteAtlas;
-using acdriver::Compile::Output;
 using acdriver::Result;
+using acdriver::Compile::Output;
+using acdriver::Compile::SpriteAtlas;
 using libutil::Filesystem;
 
-bool SpriteAtlas::
-Compile(
-    xcassets::Asset::SpriteAtlas const *spriteAtlas,
-    Filesystem *filesystem,
-    Output *compileOutput,
-    Result *result)
+bool SpriteAtlas::Compile(xcassets::Asset::SpriteAtlas const *spriteAtlas,
+    Filesystem *filesystem, Output *compileOutput, Result *result)
 {
-    result->document(
-        Result::Severity::Warning,
-        spriteAtlas->path(),
-        { Output::AssetReference(spriteAtlas) },
-        "Not Implemented",
-        "sprite atlas not yet supported");
+	result->document(Result::Severity::Warning, spriteAtlas->path(),
+	    { Output::AssetReference(spriteAtlas) }, "Not Implemented",
+	    "sprite atlas not yet supported");
 
-    return false;
+	return false;
 }

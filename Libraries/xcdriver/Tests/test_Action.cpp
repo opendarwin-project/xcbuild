@@ -15,19 +15,19 @@ using xcdriver::Options;
 
 TEST(Action, Empty)
 {
-    Options options;
-    auto result = libutil::Options::Parse<Options>(&options, { });
-    ASSERT_TRUE(result.first);
+	Options options;
+	auto result = libutil::Options::Parse<Options>(&options, { });
+	ASSERT_TRUE(result.first);
 
-    EXPECT_EQ(Action::Determine(options), Action::Build);
+	EXPECT_EQ(Action::Determine(options), Action::Build);
 }
 
 TEST(Action, VersionOverrides)
 {
-    Options options;
-    auto result = libutil::Options::Parse<Options>(&options, { "-help", "-usage", "-version", "-license" });
-    ASSERT_TRUE(result.first);
+	Options options;
+	auto result = libutil::Options::Parse<Options>(
+	    &options, { "-help", "-usage", "-version", "-license" });
+	ASSERT_TRUE(result.first);
 
-    EXPECT_EQ(Action::Determine(options), Action::Version);
+	EXPECT_EQ(Action::Determine(options), Action::Version);
 }
-

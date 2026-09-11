@@ -17,32 +17,30 @@ namespace plist {
 namespace Format {
 
 enum class Encoding {
-    UTF8,
-    UTF16BE,
-    UTF16LE,
-    UTF32BE,
-    UTF32LE,
+	UTF8,
+	UTF16BE,
+	UTF16LE,
+	UTF32BE,
+	UTF32LE,
 };
 
 class Encodings {
-private:
-    Encodings();
-    ~Encodings();
+    private:
+	Encodings();
+	~Encodings();
 
-public:
-    static Encoding
-    Detect(std::vector<uint8_t> const &contents);
+    public:
+	static Encoding Detect(std::vector<uint8_t> const &contents);
 
-public:
-    static std::vector<uint8_t>
-    Convert(std::vector<uint8_t> const &contents, Encoding from, Encoding to);
+    public:
+	static std::vector<uint8_t> Convert(
+	    std::vector<uint8_t> const &contents, Encoding from, Encoding to);
 
-public:
-    static std::vector<uint8_t>
-    BOM(Encoding encoding);
+    public:
+	static std::vector<uint8_t> BOM(Encoding encoding);
 };
 
 }
 }
 
-#endif  // !__plist_Format_Encoding_h
+#endif // !__plist_Format_Encoding_h

@@ -14,32 +14,28 @@
 namespace libutil {
 namespace Path {
 
-template<typename Traits>
-class BaseAbsolute;
+template <typename Traits> class BaseAbsolute;
 
-template<typename Traits>
-class BaseRelative;
+template <typename Traits> class BaseRelative;
 
 class Unix {
-public:
-    Unix() = delete;
-    ~Unix() = delete;
+    public:
+	Unix() = delete;
+	~Unix() = delete;
 
-public:
-    friend class BaseAbsolute<Unix>;
-    friend class BaseRelative<Unix>;
+    public:
+	friend class BaseAbsolute<Unix>;
+	friend class BaseRelative<Unix>;
 
-private:
-    static char Separator;
-    static bool IsSeparator(char c);
+    private:
+	static char Separator;
+	static bool IsSeparator(char c);
 
-private:
-    static bool IsAbsolute(std::string const &path, size_t *start = nullptr);
-    static bool Resolve(
-        std::string const &path,
-        std::string const &against,
-        std::string *base,
-        std::string *relative);
+    private:
+	static bool IsAbsolute(
+	    std::string const &path, size_t *start = nullptr);
+	static bool Resolve(std::string const &path, std::string const &against,
+	    std::string *base, std::string *relative);
 };
 
 }

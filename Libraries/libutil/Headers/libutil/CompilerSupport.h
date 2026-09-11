@@ -11,10 +11,10 @@
 
 #if defined(_MSC_VER) && !defined(__clang__)
 #define LIBUTIL_PACKED_STRUCT_BEGIN __pragma(pack(push, 1))
-#define LIBUTIL_PACKED_STRUCT_END __pragma(pack(pop))
+#define LIBUTIL_PACKED_STRUCT_END   __pragma(pack(pop))
 #else
 #define LIBUTIL_PACKED_STRUCT_BEGIN
 #define LIBUTIL_PACKED_STRUCT_END __attribute__((__packed__))
 #endif
 
-#endif  // !__libutil_CompilerSupport_h
+#endif // !__libutil_CompilerSupport_h

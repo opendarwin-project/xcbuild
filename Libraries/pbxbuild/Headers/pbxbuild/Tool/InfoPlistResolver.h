@@ -16,7 +16,9 @@
 #include <string>
 #include <vector>
 
-namespace pbxsetting { class Environment; }
+namespace pbxsetting {
+class Environment;
+}
 
 namespace pbxbuild {
 namespace Tool {
@@ -25,30 +27,31 @@ class Context;
 class Input;
 
 class InfoPlistResolver {
-private:
-    pbxspec::PBX::Tool::shared_ptr _tool;
+    private:
+	pbxspec::PBX::Tool::shared_ptr _tool;
 
-public:
-    explicit InfoPlistResolver(pbxspec::PBX::Tool::shared_ptr const &tool);
-    ~InfoPlistResolver();
+    public:
+	explicit InfoPlistResolver(pbxspec::PBX::Tool::shared_ptr const &tool);
+	~InfoPlistResolver();
 
-public:
-    pbxspec::PBX::Tool::shared_ptr const &tool() const
-    { return _tool; }
+    public:
+	pbxspec::PBX::Tool::shared_ptr const &tool() const { return _tool; }
 
-public:
-    void resolve(
-        Tool::Context *toolContext,
-        pbxsetting::Environment const &environment,
-        Tool::Input const &input) const;
+    public:
+	void resolve(Tool::Context *toolContext,
+	    pbxsetting::Environment const &environment,
+	    Tool::Input const &input) const;
 
-public:
-    static std::string ToolIdentifier()
-    { return "com.apple.tools.info-plist-utility"; }
+    public:
+	static std::string ToolIdentifier()
+	{
+		return "com.apple.tools.info-plist-utility";
+	}
 
-public:
-    static std::unique_ptr<InfoPlistResolver>
-    Create(pbxspec::Manager::shared_ptr const &specManager, std::vector<std::string> const &specDomains);
+    public:
+	static std::unique_ptr<InfoPlistResolver> Create(
+	    pbxspec::Manager::shared_ptr const &specManager,
+	    std::vector<std::string> const &specDomains);
 };
 
 }

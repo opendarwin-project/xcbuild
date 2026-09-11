@@ -9,21 +9,31 @@
 #ifndef __xcdriver_Driver_h
 #define __xcdriver_Driver_h
 
-namespace libutil { class Filesystem; }
-namespace process { class Context; }
-namespace process { class Launcher; }
-namespace process { class User; }
+namespace libutil {
+class Filesystem;
+}
+namespace process {
+class Context;
+}
+namespace process {
+class Launcher;
+}
+namespace process {
+class User;
+}
 
 namespace xcdriver {
 
 class Driver {
-private:
-    Driver();
-    ~Driver();
+    private:
+	Driver();
+	~Driver();
 
-public:
-    static int
-    Run(process::User const *user, process::Context const *processContext, process::Launcher *processLauncher, libutil::Filesystem *filesystem);
+    public:
+	static int Run(process::User const *user,
+	    process::Context const *processContext,
+	    process::Launcher *processLauncher,
+	    libutil::Filesystem *filesystem);
 };
 
 }

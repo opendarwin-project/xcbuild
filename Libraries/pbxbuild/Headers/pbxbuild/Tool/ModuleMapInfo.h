@@ -11,8 +11,8 @@
 
 #include <pbxbuild/Tool/AuxiliaryFile.h>
 
-#include <string>
 #include <ext/optional>
+#include <string>
 
 namespace pbxbuild {
 namespace Tool {
@@ -21,68 +21,69 @@ namespace Tool {
  * Information about generated module maps.
  */
 class ModuleMapInfo {
-public:
-    /*
-     * Information about a specific generated module map.
-     */
-    class Entry {
+    public:
+	/*
+	 * Information about a specific generated module map.
+	 */
+	class Entry {
+	    private:
+		Tool::AuxiliaryFile::Chunk _contents;
+
+	    private:
+		std::string _intermediatePath;
+		std::string _finalPath;
+
+	    public:
+		Entry(Tool::AuxiliaryFile::Chunk const &contents,
+		    std::string const &intermediatePath,
+		    std::string const &finalPath);
+
+	    public:
+		/*
+		 * The contents of the module map. May reference a file.
+		 */
+		Tool::AuxiliaryFile::Chunk const &contents() const
+		{
+			return _contents;
+		}
+
+	    public:
+		/*
+		 * The temporary path the module map is written to.
+		 */
+		std::string const &intermediatePath() const
+		{
+			return _intermediatePath;
+		}
+
+		/*
+		 * The product path the module map is copied to.
+		 */
+		std::string const &finalPath() const { return _finalPath; }
+	};
+
     private:
-        Tool::AuxiliaryFile::Chunk _contents;
-
-    private:
-        std::string                _intermediatePath;
-        std::string                _finalPath;
+	ext::optional<Entry> _moduleMap;
+	ext::optional<Entry> _privateModuleMap;
 
     public:
-        Entry(
-            Tool::AuxiliaryFile::Chunk const &contents,
-            std::string const &intermediatePath,
-            std::string const &finalPath);
+	ModuleMapInfo();
 
     public:
-        /*
-         * The contents of the module map. May reference a file.
-         */
-        Tool::AuxiliaryFile::Chunk const &contents() const
-        { return _contents; }
+	/*
+	 * The public module map.
+	 */
+	ext::optional<Entry> const &moduleMap() const { return _moduleMap; }
+	ext::optional<Entry> &moduleMap() { return _moduleMap; }
 
-    public:
-        /*
-         * The temporary path the module map is written to.
-         */
-        std::string const &intermediatePath() const
-        { return _intermediatePath; }
-
-        /*
-         * The product path the module map is copied to.
-         */
-        std::string const &finalPath() const
-        { return _finalPath; }
-    };
-
-private:
-    ext::optional<Entry> _moduleMap;
-    ext::optional<Entry> _privateModuleMap;
-
-public:
-    ModuleMapInfo();
-
-public:
-    /*
-     * The public module map.
-     */
-    ext::optional<Entry> const &moduleMap() const
-    { return _moduleMap; }
-    ext::optional<Entry> &moduleMap()
-    { return _moduleMap; }
-
-    /*
-     * The private module map.
-     */
-    ext::optional<Entry> const &privateModuleMap() const
-    { return _privateModuleMap; }
-    ext::optional<Entry> &privateModuleMap()
-    { return _privateModuleMap; }
+	/*
+	 * The private module map.
+	 */
+	ext::optional<Entry> const &privateModuleMap() const
+	{
+		return _privateModuleMap;
+	}
+	ext::optional<Entry> &privateModuleMap() { return _privateModuleMap; }
 };
 
 }

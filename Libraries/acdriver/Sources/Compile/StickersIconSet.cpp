@@ -6,29 +6,23 @@
  LICENSE file in the root directory of this source tree.
  */
 
-#include <acdriver/Compile/StickersIconSet.h>
 #include <acdriver/Compile/Output.h>
+#include <acdriver/Compile/StickersIconSet.h>
 #include <acdriver/Result.h>
 #include <libutil/Filesystem.h>
 
-using acdriver::Compile::StickersIconSet;
-using acdriver::Compile::Output;
 using acdriver::Result;
+using acdriver::Compile::Output;
+using acdriver::Compile::StickersIconSet;
 using libutil::Filesystem;
 
-bool StickersIconSet::
-Compile(
+bool StickersIconSet::Compile(
     xcassets::Asset::StickersIconSet const *stickersIconSet,
-    Filesystem *filesystem,
-    Output *compileOutput,
-    Result *result)
+    Filesystem *filesystem, Output *compileOutput, Result *result)
 {
-    result->document(
-        Result::Severity::Warning,
-        stickersIconSet->path(),
-        { Output::AssetReference(stickersIconSet) },
-        "Not Implemented",
-        "stickers icon set not yet supported");
+	result->document(Result::Severity::Warning, stickersIconSet->path(),
+	    { Output::AssetReference(stickersIconSet) }, "Not Implemented",
+	    "stickers icon set not yet supported");
 
-    return false;
+	return false;
 }

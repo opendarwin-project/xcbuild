@@ -11,10 +11,10 @@
 
 #include <process/Launcher.h>
 
-#include <string>
-#include <functional>
-#include <unordered_map>
 #include <ext/optional>
+#include <functional>
+#include <string>
+#include <unordered_map>
 
 namespace process {
 
@@ -22,23 +22,26 @@ namespace process {
  * In-memory simulated process launcher.
  */
 class MemoryLauncher : public Launcher {
-public:
-    /*
-     * Handler for a simulated process launch.
-     */
-    using Handler = std::function<ext::optional<int>(libutil::Filesystem *filesystem, Context const *context)>;
+    public:
+	/*
+	 * Handler for a simulated process launch.
+	 */
+	using Handler = std::function<ext::optional<int>(
+	    libutil::Filesystem *filesystem, Context const *context)>;
 
-private:
-    std::unordered_map<std::string, Handler> _handlers;
+    private:
+	std::unordered_map<std::string, Handler> _handlers;
 
-public:
-    MemoryLauncher(std::unordered_map<std::string, Handler> const &handlers);
-    ~MemoryLauncher();
+    public:
+	MemoryLauncher(
+	    std::unordered_map<std::string, Handler> const &handlers);
+	~MemoryLauncher();
 
-public:
-    virtual ext::optional<int> launch(libutil::Filesystem *filesystem, Context const *context);
+    public:
+	virtual ext::optional<int> launch(
+	    libutil::Filesystem *filesystem, Context const *context);
 };
 
 }
 
-#endif  // !__process_MemoryLauncher_h
+#endif // !__process_MemoryLauncher_h

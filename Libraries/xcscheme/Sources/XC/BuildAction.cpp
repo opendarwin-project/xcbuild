@@ -6,58 +6,58 @@
  LICENSE file in the root directory of this source tree.
  */
 
-#include <xcscheme/XC/BuildAction.h>
 #include <plist/Array.h>
 #include <plist/Boolean.h>
 #include <plist/Dictionary.h>
+#include <xcscheme/XC/BuildAction.h>
 
 using xcscheme::XC::BuildAction;
 
-BuildAction::
-BuildAction() :
-    _buildImplicitDependencies(false),
-    _parallelizeBuildables    (false)
+BuildAction::BuildAction()
+    : _buildImplicitDependencies(false)
+    , _parallelizeBuildables(false)
 {
 }
 
-bool BuildAction::
-parse(plist::Dictionary const *dict)
+bool BuildAction::parse(plist::Dictionary const *dict)
 {
-    if (!Action::parse(dict))
-        return false;
+	if (!Action::parse(dict))
+		return false;
 
-    auto BID = dict->value <plist::Boolean> ("buildImplicitDependencies");
-    auto PB  = dict->value <plist::Boolean> ("parallelizeBuildables");
+	auto BID = dict->value<plist::Boolean>("buildImplicitDependencies");
+	auto PB = dict->value<plist::Boolean>("parallelizeBuildables");
 
-    if (BID != nullptr) {
-        _buildImplicitDependencies = BID->value();
-    }
+	if (BID != nullptr) {
+		_buildImplicitDependencies = BID->value();
+	}
 
-    if (PB != nullptr) {
-        _parallelizeBuildables = PB->value();
-    }
+	if (PB != nullptr) {
+		_parallelizeBuildables = PB->value();
+	}
 
-    if (auto BAEs = dict->value <plist::Dictionary> ("BuildActionEntries")) {
-        if (auto BAEd = BAEs->value <plist::Dictionary> ("BuildActionEntry")) {
-            auto BAE = std::make_shared <BuildActionEntry> ();
-            if (!BAE->parse(BAEd))
-                return false;
+	if (auto BAEs = dict->value<plist::Dictionary>("BuildActionEntries")) {
+		if (auto BAEd = BAEs->value<plist::Dictionary>(
+			"BuildActionEntry")) {
+			auto BAE = std::make_shared<BuildActionEntry>();
+			if (!BAE->parse(BAEd))
+				return false;
 
-            _buildActionEntries.push_back(BAE);
-        } else if (auto BAEa = BAEs->value <plist::Array> ("BuildActionEntry")) {
-            for (size_t n = 0; n < BAEa->count(); n++) {
-                auto BAEd = BAEa->value <plist::Dictionary> (n);
-                if (BAEd == nullptr)
-                    continue;
+			_buildActionEntries.push_back(BAE);
+		} else if (auto BAEa = BAEs->value<plist::Array>(
+			       "BuildActionEntry")) {
+			for (size_t n = 0; n < BAEa->count(); n++) {
+				auto BAEd = BAEa->value<plist::Dictionary>(n);
+				if (BAEd == nullptr)
+					continue;
 
-                auto BAE = std::make_shared <BuildActionEntry> ();
-                if (!BAE->parse(BAEd))
-                    return false;
+				auto BAE = std::make_shared<BuildActionEntry>();
+				if (!BAE->parse(BAEd))
+					return false;
 
-                _buildActionEntries.push_back(BAE);
-            }
-        }
-    }
+				_buildActionEntries.push_back(BAE);
+			}
+		}
+	}
 
-    return true;
+	return true;
 }

@@ -13,15 +13,29 @@
 
 #include <memory>
 
-namespace libutil { class Filesystem; }
-namespace process { class Context; }
-namespace process { class Launcher; }
-namespace process { class User; }
+namespace libutil {
+class Filesystem;
+}
+namespace process {
+class Context;
+}
+namespace process {
+class Launcher;
+}
+namespace process {
+class User;
+}
 
 namespace pbxbuild {
-namespace Build { class Context; }
-namespace Build { class Environment; }
-namespace Target { class Environment; }
+namespace Build {
+class Context;
+}
+namespace Build {
+class Environment;
+}
+namespace Target {
+class Environment;
+}
 }
 
 namespace xcexecution {
@@ -34,28 +48,27 @@ class Parameters;
  * into account the `formatter` and `dryRun` parameters passed in.
  */
 class Executor {
-protected:
-    std::shared_ptr<xcformatter::Formatter> _formatter;
-    bool                                    _dryRun;
-    bool                                    _generate;
+    protected:
+	std::shared_ptr<xcformatter::Formatter> _formatter;
+	bool _dryRun;
+	bool _generate;
 
-protected:
-    Executor(std::shared_ptr<xcformatter::Formatter> const &formatter, bool dryRun, bool generate);
+    protected:
+	Executor(std::shared_ptr<xcformatter::Formatter> const &formatter,
+	    bool dryRun, bool generate);
 
-public:
-    virtual ~Executor();
+    public:
+	virtual ~Executor();
 
-public:
-    /*
-     * Abstract build method. Override to implement the build.
-     */
-    virtual bool build(
-        process::User const *user,
-        process::Context const *processContext,
-        process::Launcher *processLauncher,
-        libutil::Filesystem *filesystem,
-        pbxbuild::Build::Environment const &buildEnvironment,
-        Parameters const &buildParameters) = 0;
+    public:
+	/*
+	 * Abstract build method. Override to implement the build.
+	 */
+	virtual bool build(process::User const *user,
+	    process::Context const *processContext,
+	    process::Launcher *processLauncher, libutil::Filesystem *filesystem,
+	    pbxbuild::Build::Environment const &buildEnvironment,
+	    Parameters const &buildParameters) = 0;
 };
 
 }

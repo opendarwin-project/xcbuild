@@ -7,41 +7,37 @@
  */
 
 #include <acdriver/Compile/Output.h>
-#include <acdriver/Version.h>
 #include <acdriver/Options.h>
 #include <acdriver/Result.h>
-#include <xcassets/Asset/Asset.h>
-#include <dependency/DependencyInfo.h>
+#include <acdriver/Version.h>
 #include <dependency/BinaryDependencyInfo.h>
+#include <dependency/DependencyInfo.h>
+#include <libutil/Filesystem.h>
 #include <plist/Format/Format.h>
 #include <plist/Format/XML.h>
-#include <libutil/Filesystem.h>
+#include <xcassets/Asset/Asset.h>
 
-using acdriver::Compile::Output;
-using acdriver::Version;
 using acdriver::Options;
 using acdriver::Result;
+using acdriver::Version;
+using acdriver::Compile::Output;
 using libutil::Filesystem;
 
-Output::
-Output(
-    std::string const &root,
-    Format format,
+Output::Output(std::string const &root, Format format,
     ext::optional<std::string> const &appIcon,
     ext::optional<std::string> const &launchImage,
-    NonStandard::ImageTypeSet const &allowedNonStandardImageTypes) :
-    _root                        (root),
-    _format                      (format),
-    _appIcon                     (appIcon),
-    _launchImage                 (launchImage),
-    _allowedNonStandardImageTypes (allowedNonStandardImageTypes),
-    _additionalInfo              (plist::Dictionary::New())
+    NonStandard::ImageTypeSet const &allowedNonStandardImageTypes)
+    : _root(root)
+    , _format(format)
+    , _appIcon(appIcon)
+    , _launchImage(launchImage)
+    , _allowedNonStandardImageTypes(allowedNonStandardImageTypes)
+    , _additionalInfo(plist::Dictionary::New())
 {
 }
 
-std::string Output::
-AssetReference(xcassets::Asset::Asset const *asset)
+std::string Output::AssetReference(xcassets::Asset::Asset const *asset)
 {
-    // TODO: include [] for each key
-    return asset->path();
+	// TODO: include [] for each key
+	return asset->path();
 }

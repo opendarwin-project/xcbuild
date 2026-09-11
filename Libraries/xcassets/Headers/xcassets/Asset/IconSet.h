@@ -9,75 +9,74 @@
 #ifndef __xcassets_Asset_IconSet_h
 #define __xcassets_Asset_IconSet_h
 
+#include <plist/Dictionary.h>
 #include <xcassets/Asset/Asset.h>
 #include <xcassets/Slot/Scale.h>
-#include <plist/Dictionary.h>
 
+#include <ext/optional>
 #include <string>
 #include <vector>
-#include <ext/optional>
 
 namespace xcassets {
 namespace Asset {
 
 class IconSet : public Asset {
-public:
-    class Icon {
-    private:
-        std::string                _path;
-        double                     _width;
-        double                     _height;
+    public:
+	class Icon {
+	    private:
+		std::string _path;
+		double _width;
+		double _height;
+
+	    private:
+		ext::optional<Slot::Scale> _scale;
+
+	    private:
+		Icon(std::string const &path, double width, double height,
+		    ext::optional<Slot::Scale> const &scale);
+
+	    public:
+		std::string const &path() const { return _path; }
+		double const &width() const { return _width; }
+		double const &height() const { return _height; }
+
+	    public:
+		ext::optional<Slot::Scale> const &scale() const
+		{
+			return _scale;
+		}
+
+	    public:
+		static ext::optional<Icon> Parse(std::string const &path);
+	};
 
     private:
-        ext::optional<Slot::Scale> _scale;
+	std::vector<Icon> _icons;
 
     private:
-        Icon(std::string const &path, double width, double height, ext::optional<Slot::Scale> const &scale);
+	friend class Asset;
+	using Asset::Asset;
 
     public:
-        std::string const &path() const
-        { return _path; }
-        double const &width() const
-        { return _width; }
-        double const &height() const
-        { return _height; }
+	std::vector<Icon> const &icons() const { return _icons; }
 
     public:
-        ext::optional<Slot::Scale> const &scale() const
-        { return _scale; }
+	static AssetType Type() { return AssetType::IconSet; }
+	virtual AssetType type() const { return AssetType::IconSet; }
 
     public:
-        static ext::optional<Icon> Parse(std::string const &path);
-    };
+	static ext::optional<std::string> Extension()
+	{
+		return std::string("iconset");
+	}
 
-private:
-    std::vector<Icon> _icons;
-
-private:
-    friend class Asset;
-    using Asset::Asset;
-
-public:
-    std::vector<Icon> const &icons() const
-    { return _icons; }
-
-public:
-    static AssetType Type()
-    { return AssetType::IconSet; }
-    virtual AssetType type() const
-    { return AssetType::IconSet; }
-
-public:
-    static ext::optional<std::string> Extension()
-    { return std::string("iconset"); }
-
-protected:
-    virtual bool load(libutil::Filesystem const *filesystem);
-    virtual bool parse(plist::Dictionary const *dict, std::unordered_set<std::string> *seen, bool check);
+    protected:
+	virtual bool load(libutil::Filesystem const *filesystem);
+	virtual bool parse(plist::Dictionary const *dict,
+	    std::unordered_set<std::string> *seen, bool check);
 };
 
 }
 }
 
 #endif // !__xcassets_Asset_IconSet_h
-

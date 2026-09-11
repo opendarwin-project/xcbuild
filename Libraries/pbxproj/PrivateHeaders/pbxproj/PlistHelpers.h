@@ -11,23 +11,25 @@
 
 #include <string>
 
-namespace plist { class Dictionary; }
-namespace plist { namespace Keys { class Unpack; } }
+namespace plist {
+class Dictionary;
+}
+namespace plist {
+namespace Keys {
+class Unpack;
+}
+}
 
 namespace pbxproj {
 
-plist::Dictionary const *
-PlistDictionaryGetPBXObject(plist::Dictionary const *dict,
-                            std::string const &key,
-                            std::string const &isa);
+plist::Dictionary const *PlistDictionaryGetPBXObject(
+    plist::Dictionary const *dict, std::string const &key,
+    std::string const &isa);
 
-plist::Dictionary const *
-PlistDictionaryGetIndirectPBXObject(plist::Dictionary const *objects,
-                                    plist::Keys::Unpack *unpack,
-                                    std::string const &key,
-                                    std::string const &isa,
-                                    std::string *id);
+plist::Dictionary const *PlistDictionaryGetIndirectPBXObject(
+    plist::Dictionary const *objects, plist::Keys::Unpack *unpack,
+    std::string const &key, std::string const &isa, std::string *id);
 
 }
 
-#endif  // !__pbxproj_JSHelpers_h
+#endif // !__pbxproj_JSHelpers_h

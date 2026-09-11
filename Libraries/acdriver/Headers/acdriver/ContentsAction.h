@@ -9,7 +9,9 @@
 #ifndef __acdriver_ContentsAction_h
 #define __acdriver_ContentsAction_h
 
-namespace libutil { class Filesystem; }
+namespace libutil {
+class Filesystem;
+}
 
 namespace acdriver {
 
@@ -21,12 +23,13 @@ class Result;
  * Prints the contents of an asset catalog.
  */
 class ContentsAction {
-public:
-    ContentsAction();
-    ~ContentsAction();
+    public:
+	ContentsAction();
+	~ContentsAction();
 
-public:
-    void run(libutil::Filesystem const *filesystem, Options const &options, Output *output, Result *result);
+    public:
+	void run(libutil::Filesystem const *filesystem, Options const &options,
+	    Output *output, Result *result);
 };
 
 }

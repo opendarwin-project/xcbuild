@@ -6,68 +6,71 @@
  LICENSE file in the root directory of this source tree.
  */
 
-#include <pbxproj/PBX/TargetDependency.h>
-#include <pbxproj/PBX/ContainerItemProxy.h>
-#include <pbxproj/PBX/NativeTarget.h>
-#include <pbxproj/PBX/AggregateTarget.h>
-#include <pbxproj/PBX/LegacyTarget.h>
 #include <pbxproj/Context.h>
+#include <pbxproj/PBX/AggregateTarget.h>
+#include <pbxproj/PBX/ContainerItemProxy.h>
+#include <pbxproj/PBX/LegacyTarget.h>
+#include <pbxproj/PBX/NativeTarget.h>
+#include <pbxproj/PBX/TargetDependency.h>
 
-using pbxproj::PBX::TargetDependency;
 using pbxproj::Context;
+using pbxproj::PBX::TargetDependency;
 
-TargetDependency::
-TargetDependency() :
-    Object(Isa())
+TargetDependency::TargetDependency()
+    : Object(Isa())
 {
 }
 
-bool TargetDependency::
-parse(Context &context, plist::Dictionary const *dict, std::unordered_set<std::string> *seen, bool check)
+bool TargetDependency::parse(Context &context, plist::Dictionary const *dict,
+    std::unordered_set<std::string> *seen, bool check)
 {
-    if (!Object::parse(context, dict, seen, false)) {
-        return false;
-    }
+	if (!Object::parse(context, dict, seen, false)) {
+		return false;
+	}
 
-    std::string TID;
-    std::string TPID;
+	std::string TID;
+	std::string TPID;
 
-    auto unpack = plist::Keys::Unpack("TargetDependency", dict, seen);
+	auto unpack = plist::Keys::Unpack("TargetDependency", dict, seen);
 
-    auto N  = unpack.cast <plist::String> ("name");
-    auto TP = context.indirect <ContainerItemProxy> (&unpack, "targetProxy", &TPID);
+	auto N = unpack.cast<plist::String>("name");
+	auto TP = context.indirect<ContainerItemProxy>(
+	    &unpack, "targetProxy", &TPID);
 
-    if (auto T = context.indirect <NativeTarget> (&unpack, "target", &TID)) {
-        _target = context.parseObject(context.nativeTargets, TID, T);
-        if (!_target) {
-            return false;
-        }
-    } else if (auto T = context.indirect <AggregateTarget> (&unpack, "target", &TID)) {
-        _target = context.parseObject(context.aggregateTargets, TID, T);
-        if (!_target) {
-            return false;
-        }
-    } else if (auto T = context.indirect <LegacyTarget> (&unpack, "target", &TID)) {
-        _target = context.parseObject(context.legacyTargets, TID, T);
-        if (!_target) {
-            return false;
-        }
-    }
+	if (auto T = context.indirect<NativeTarget>(&unpack, "target", &TID)) {
+		_target = context.parseObject(context.nativeTargets, TID, T);
+		if (!_target) {
+			return false;
+		}
+	} else if (auto T = context.indirect<AggregateTarget>(
+		       &unpack, "target", &TID)) {
+		_target = context.parseObject(context.aggregateTargets, TID, T);
+		if (!_target) {
+			return false;
+		}
+	} else if (auto T = context.indirect<LegacyTarget>(
+		       &unpack, "target", &TID)) {
+		_target = context.parseObject(context.legacyTargets, TID, T);
+		if (!_target) {
+			return false;
+		}
+	}
 
-    if (!unpack.complete(check)) {
-        fprintf(stderr, "%s", unpack.errorText().c_str());
-    }
+	if (!unpack.complete(check)) {
+		fprintf(stderr, "%s", unpack.errorText().c_str());
+	}
 
-    if (N != nullptr) {
-        _name = N->value();
-    }
+	if (N != nullptr) {
+		_name = N->value();
+	}
 
-    if (TP != nullptr) {
-        _targetProxy = context.parseObject(context.containerItemProxies, TPID, TP);
-        if (!_targetProxy) {
-            return false;
-        }
-    }
+	if (TP != nullptr) {
+		_targetProxy = context.parseObject(
+		    context.containerItemProxies, TPID, TP);
+		if (!_targetProxy) {
+			return false;
+		}
+	}
 
-    return true;
+	return true;
 }

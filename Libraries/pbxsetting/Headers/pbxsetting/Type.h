@@ -21,58 +21,53 @@ namespace pbxsetting {
  * or lists of strings. This is a standardized way to parse them into those.
  */
 class Type {
-private:
-    Type();
-    ~Type();
+    private:
+	Type();
+	~Type();
 
-public:
-    /*
-     * Parses out a boolean. Any capitalization of "YES" or "true" will become
-     * true, otherwise this will return false.
-     */
-    static bool
-    ParseBoolean(std::string const &value);
+    public:
+	/*
+	 * Parses out a boolean. Any capitalization of "YES" or "true" will
+	 * become true, otherwise this will return false.
+	 */
+	static bool ParseBoolean(std::string const &value);
 
-    /*
-     * Parses out an integer. Returns 0 if an integer could not be parsed.
-     */
-    static int64_t
-    ParseInteger(std::string const &value);
+	/*
+	 * Parses out an integer. Returns 0 if an integer could not be parsed.
+	 */
+	static int64_t ParseInteger(std::string const &value);
 
-    /*
-     * Parses a space-separated list of strings (or path names). Simple quoting
-     * can be used to escape spaces in strings, and backslashes to escape quotes.
-     */
-    static std::vector<std::string>
-    ParseList(std::string const &value);
+	/*
+	 * Parses a space-separated list of strings (or path names). Simple
+	 * quoting can be used to escape spaces in strings, and backslashes to
+	 * escape quotes.
+	 */
+	static std::vector<std::string> ParseList(std::string const &value);
 
-public:
-    /*
-     * Formats a boolean for use in a setting value.
-     */
-    static std::string
-    FormatBoolean(bool value);
+    public:
+	/*
+	 * Formats a boolean for use in a setting value.
+	 */
+	static std::string FormatBoolean(bool value);
 
-    /*
-     * Formats an integer for use in a setting value.
-     */
-    static std::string
-    FormatInteger(int64_t value);
+	/*
+	 * Formats an integer for use in a setting value.
+	 */
+	static std::string FormatInteger(int64_t value);
 
-    /*
-     * Formats a floating point value for use in a setting value.
-     */
-    static std::string
-    FormatReal(double value);
+	/*
+	 * Formats a floating point value for use in a setting value.
+	 */
+	static std::string FormatReal(double value);
 
-    /*
-     * Formats a space-separated list of strings (or path names) for a setting
-     * value. Quoting is used to escape strings to keep the list structure.
-     */
-    static std::string
-    FormatList(std::vector<std::string> const &value);
+	/*
+	 * Formats a space-separated list of strings (or path names) for a
+	 * setting value. Quoting is used to escape strings to keep the list
+	 * structure.
+	 */
+	static std::string FormatList(std::vector<std::string> const &value);
 };
 
 }
 
-#endif  // !__pbxsetting_Type_h
+#endif // !__pbxsetting_Type_h

@@ -18,24 +18,24 @@ namespace xcassets {
  * The origin point of the texture.
  */
 enum class TextureOrigin {
-    BottomLeft,
+	BottomLeft,
 };
 
 class TextureOrigins {
-private:
-    TextureOrigins();
-    ~TextureOrigins();
+    private:
+	TextureOrigins();
+	~TextureOrigins();
 
-public:
-    /*
-     * Parse a matching texture origin from a string, if valid.
-     */
-    static ext::optional<TextureOrigin> Parse(std::string const &value);
+    public:
+	/*
+	 * Parse a matching texture origin from a string, if valid.
+	 */
+	static ext::optional<TextureOrigin> Parse(std::string const &value);
 
-    /*
-     * Convert an texture origin to a string.
-     */
-    static std::string String(TextureOrigin textureOrigin);
+	/*
+	 * Convert an texture origin to a string.
+	 */
+	static std::string String(TextureOrigin textureOrigin);
 };
 
 }

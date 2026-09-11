@@ -10,44 +10,43 @@
 
 namespace Tool = pbxbuild::Tool;
 
-Tool::AuxiliaryFile::Chunk::
-Chunk(Type type, ext::optional<std::vector<uint8_t>> const &data, ext::optional<std::string> const &file) :
-    _type(type),
-    _data(data),
-    _file(file)
+Tool::AuxiliaryFile::Chunk::Chunk(Type type,
+    ext::optional<std::vector<uint8_t>> const &data,
+    ext::optional<std::string> const &file)
+    : _type(type)
+    , _data(data)
+    , _file(file)
 {
 }
 
-Tool::AuxiliaryFile::Chunk Tool::AuxiliaryFile::Chunk::
-Data(std::vector<uint8_t> const &data)
+Tool::AuxiliaryFile::Chunk Tool::AuxiliaryFile::Chunk::Data(
+    std::vector<uint8_t> const &data)
 {
-    return Chunk(Type::Data, data, ext::nullopt);
+	return Chunk(Type::Data, data, ext::nullopt);
 }
 
-Tool::AuxiliaryFile::Chunk Tool::AuxiliaryFile::Chunk::
-File(std::string const &file)
+Tool::AuxiliaryFile::Chunk Tool::AuxiliaryFile::Chunk::File(
+    std::string const &file)
 {
-    return Chunk(Type::File, ext::nullopt, file);
+	return Chunk(Type::File, ext::nullopt, file);
 }
 
-Tool::AuxiliaryFile::
-AuxiliaryFile(std::string const &path, std::vector<Chunk> const &chunks, bool executable) :
-    _path      (path),
-    _chunks    (chunks),
-    _executable(executable)
+Tool::AuxiliaryFile::AuxiliaryFile(
+    std::string const &path, std::vector<Chunk> const &chunks, bool executable)
+    : _path(path)
+    , _chunks(chunks)
+    , _executable(executable)
 {
 }
 
-Tool::AuxiliaryFile Tool::AuxiliaryFile::
-Data(std::string const &path, std::vector<uint8_t> const &data, bool executable)
+Tool::AuxiliaryFile Tool::AuxiliaryFile::Data(
+    std::string const &path, std::vector<uint8_t> const &data, bool executable)
 {
-    return Tool::AuxiliaryFile(path, { Chunk::Data(data) }, executable);
+	return Tool::AuxiliaryFile(path, { Chunk::Data(data) }, executable);
 }
 
-Tool::AuxiliaryFile Tool::AuxiliaryFile::
-File(std::string const &path, std::string const &file, bool executable)
+Tool::AuxiliaryFile Tool::AuxiliaryFile::File(
+    std::string const &path, std::string const &file, bool executable)
 {
-    return Tool::AuxiliaryFile(path, { Chunk::File(file) }, executable);
+	return Tool::AuxiliaryFile(path, { Chunk::File(file) }, executable);
 }
-
-

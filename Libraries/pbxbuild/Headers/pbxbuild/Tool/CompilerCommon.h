@@ -12,7 +12,9 @@
 #include <string>
 #include <vector>
 
-namespace pbxsetting { class Environment; }
+namespace pbxsetting {
+class Environment;
+}
 
 namespace pbxbuild {
 namespace Tool {
@@ -21,21 +23,27 @@ class SearchPaths;
 class HeadermapInfo;
 
 class CompilerCommon {
-private:
-    CompilerCommon();
-    ~CompilerCommon();
+    private:
+	CompilerCommon();
+	~CompilerCommon();
 
-public:
-    /*
-     * Appends a potentially joined flag list. Each value in `values` is added,
-     * prefixed by `prefix`. If `concatenate` is true, they are concatenated first.
-     */
-    static void AppendCompoundFlags(std::vector<std::string> *args, std::string const &prefix, bool concatenate, std::vector<std::string> const &values);
+    public:
+	/*
+	 * Appends a potentially joined flag list. Each value in `values` is
+	 * added, prefixed by `prefix`. If `concatenate` is true, they are
+	 * concatenated first.
+	 */
+	static void AppendCompoundFlags(std::vector<std::string> *args,
+	    std::string const &prefix, bool concatenate,
+	    std::vector<std::string> const &values);
 
-    /*
-     * Append flags for include paths, including from header maps.
-     */
-    static void AppendIncludePathFlags(std::vector<std::string> *args, pbxsetting::Environment const &environment, Tool::SearchPaths const &searchPaths, Tool::HeadermapInfo const &headermapInfo);
+	/*
+	 * Append flags for include paths, including from header maps.
+	 */
+	static void AppendIncludePathFlags(std::vector<std::string> *args,
+	    pbxsetting::Environment const &environment,
+	    Tool::SearchPaths const &searchPaths,
+	    Tool::HeadermapInfo const &headermapInfo);
 };
 
 }

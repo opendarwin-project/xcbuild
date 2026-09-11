@@ -11,16 +11,16 @@
 
 #include <plist/Base.h>
 
-#include <string>
 #include <ctime>
+#include <string>
 
 namespace plist {
 
 struct ISODate {
-    static void Decode(std::string const &in, struct tm &out);
-    static std::string Encode(struct tm const &in);
+	static void Decode(std::string const &in, struct tm &out);
+	static std::string Encode(struct tm const &in);
 };
 
 }
 
-#endif  // !__plist_ISODate_h
+#endif // !__plist_ISODate_h

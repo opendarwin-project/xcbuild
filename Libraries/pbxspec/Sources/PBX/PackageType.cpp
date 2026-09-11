@@ -6,145 +6,138 @@
  LICENSE file in the root directory of this source tree.
  */
 
-#include <pbxspec/PBX/PackageType.h>
-#include <pbxspec/Inherit.h>
 #include <pbxspec/Context.h>
+#include <pbxspec/Inherit.h>
+#include <pbxspec/PBX/PackageType.h>
 #include <plist/Boolean.h>
 #include <plist/Dictionary.h>
-#include <plist/String.h>
 #include <plist/Keys/Unpack.h>
+#include <plist/String.h>
 
-using pbxspec::PBX::PackageType;
 using pbxsetting::Level;
 using pbxsetting::Setting;
+using pbxspec::PBX::PackageType;
 
-PackageType::
-PackageType() :
-    Specification()
+PackageType::PackageType()
+    : Specification()
 {
 }
 
-PackageType::~
-PackageType()
+PackageType::~PackageType() { }
+
+PackageType::shared_ptr PackageType::Parse(
+    Context *context, plist::Dictionary const *dict)
 {
+	if (!ParseType(context, dict, Type())) {
+		return nullptr;
+	}
+
+	PackageType::shared_ptr result;
+	result.reset(new PackageType());
+
+	std::unordered_set<std::string> seen;
+	if (!result->parse(context, dict, &seen, true))
+		return nullptr;
+
+	return result;
 }
 
-PackageType::shared_ptr PackageType::
-Parse(Context *context, plist::Dictionary const *dict)
+bool PackageType::parse(Context *context, plist::Dictionary const *dict,
+    std::unordered_set<std::string> *seen, bool check)
 {
-    if (!ParseType(context, dict, Type())) {
-        return nullptr;
-    }
+	if (!Specification::parse(context, dict, seen, false))
+		return false;
 
-    PackageType::shared_ptr result;
-    result.reset(new PackageType());
+	auto unpack = plist::Keys::Unpack("PackageType", dict, seen);
 
-    std::unordered_set<std::string> seen;
-    if (!result->parse(context, dict, &seen, true))
-        return nullptr;
+	auto PR = unpack.cast<plist::Dictionary>("ProductReference");
+	auto DBS = unpack.cast<plist::Dictionary>("DefaultBuildSettings");
 
-    return result;
+	if (!unpack.complete(check)) {
+		fprintf(stderr, "%s", unpack.errorText().c_str());
+	}
+
+	if (PR != nullptr) {
+		ProductReference productReference;
+		if (productReference.parse(PR)) {
+			_productReference = productReference;
+		}
+	}
+
+	if (DBS != nullptr) {
+		std::vector<Setting> settings;
+		for (size_t n = 0; n < DBS->count(); n++) {
+			auto DBSK = DBS->key(n);
+			auto DBSV = DBS->value<plist::String>(DBSK);
+
+			if (DBSV != nullptr) {
+				Setting setting = Setting::Parse(
+				    DBSK, DBSV->value());
+				settings.push_back(setting);
+			}
+		}
+		_defaultBuildSettings = Level(settings);
+	}
+
+	return true;
 }
 
-bool PackageType::
-parse(Context *context, plist::Dictionary const *dict, std::unordered_set<std::string> *seen, bool check)
+bool PackageType::inherit(Specification::shared_ptr const &base)
 {
-    if (!Specification::parse(context, dict, seen, false))
-        return false;
+	if (base->type() != PackageType::Type())
+		return false;
 
-    auto unpack = plist::Keys::Unpack("PackageType", dict, seen);
-
-    auto PR  = unpack.cast <plist::Dictionary> ("ProductReference");
-    auto DBS = unpack.cast <plist::Dictionary> ("DefaultBuildSettings");
-
-    if (!unpack.complete(check)) {
-        fprintf(stderr, "%s", unpack.errorText().c_str());
-    }
-
-    if (PR != nullptr) {
-        ProductReference productReference;
-        if (productReference.parse(PR)) {
-            _productReference = productReference;
-        }
-    }
-
-    if (DBS != nullptr) {
-        std::vector<Setting> settings;
-        for (size_t n = 0; n < DBS->count(); n++) {
-            auto DBSK = DBS->key(n);
-            auto DBSV = DBS->value <plist::String> (DBSK);
-
-            if (DBSV != nullptr) {
-                Setting setting = Setting::Parse(DBSK, DBSV->value());
-                settings.push_back(setting);
-            }
-        }
-        _defaultBuildSettings = Level(settings);
-    }
-
-    return true;
+	return inherit(std::static_pointer_cast<PackageType>(base));
 }
 
-bool PackageType::
-inherit(Specification::shared_ptr const &base)
+bool PackageType::inherit(PackageType::shared_ptr const &b)
 {
-    if (base->type() != PackageType::Type())
-        return false;
+	if (!Specification::inherit(b))
+		return false;
 
-    return inherit(std::static_pointer_cast<PackageType>(base));
+	auto base = this->base();
+
+	_productReference = Inherit::Override(
+	    _productReference, base->_productReference);
+	_defaultBuildSettings = Inherit::Combine(
+	    _defaultBuildSettings, base->_defaultBuildSettings);
+
+	return true;
 }
 
-bool PackageType::
-inherit(PackageType::shared_ptr const &b)
+PackageType::ProductReference::ProductReference() { }
+
+bool PackageType::ProductReference::parse(plist::Dictionary const *dict)
 {
-    if (!Specification::inherit(b))
-        return false;
+	std::unordered_set<std::string> seen;
+	auto unpack = plist::Keys::Unpack("ProductReference", dict, &seen);
 
-    auto base = this->base();
+	auto N = unpack.cast<plist::String>("Name");
+	auto FT = unpack.cast<plist::String>("FileType");
+	auto IL = unpack.coerce<plist::Boolean>("IsLaunchable");
 
-    _productReference     = Inherit::Override(_productReference, base->_productReference);
-    _defaultBuildSettings = Inherit::Combine(_defaultBuildSettings, base->_defaultBuildSettings);
+	/* This appears to be a typo in the default specifications. */
+	auto EB = unpack.cast<plist::String>("ENABLE_BITCODE");
 
-    return true;
-}
+	if (!unpack.complete(true)) {
+		fprintf(stderr, "%s", unpack.errorText().c_str());
+	}
 
-PackageType::ProductReference::
-ProductReference()
-{
-}
+	if (N != nullptr) {
+		_name = N->value();
+	}
 
-bool PackageType::ProductReference::
-parse(plist::Dictionary const *dict)
-{
-    std::unordered_set<std::string> seen;
-    auto unpack = plist::Keys::Unpack("ProductReference", dict, &seen);
+	if (FT != nullptr) {
+		_fileType = FT->value();
+	}
 
-    auto N  = unpack.cast <plist::String> ("Name");
-    auto FT = unpack.cast <plist::String> ("FileType");
-    auto IL = unpack.coerce <plist::Boolean> ("IsLaunchable");
+	if (IL != nullptr) {
+		_isLaunchable = IL->value();
+	}
 
-    /* This appears to be a typo in the default specifications. */
-    auto EB = unpack.cast <plist::String>("ENABLE_BITCODE");
+	if (EB != nullptr) {
+		(void)EB;
+	}
 
-    if (!unpack.complete(true)) {
-        fprintf(stderr, "%s", unpack.errorText().c_str());
-    }
-
-    if (N != nullptr) {
-        _name = N->value();
-    }
-
-    if (FT != nullptr) {
-        _fileType = FT->value();
-    }
-
-    if (IL != nullptr) {
-        _isLaunchable = IL->value();
-    }
-
-    if (EB != nullptr) {
-        (void)EB;
-    }
-
-    return true;
+	return true;
 }

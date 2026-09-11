@@ -9,8 +9,8 @@
 #ifndef __xcworkspace_xcworkspace_h
 #define __xcworkspace_xcworkspace_h
 
-#include <xcworkspace/XC/Workspace.h>
-#include <xcworkspace/XC/Group.h>
 #include <xcworkspace/XC/FileRef.h>
+#include <xcworkspace/XC/Group.h>
+#include <xcworkspace/XC/Workspace.h>
 
-#endif  // !__xcworkspace_xcworkspace_h
+#endif // !__xcworkspace_xcworkspace_h

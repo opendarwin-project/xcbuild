@@ -10,8 +10,7 @@
 
 using xcworkspace::XC::FileRef;
 
-FileRef::
-FileRef() :
-    GroupItem(Type::FileRef)
+FileRef::FileRef()
+    : GroupItem(Type::FileRef)
 {
 }

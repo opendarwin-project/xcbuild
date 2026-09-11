@@ -6,57 +6,57 @@
  LICENSE file in the root directory of this source tree.
  */
 
-#include <xcscheme/XC/ProfileAction.h>
 #include <plist/Boolean.h>
 #include <plist/Dictionary.h>
 #include <plist/String.h>
+#include <xcscheme/XC/ProfileAction.h>
 
 using xcscheme::XC::ProfileAction;
 
-ProfileAction::
-ProfileAction() :
-    _debugDocumentVersioning     (false),
-    _shouldUseLaunchSchemeArgsEnv(false),
-    _useCustomWorkingDirectory   (false)
+ProfileAction::ProfileAction()
+    : _debugDocumentVersioning(false)
+    , _shouldUseLaunchSchemeArgsEnv(false)
+    , _useCustomWorkingDirectory(false)
 {
 }
 
-bool ProfileAction::
-parse(plist::Dictionary const *dict)
+bool ProfileAction::parse(plist::Dictionary const *dict)
 {
-    if (!Action::parse(dict))
-        return false;
+	if (!Action::parse(dict))
+		return false;
 
-    auto DDV    = dict->value <plist::Boolean> ("debugDocumentVersioning");
-    auto SULSAE = dict->value <plist::Boolean> ("shouldUseLaunchSchemeArgsEnv");
-    auto UCWD   = dict->value <plist::Boolean> ("useCustomWorkingDirectory");
-    auto STI    = dict->value <plist::String> ("savedToolIdentifier");
-    auto BPR    = dict->value <plist::Dictionary> ("BuildableProductRunnable");
+	auto DDV = dict->value<plist::Boolean>("debugDocumentVersioning");
+	auto SULSAE = dict->value<plist::Boolean>(
+	    "shouldUseLaunchSchemeArgsEnv");
+	auto UCWD = dict->value<plist::Boolean>("useCustomWorkingDirectory");
+	auto STI = dict->value<plist::String>("savedToolIdentifier");
+	auto BPR = dict->value<plist::Dictionary>("BuildableProductRunnable");
 
-    if (DDV != nullptr) {
-        _debugDocumentVersioning = DDV->value();
-    }
+	if (DDV != nullptr) {
+		_debugDocumentVersioning = DDV->value();
+	}
 
-    if (SULSAE != nullptr) {
-        _shouldUseLaunchSchemeArgsEnv = SULSAE->value();
-    }
+	if (SULSAE != nullptr) {
+		_shouldUseLaunchSchemeArgsEnv = SULSAE->value();
+	}
 
-    if (UCWD != nullptr) {
-        _useCustomWorkingDirectory = UCWD->value();
-    }
+	if (UCWD != nullptr) {
+		_useCustomWorkingDirectory = UCWD->value();
+	}
 
-    if (STI != nullptr) {
-        _savedToolIdentifier = STI->value();
-    }
+	if (STI != nullptr) {
+		_savedToolIdentifier = STI->value();
+	}
 
-    if (BPR != nullptr) {
-        auto BR = BPR->value <plist::Dictionary> ("BuildableReference");
-        if (BR != nullptr) {
-            _buildableProductRunnable = std::make_shared <BuildableReference> ();
-            if (!_buildableProductRunnable->parse(BR))
-                return false;
-        }
-    }
+	if (BPR != nullptr) {
+		auto BR = BPR->value<plist::Dictionary>("BuildableReference");
+		if (BR != nullptr) {
+			_buildableProductRunnable =
+			    std::make_shared<BuildableReference>();
+			if (!_buildableProductRunnable->parse(BR))
+				return false;
+		}
+	}
 
-    return true;
+	return true;
 }

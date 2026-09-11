@@ -13,28 +13,27 @@
 using xcassets::Slot::ColorSpace;
 using xcassets::Slot::ColorSpaces;
 
-ext::optional<ColorSpace> ColorSpaces::
-Parse(std::string const &value)
+ext::optional<ColorSpace> ColorSpaces::Parse(std::string const &value)
 {
-    if (value == "sRGB") {
-        return ColorSpace::sRGB;
-    } else if (value == "display-P3") {
-        return ColorSpace::DisplayP3;
-    } else {
-        fprintf(stderr, "warning: unknown platform %s\n", value.c_str());
-        return ext::nullopt;
-    }
+	if (value == "sRGB") {
+		return ColorSpace::sRGB;
+	} else if (value == "display-P3") {
+		return ColorSpace::DisplayP3;
+	} else {
+		fprintf(
+		    stderr, "warning: unknown platform %s\n", value.c_str());
+		return ext::nullopt;
+	}
 }
 
-std::string ColorSpaces::
-String(ColorSpace platform)
+std::string ColorSpaces::String(ColorSpace platform)
 {
-    switch (platform) {
-        case ColorSpace::sRGB:
-            return "sRGB";
-        case ColorSpace::DisplayP3:
-            return "display-P3";
-    }
+	switch (platform) {
+	case ColorSpace::sRGB:
+		return "sRGB";
+	case ColorSpace::DisplayP3:
+		return "display-P3";
+	}
 
-    abort();
+	abort();
 }

@@ -11,24 +11,17 @@
 #include <acdriver/Result.h>
 #include <libutil/Filesystem.h>
 
+using acdriver::Result;
 using acdriver::Compile::IconSet;
 using acdriver::Compile::Output;
-using acdriver::Result;
 using libutil::Filesystem;
 
-bool IconSet::
-Compile(
-    xcassets::Asset::IconSet const *iconSet,
-    Filesystem *filesystem,
-    Output *compileOutput,
-    Result *result)
+bool IconSet::Compile(xcassets::Asset::IconSet const *iconSet,
+    Filesystem *filesystem, Output *compileOutput, Result *result)
 {
-    result->document(
-        Result::Severity::Warning,
-        iconSet->path(),
-        { Output::AssetReference(iconSet) },
-        "Not Implemented",
-        "icon set not yet supported");
+	result->document(Result::Severity::Warning, iconSet->path(),
+	    { Output::AssetReference(iconSet) }, "Not Implemented",
+	    "icon set not yet supported");
 
-    return false;
+	return false;
 }

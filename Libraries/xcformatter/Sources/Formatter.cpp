@@ -10,19 +10,11 @@
 
 using xcformatter::Formatter;
 
-Formatter::
-Formatter()
-{
-}
+Formatter::Formatter() { }
 
-Formatter::
-~Formatter()
-{
-}
+Formatter::~Formatter() { }
 
-void Formatter::
-Print(std::string const &output)
+void Formatter::Print(std::string const &output)
 {
-    fputs(output.c_str(), stdout);
+	fputs(output.c_str(), stdout);
 }
-

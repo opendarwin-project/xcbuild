@@ -12,33 +12,35 @@
 #include <memory>
 #include <string>
 
-namespace plist { class Dictionary; }
+namespace plist {
+class Dictionary;
+}
 
-namespace xcscheme { namespace XC {
+namespace xcscheme {
+namespace XC {
 
 class LocationScenarioReference {
-public:
-    typedef std::shared_ptr <LocationScenarioReference> shared_ptr;
+    public:
+	typedef std::shared_ptr<LocationScenarioReference> shared_ptr;
 
-private:
-    std::string _identifier;
-    uint32_t    _referenceType;
+    private:
+	std::string _identifier;
+	uint32_t _referenceType;
 
-public:
-    LocationScenarioReference();
+    public:
+	LocationScenarioReference();
 
-public:
-    inline std::string const &identifier() const
-    { return _identifier; }
+    public:
+	inline std::string const &identifier() const { return _identifier; }
 
-public:
-    inline uint32_t referenceType() const
-    { return _referenceType; }
+    public:
+	inline uint32_t referenceType() const { return _referenceType; }
 
-public:
-    bool parse(plist::Dictionary const *dict);
+    public:
+	bool parse(plist::Dictionary const *dict);
 };
 
-} }
+}
+}
 
-#endif  // !__xcscheme_XC_LocationScenarioReference_h
+#endif // !__xcscheme_XC_LocationScenarioReference_h

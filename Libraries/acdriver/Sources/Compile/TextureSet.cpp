@@ -6,29 +6,22 @@
  LICENSE file in the root directory of this source tree.
  */
 
-#include <acdriver/Compile/TextureSet.h>
 #include <acdriver/Compile/Output.h>
+#include <acdriver/Compile/TextureSet.h>
 #include <acdriver/Result.h>
 #include <libutil/Filesystem.h>
 
-using acdriver::Compile::TextureSet;
-using acdriver::Compile::Output;
 using acdriver::Result;
+using acdriver::Compile::Output;
+using acdriver::Compile::TextureSet;
 using libutil::Filesystem;
 
-bool TextureSet::
-Compile(
-    xcassets::Asset::TextureSet const *textureSet,
-    Filesystem *filesystem,
-    Output *compileOutput,
-    Result *result)
+bool TextureSet::Compile(xcassets::Asset::TextureSet const *textureSet,
+    Filesystem *filesystem, Output *compileOutput, Result *result)
 {
-    result->document(
-        Result::Severity::Warning,
-        textureSet->path(),
-        { Output::AssetReference(textureSet) },
-        "Not Implemented",
-        "texture set not yet supported");
+	result->document(Result::Severity::Warning, textureSet->path(),
+	    { Output::AssetReference(textureSet) }, "Not Implemented",
+	    "texture set not yet supported");
 
-    return false;
+	return false;
 }

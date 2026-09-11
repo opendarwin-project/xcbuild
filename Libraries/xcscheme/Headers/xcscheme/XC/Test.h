@@ -13,29 +13,32 @@
 #include <string>
 #include <vector>
 
-namespace plist { class Dictionary; }
+namespace plist {
+class Dictionary;
+}
 
-namespace xcscheme { namespace XC {
+namespace xcscheme {
+namespace XC {
 
 class Test {
-public:
-    typedef std::shared_ptr <Test> shared_ptr;
-    typedef std::vector <shared_ptr> vector;
+    public:
+	typedef std::shared_ptr<Test> shared_ptr;
+	typedef std::vector<shared_ptr> vector;
 
-private:
-    std::string _identifier;
+    private:
+	std::string _identifier;
 
-public:
-    Test();
+    public:
+	Test();
 
-public:
-    inline std::string const &identifier() const
-    { return _identifier; }
+    public:
+	inline std::string const &identifier() const { return _identifier; }
 
-public:
-    bool parse(plist::Dictionary const *dict);
+    public:
+	bool parse(plist::Dictionary const *dict);
 };
 
-} }
+}
+}
 
-#endif  // !__xcscheme_XC_Test_h
+#endif // !__xcscheme_XC_Test_h

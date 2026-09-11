@@ -21,11 +21,12 @@ class Context;
  * Copies the Swift standard library into the product, if needed.
  */
 class SwiftResolver {
-public:
-    explicit SwiftResolver();
+    public:
+	explicit SwiftResolver();
 
-public:
-    bool resolve(Phase::Environment const &phaseEnvironment, Phase::Context *phaseContext) const;
+    public:
+	bool resolve(Phase::Environment const &phaseEnvironment,
+	    Phase::Context *phaseContext) const;
 };
 
 }

@@ -6,68 +6,53 @@
  LICENSE file in the root directory of this source tree.
  */
 
-#include <plist/Data.h>
 #include <plist/Base64.h>
+#include <plist/Data.h>
 
-using plist::Object;
 using plist::Data;
+using plist::Object;
 
 using plist::Base64;
 
-Data::
-Data(std::string const &value)
+Data::Data(std::string const &value) { Base64::Decode(value, _value); }
+
+std::unique_ptr<Data> Data::New(std::vector<uint8_t> const &value)
 {
-    Base64::Decode(value, _value);
+	return std::unique_ptr<Data>(new Data(value));
 }
 
-std::unique_ptr<Data> Data::
-New(std::vector<uint8_t> const &value)
+std::unique_ptr<Data> Data::New(std::vector<uint8_t> &&value)
 {
-    return std::unique_ptr<Data>(new Data(value));
+	return std::unique_ptr<Data>(new Data(std::move(value)));
 }
 
-std::unique_ptr<Data> Data::
-New(std::vector<uint8_t> &&value)
+std::unique_ptr<Data> Data::New(std::string const &value)
 {
-    return std::unique_ptr<Data>(new Data(std::move(value)));
+	return std::unique_ptr<Data>(new Data(value));
 }
 
-std::unique_ptr<Data> Data::
-New(std::string const &value)
+std::unique_ptr<Data> Data::New(void const *bytes, size_t length)
 {
-    return std::unique_ptr<Data>(new Data(value));
+	return std::unique_ptr<Data>(new Data(bytes, length));
 }
 
-std::unique_ptr<Data> Data::
-New(void const *bytes, size_t length)
+void Data::setBase64Value(std::string const &value)
 {
-    return std::unique_ptr<Data>(new Data(bytes, length));
+	Base64::Decode(value, _value);
 }
 
-void Data::
-setBase64Value(std::string const &value)
+std::string Data::base64Value() const { return Base64::Encode(_value); }
+
+std::unique_ptr<Object> Data::_copy() const
 {
-    Base64::Decode(value, _value);
+	return plist::static_unique_pointer_cast<Object>(Data::New(_value));
 }
 
-std::string Data::
-base64Value() const
+std::unique_ptr<Data> Data::Coerce(Object const *obj)
 {
-    return Base64::Encode(_value);
-}
+	if (Data const *data = CastTo<Data>(obj)) {
+		return data->copy();
+	}
 
-std::unique_ptr<Object> Data::
-_copy() const
-{
-    return plist::static_unique_pointer_cast<Object>(Data::New(_value));
-}
-
-std::unique_ptr<Data> Data::
-Coerce(Object const *obj)
-{
-    if (Data const *data = CastTo<Data>(obj)) {
-        return data->copy();
-    }
-
-    return nullptr;
+	return nullptr;
 }

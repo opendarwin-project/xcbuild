@@ -15,50 +15,43 @@
 namespace plist {
 
 class Boolean : public Object {
-private:
-    bool _value;
+    private:
+	bool _value;
 
-private:
-    Boolean(bool value) :
-        _value(value)
-    {
-    }
+    private:
+	Boolean(bool value)
+	    : _value(value)
+	{
+	}
 
-public:
-    static std::unique_ptr<Boolean> New(bool value);
+    public:
+	static std::unique_ptr<Boolean> New(bool value);
 
-public:
-    inline bool value() const
-    {
-        return _value;
-    }
+    public:
+	inline bool value() const { return _value; }
 
-public:
-    static std::unique_ptr<Boolean> Coerce(Object const *obj);
+    public:
+	static std::unique_ptr<Boolean> Coerce(Object const *obj);
 
-public:
-    virtual ObjectType type() const
-    {
-        return Boolean::Type();
-    }
+    public:
+	virtual ObjectType type() const { return Boolean::Type(); }
 
-    static inline ObjectType Type()
-    {
-        return ObjectType::Boolean;
-    }
+	static inline ObjectType Type() { return ObjectType::Boolean; }
 
-protected:
-    virtual std::unique_ptr<Object> _copy() const;
+    protected:
+	virtual std::unique_ptr<Object> _copy() const;
 
-public:
-    std::unique_ptr<Boolean> copy() const
-    { return plist::static_unique_pointer_cast<Boolean>(_copy()); }
+    public:
+	std::unique_ptr<Boolean> copy() const
+	{
+		return plist::static_unique_pointer_cast<Boolean>(_copy());
+	}
 
-public:
-    virtual bool equals(Object const *obj) const;
-    virtual bool equals(Boolean const *obj) const;
+    public:
+	virtual bool equals(Object const *obj) const;
+	virtual bool equals(Boolean const *obj) const;
 };
 
 }
 
-#endif  // !__plist_Boolean_h
+#endif // !__plist_Boolean_h

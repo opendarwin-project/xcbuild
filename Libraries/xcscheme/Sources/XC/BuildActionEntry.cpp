@@ -6,58 +6,56 @@
  LICENSE file in the root directory of this source tree.
  */
 
-#include <xcscheme/XC/BuildActionEntry.h>
 #include <plist/Array.h>
 #include <plist/Boolean.h>
 #include <plist/Dictionary.h>
+#include <xcscheme/XC/BuildActionEntry.h>
 
 using xcscheme::XC::BuildActionEntry;
 
-BuildActionEntry::
-BuildActionEntry() :
-    _buildForAnalyzing(false),
-    _buildForArchiving(false),
-    _buildForProfiling(false),
-    _buildForRunning  (false),
-    _buildForTesting  (false)
+BuildActionEntry::BuildActionEntry()
+    : _buildForAnalyzing(false)
+    , _buildForArchiving(false)
+    , _buildForProfiling(false)
+    , _buildForRunning(false)
+    , _buildForTesting(false)
 {
 }
 
-bool BuildActionEntry::
-parse(plist::Dictionary const *dict)
+bool BuildActionEntry::parse(plist::Dictionary const *dict)
 {
-    auto BFAn = dict->value <plist::Boolean> ("buildForAnalyzing");
-    auto BFAr = dict->value <plist::Boolean> ("buildForArchiving");
-    auto BFP  = dict->value <plist::Boolean> ("buildForProfiling");
-    auto BFR  = dict->value <plist::Boolean> ("buildForRunning");
-    auto BFT  = dict->value <plist::Boolean> ("buildForTesting");
-    auto BR   = dict->value <plist::Dictionary> ("BuildableReference");
+	auto BFAn = dict->value<plist::Boolean>("buildForAnalyzing");
+	auto BFAr = dict->value<plist::Boolean>("buildForArchiving");
+	auto BFP = dict->value<plist::Boolean>("buildForProfiling");
+	auto BFR = dict->value<plist::Boolean>("buildForRunning");
+	auto BFT = dict->value<plist::Boolean>("buildForTesting");
+	auto BR = dict->value<plist::Dictionary>("BuildableReference");
 
-    if (BFAn != nullptr) {
-        _buildForAnalyzing = BFAn->value();
-    }
+	if (BFAn != nullptr) {
+		_buildForAnalyzing = BFAn->value();
+	}
 
-    if (BFAr != nullptr) {
-        _buildForArchiving = BFAr->value();
-    }
+	if (BFAr != nullptr) {
+		_buildForArchiving = BFAr->value();
+	}
 
-    if (BFP != nullptr) {
-        _buildForProfiling = BFP->value();
-    }
+	if (BFP != nullptr) {
+		_buildForProfiling = BFP->value();
+	}
 
-    if (BFR != nullptr) {
-        _buildForRunning = BFR->value();
-    }
+	if (BFR != nullptr) {
+		_buildForRunning = BFR->value();
+	}
 
-    if (BFT != nullptr) {
-        _buildForTesting = BFT->value();
-    }
+	if (BFT != nullptr) {
+		_buildForTesting = BFT->value();
+	}
 
-    if (BR != nullptr) {
-        _buildableReference = std::make_shared <BuildableReference> ();
-        if (!_buildableReference->parse(BR))
-            return false;
-    }
+	if (BR != nullptr) {
+		_buildableReference = std::make_shared<BuildableReference>();
+		if (!_buildableReference->parse(BR))
+			return false;
+	}
 
-    return true;
+	return true;
 }

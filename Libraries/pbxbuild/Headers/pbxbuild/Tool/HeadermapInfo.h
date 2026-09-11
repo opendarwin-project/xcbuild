@@ -16,25 +16,33 @@ namespace pbxbuild {
 namespace Tool {
 
 class HeadermapInfo {
-private:
-    std::vector<std::string> _systemHeadermapFiles;
-    std::vector<std::string> _userHeadermapFiles;
+    private:
+	std::vector<std::string> _systemHeadermapFiles;
+	std::vector<std::string> _userHeadermapFiles;
 
-public:
-    HeadermapInfo();
-    ~HeadermapInfo();
+    public:
+	HeadermapInfo();
+	~HeadermapInfo();
 
-public:
-    std::vector<std::string> const &systemHeadermapFiles() const
-    { return _systemHeadermapFiles; }
-    std::vector<std::string> const &userHeadermapFiles() const
-    { return _userHeadermapFiles; }
+    public:
+	std::vector<std::string> const &systemHeadermapFiles() const
+	{
+		return _systemHeadermapFiles;
+	}
+	std::vector<std::string> const &userHeadermapFiles() const
+	{
+		return _userHeadermapFiles;
+	}
 
-public:
-    std::vector<std::string> &systemHeadermapFiles()
-    { return _systemHeadermapFiles; }
-    std::vector<std::string> &userHeadermapFiles()
-    { return _userHeadermapFiles; }
+    public:
+	std::vector<std::string> &systemHeadermapFiles()
+	{
+		return _systemHeadermapFiles;
+	}
+	std::vector<std::string> &userHeadermapFiles()
+	{
+		return _userHeadermapFiles;
+	}
 };
 
 }

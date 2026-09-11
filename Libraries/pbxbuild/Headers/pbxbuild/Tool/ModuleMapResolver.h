@@ -11,7 +11,9 @@
 
 #include <pbxproj/PBX/Target.h>
 
-namespace pbxsetting { class Environment; }
+namespace pbxsetting {
+class Environment;
+}
 
 namespace pbxbuild {
 namespace Tool {
@@ -19,19 +21,17 @@ namespace Tool {
 class Context;
 
 class ModuleMapResolver {
-public:
-    ModuleMapResolver();
-    ~ModuleMapResolver();
+    public:
+	ModuleMapResolver();
+	~ModuleMapResolver();
 
-public:
-    void resolve(
-        Tool::Context *toolContext,
-        pbxsetting::Environment const &environment,
-        pbxproj::PBX::Target::shared_ptr const &target) const;
+    public:
+	void resolve(Tool::Context *toolContext,
+	    pbxsetting::Environment const &environment,
+	    pbxproj::PBX::Target::shared_ptr const &target) const;
 
-public:
-    static std::unique_ptr<ModuleMapResolver>
-    Create();
+    public:
+	static std::unique_ptr<ModuleMapResolver> Create();
 };
 
 }

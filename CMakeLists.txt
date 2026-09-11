@@ -32,15 +32,8 @@ endif ()
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}")
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}")
 
-# Language version.
-if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC" OR "${CMAKE_CXX_SIMULATE_ID}" STREQUAL "MSVC")
-  # C++ is by default. C99 is not supported.
-elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang" OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
-  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c99")
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
-else ()
-  message(WARNING "Compiler not supported to enable C++11.")
-endif ()
+set(CMAKE_CXX_STANDARD 23)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Unused language features.
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC" OR "${CMAKE_CXX_SIMULATE_ID}" STREQUAL "MSVC")
@@ -89,7 +82,7 @@ endif ()
 include(CTest)
 
 if (BUILD_TESTING)
-  add_subdirectory(ThirdParty/googletest/googletest)
+  add_subdirectory(ThirdParty/googletest)
 
   function (ADD_UNIT_GTEST LIBRARY NAME SOURCES)
     set(TARGET_NAME "test_${LIBRARY}_${NAME}")

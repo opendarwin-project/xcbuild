@@ -11,43 +11,54 @@
 
 #include <pbxspec/PBX/Specification.h>
 
-namespace pbxspec { namespace PBX {
+namespace pbxspec {
+namespace PBX {
 
 class BuildPhase : public Specification {
-public:
-    typedef std::shared_ptr <BuildPhase> shared_ptr;
-    typedef std::vector <shared_ptr> vector;
+    public:
+	typedef std::shared_ptr<BuildPhase> shared_ptr;
+	typedef std::vector<shared_ptr> vector;
 
-protected:
-    BuildPhase();
+    protected:
+	BuildPhase();
 
-public:
-    virtual ~BuildPhase();
+    public:
+	virtual ~BuildPhase();
 
-public:
-    inline SpecificationType type() const override
-    { return BuildPhase::Type(); }
+    public:
+	inline SpecificationType type() const override
+	{
+		return BuildPhase::Type();
+	}
 
-public:
-    inline BuildPhase::shared_ptr base() const
-    { return std::static_pointer_cast<BuildPhase>(Specification::base()); }
+    public:
+	inline BuildPhase::shared_ptr base() const
+	{
+		return std::static_pointer_cast<BuildPhase>(
+		    Specification::base());
+	}
 
-protected:
-    friend class Specification;
-    bool parse(Context *context, plist::Dictionary const *dict, std::unordered_set<std::string> *seen, bool check) override;
+    protected:
+	friend class Specification;
+	bool parse(Context *context, plist::Dictionary const *dict,
+	    std::unordered_set<std::string> *seen, bool check) override;
 
-protected:
-    bool inherit(Specification::shared_ptr const &base) override;
-    virtual bool inherit(BuildPhase::shared_ptr const &base);
+    protected:
+	bool inherit(Specification::shared_ptr const &base) override;
+	virtual bool inherit(BuildPhase::shared_ptr const &base);
 
-protected:
-    static BuildPhase::shared_ptr Parse(Context *context, plist::Dictionary const *dict);
+    protected:
+	static BuildPhase::shared_ptr Parse(
+	    Context *context, plist::Dictionary const *dict);
 
-public:
-    static inline SpecificationType Type()
-    { return SpecificationType::BuildPhase; }
+    public:
+	static inline SpecificationType Type()
+	{
+		return SpecificationType::BuildPhase;
+	}
 };
 
-} }
+}
+}
 
-#endif  // !__pbxspec_PBX_BuildPhase_h
+#endif // !__pbxspec_PBX_BuildPhase_h

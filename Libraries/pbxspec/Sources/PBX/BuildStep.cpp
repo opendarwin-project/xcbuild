@@ -6,83 +6,77 @@
  LICENSE file in the root directory of this source tree.
  */
 
-#include <pbxspec/PBX/BuildStep.h>
 #include <pbxspec/Context.h>
 #include <pbxspec/Inherit.h>
+#include <pbxspec/PBX/BuildStep.h>
 #include <plist/Dictionary.h>
-#include <plist/String.h>
 #include <plist/Keys/Unpack.h>
+#include <plist/String.h>
 
 using pbxspec::PBX::BuildStep;
 
-BuildStep::
-BuildStep() :
-    Specification()
+BuildStep::BuildStep()
+    : Specification()
 {
 }
 
-BuildStep::
-~BuildStep()
+BuildStep::~BuildStep() { }
+
+BuildStep::shared_ptr BuildStep::Parse(
+    Context *context, plist::Dictionary const *dict)
 {
+	if (!ParseType(context, dict, Type())) {
+		return nullptr;
+	}
+
+	BuildStep::shared_ptr result;
+	result.reset(new BuildStep());
+
+	std::unordered_set<std::string> seen;
+	if (!result->parse(context, dict, &seen, true))
+		return nullptr;
+
+	return result;
 }
 
-BuildStep::shared_ptr BuildStep::
-Parse(Context *context, plist::Dictionary const *dict)
+bool BuildStep::parse(Context *context, plist::Dictionary const *dict,
+    std::unordered_set<std::string> *seen, bool check)
 {
-    if (!ParseType(context, dict, Type())) {
-        return nullptr;
-    }
+	if (!Specification::parse(context, dict, seen, false))
+		return false;
 
-    BuildStep::shared_ptr result;
-    result.reset(new BuildStep());
+	auto unpack = plist::Keys::Unpack("BuildStep", dict, seen);
 
-    std::unordered_set<std::string> seen;
-    if (!result->parse(context, dict, &seen, true))
-        return nullptr;
+	auto BST = unpack.cast<plist::String>("BuildStepType");
 
-    return result;
+	if (!unpack.complete(check)) {
+		fprintf(stderr, "%s", unpack.errorText().c_str());
+	}
+
+	if (BST != nullptr) {
+		_buildStepType = BST->value();
+	}
+
+	return true;
 }
 
-bool BuildStep::
-parse(Context *context, plist::Dictionary const *dict, std::unordered_set<std::string> *seen, bool check)
+bool BuildStep::inherit(Specification::shared_ptr const &base)
 {
-    if (!Specification::parse(context, dict, seen, false))
-        return false;
+	if (base->type() != BuildStep::Type())
+		return false;
 
-    auto unpack = plist::Keys::Unpack("BuildStep", dict, seen);
-
-    auto BST = unpack.cast <plist::String> ("BuildStepType");
-
-    if (!unpack.complete(check)) {
-        fprintf(stderr, "%s", unpack.errorText().c_str());
-    }
-
-    if (BST != nullptr) {
-        _buildStepType = BST->value();
-    }
-
-    return true;
+	return inherit(std::static_pointer_cast<BuildStep>(base));
 }
 
-bool BuildStep::
-inherit(Specification::shared_ptr const &base)
+bool BuildStep::inherit(BuildStep::shared_ptr const &b)
 {
-    if (base->type() != BuildStep::Type())
-        return false;
+	if (!Specification::inherit(b))
+		return false;
 
-    return inherit(std::static_pointer_cast<BuildStep>(base));
+	auto base = this->base();
+
+	_buildStepType = Inherit::Override(
+	    _buildStepType, base->_buildStepType);
+
+	return true;
 }
-
-bool BuildStep::
-inherit(BuildStep::shared_ptr const &b)
-{
-    if (!Specification::inherit(b))
-        return false;
-
-    auto base = this->base();
-
-    _buildStepType = Inherit::Override(_buildStepType, base->_buildStepType);
-
-    return true;
-}
-

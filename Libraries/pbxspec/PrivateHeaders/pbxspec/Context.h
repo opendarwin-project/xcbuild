@@ -14,12 +14,12 @@
 namespace pbxspec {
 
 class Context {
-public:
-    std::string domain;
+    public:
+	std::string domain;
 };
 
 }
 
 using pbxspec::Context;
 
-#endif  // !__pbxspec_Context_h
+#endif // !__pbxspec_Context_h

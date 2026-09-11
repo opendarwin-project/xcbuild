@@ -18,19 +18,23 @@ class Environment;
 class Context;
 
 class HeadersResolver {
-private:
-    pbxproj::PBX::HeadersBuildPhase::shared_ptr _buildPhase;
+    private:
+	pbxproj::PBX::HeadersBuildPhase::shared_ptr _buildPhase;
 
-public:
-    explicit HeadersResolver(pbxproj::PBX::HeadersBuildPhase::shared_ptr const &buildPhase);
-    ~HeadersResolver();
+    public:
+	explicit HeadersResolver(
+	    pbxproj::PBX::HeadersBuildPhase::shared_ptr const &buildPhase);
+	~HeadersResolver();
 
-public:
-    pbxproj::PBX::HeadersBuildPhase::shared_ptr const &buildPhase() const
-    { return _buildPhase; }
+    public:
+	pbxproj::PBX::HeadersBuildPhase::shared_ptr const &buildPhase() const
+	{
+		return _buildPhase;
+	}
 
-public:
-    bool resolve(Phase::Environment const &phaseEnvironment, Phase::Context *phaseContext);
+    public:
+	bool resolve(Phase::Environment const &phaseEnvironment,
+	    Phase::Context *phaseContext);
 };
 
 }

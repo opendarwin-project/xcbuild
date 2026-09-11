@@ -6,45 +6,39 @@
  LICENSE file in the root directory of this source tree.
  */
 
-#include <pbxsetting/Condition.h>
 #include <libutil/Wildcard.h>
+#include <pbxsetting/Condition.h>
 
-using pbxsetting::Condition;
 using libutil::Wildcard;
+using pbxsetting::Condition;
 
-Condition::
-Condition(std::unordered_map<std::string, std::string> const &values) :
-    _values(values)
+Condition::Condition(std::unordered_map<std::string, std::string> const &values)
+    : _values(values)
 {
 }
 
-Condition::
-~Condition()
+Condition::~Condition() { }
+
+bool Condition::match(Condition const &condition) const
 {
+	auto OV = condition._values;
+	for (auto const &TE : _values) {
+		auto OE = OV.find(TE.first);
+		if (OE == OV.end()) {
+			return false;
+		}
+
+		if (!Wildcard::Match(TE.second, OE->second)) {
+			return false;
+		}
+	}
+
+	return true;
 }
 
-bool Condition::
-match(Condition const &condition) const
+Condition const &Condition::Empty(void)
 {
-    auto OV = condition._values;
-    for (auto const &TE : _values) {
-        auto OE = OV.find(TE.first);
-        if (OE == OV.end()) {
-            return false;
-        }
-
-        if (!Wildcard::Match(TE.second, OE->second)) {
-            return false;
-        }
-    }
-
-    return true;
-}
-
-Condition const &Condition::
-Empty(void)
-{
-    std::unordered_map<std::string, std::string> emptyMap;
-    static Condition *condition = new Condition(emptyMap);
-    return *condition;
+	std::unordered_map<std::string, std::string> emptyMap;
+	static Condition *condition = new Condition(emptyMap);
+	return *condition;
 }

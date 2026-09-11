@@ -13,13 +13,12 @@
 using graphics::Image;
 using graphics::PixelFormat;
 
-Image::
-Image(size_t width, size_t height, PixelFormat format, std::vector<uint8_t> const &data) :
-    _width (width),
-    _height(height),
-    _format(format),
-    _data  (data)
+Image::Image(size_t width, size_t height, PixelFormat format,
+    std::vector<uint8_t> const &data)
+    : _width(width)
+    , _height(height)
+    , _format(format)
+    , _data(data)
 {
-    assert(data.size() == _width * _height * _format.bytesPerPixel());
+	assert(data.size() == _width * _height * _format.bytesPerPixel());
 }
-

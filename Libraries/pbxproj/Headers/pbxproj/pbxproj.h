@@ -16,11 +16,11 @@
 #include <pbxproj/PBX/BuildRule.h>
 #include <pbxproj/PBX/ContainerItemProxy.h>
 #include <pbxproj/PBX/FileReference.h>
-#include <pbxproj/PBX/ReferenceProxy.h>
 #include <pbxproj/PBX/Group.h>
 #include <pbxproj/PBX/LegacyTarget.h>
 #include <pbxproj/PBX/NativeTarget.h>
 #include <pbxproj/PBX/Project.h>
+#include <pbxproj/PBX/ReferenceProxy.h>
 #include <pbxproj/PBX/TargetDependency.h>
 #include <pbxproj/PBX/VariantGroup.h>
 
@@ -28,4 +28,4 @@
 #include <pbxproj/XC/ConfigurationList.h>
 #include <pbxproj/XC/VersionGroup.h>
 
-#endif  // !__pbxproj_pbxproj_h
+#endif // !__pbxproj_pbxproj_h

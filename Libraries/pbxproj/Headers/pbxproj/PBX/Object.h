@@ -16,51 +16,64 @@
 #include <unordered_set>
 #include <vector>
 
-namespace plist { class Dictionary; }
-namespace pbxproj { class Context; }
+namespace plist {
+class Dictionary;
+}
+namespace pbxproj {
+class Context;
+}
 
-namespace pbxproj { namespace PBX {
+namespace pbxproj {
+namespace PBX {
 
 class Object {
-public:
-    typedef std::shared_ptr <Object> shared_ptr;
-    typedef std::vector <shared_ptr> vector;
+    public:
+	typedef std::shared_ptr<Object> shared_ptr;
+	typedef std::vector<shared_ptr> vector;
 
-private:
-    std::string _isa;
-    std::string _blueprintIdentifier;
+    private:
+	std::string _isa;
+	std::string _blueprintIdentifier;
 
-protected:
-    Object(std::string const &isa);
-    virtual ~Object() {}
+    protected:
+	Object(std::string const &isa);
+	virtual ~Object() { }
 
-public:
-    inline std::string const &blueprintIdentifier() const
-    { return _blueprintIdentifier; }
-    inline void setBlueprintIdentifier(std::string const &identifier)
-    { _blueprintIdentifier = identifier; }
+    public:
+	inline std::string const &blueprintIdentifier() const
+	{
+		return _blueprintIdentifier;
+	}
+	inline void setBlueprintIdentifier(std::string const &identifier)
+	{
+		_blueprintIdentifier = identifier;
+	}
 
-public:
-    inline std::string const &isa() const
-    { return _isa; }
+    public:
+	inline std::string const &isa() const { return _isa; }
 
-public:
-    virtual inline bool isa(std::string const &isa) const
-    { return (_isa == isa); }
+    public:
+	virtual inline bool isa(std::string const &isa) const
+	{
+		return (_isa == isa);
+	}
 
-private:
-    friend class pbxproj::Context;
-    bool parseObject(Context &context, plist::Dictionary const *dict);
+    private:
+	friend class pbxproj::Context;
+	bool parseObject(Context &context, plist::Dictionary const *dict);
 
-protected:
-    virtual bool parse(Context &context, plist::Dictionary const *dict, std::unordered_set<std::string> *seen, bool check);
+    protected:
+	virtual bool parse(Context &context, plist::Dictionary const *dict,
+	    std::unordered_set<std::string> *seen, bool check);
 
-public:
-    template <typename T>
-    inline bool isa() const
-    { return (T::Isa() == isa()); }
+    public:
+	template <typename T> inline bool isa() const
+	{
+		return (T::Isa() == isa());
+	}
 };
 
-} }
+}
+}
 
-#endif  // !__pbxproj_PBX_Object_h
+#endif // !__pbxproj_PBX_Object_h

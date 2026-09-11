@@ -3,7 +3,7 @@
 /*-
  * Copyright (c) 2007 The NetBSD Foundation, Inc.
  * All rights reserved.
-*
+ *
  * This code is derived from software contributed to The NetBSD Foundation
  * by Dieter Baron.
  *
@@ -32,13 +32,13 @@
 #ifndef __unicode_h
 #define __unicode_h
 
-#include <sys/types.h>
 #include <stddef.h>
 #include <stdint.h>
+#include <sys/types.h>
 
-#define UNICODE_DECOMPOSE               0x01
-#define UNICODE_PRECOMPOSE              0x02
-#define UNICODE_UTF8_LATIN1_FALLBACK    0x03
+#define UNICODE_DECOMPOSE	     0x01
+#define UNICODE_PRECOMPOSE	     0x02
+#define UNICODE_UTF8_LATIN1_FALLBACK 0x03
 
 #ifdef __cplusplus
 extern "C" {
@@ -53,4 +53,4 @@ size_t utf32_to_utf8(char *, size_t, const uint32_t *, size_t, int, int *);
 }
 #endif
 
-#endif  /* !__unicode_h */
+#endif /* !__unicode_h */

@@ -6,51 +6,47 @@
  LICENSE file in the root directory of this source tree.
  */
 
-#include <pbxspec/PBX/BuildRule.h>
 #include <pbxspec/Context.h>
+#include <pbxspec/PBX/BuildRule.h>
 #include <plist/Dictionary.h>
-#include <plist/String.h>
 #include <plist/Keys/Unpack.h>
+#include <plist/String.h>
 
 using pbxspec::PBX::BuildRule;
 
-BuildRule::
-BuildRule()
+BuildRule::BuildRule() { }
+
+BuildRule::BuildRule(
+    std::vector<std::string> const &fileTypes, std::string const &compilerSpec)
+    : _fileTypes(fileTypes)
+    , _compilerSpec(compilerSpec)
 {
 }
 
-BuildRule::
-BuildRule(std::vector<std::string> const &fileTypes, std::string const &compilerSpec) :
-    _fileTypes(fileTypes),
-    _compilerSpec(compilerSpec)
+bool BuildRule::parse(plist::Dictionary const *dict)
 {
-}
+	std::unordered_set<std::string> seen;
+	auto unpack = plist::Keys::Unpack("BuildRule", dict, &seen);
 
-bool BuildRule::
-parse(plist::Dictionary const *dict)
-{
-    std::unordered_set<std::string> seen;
-    auto unpack = plist::Keys::Unpack("BuildRule", dict, &seen);
+	auto N = unpack.cast<plist::String>("Name");
+	auto FT = unpack.cast<plist::String>("FileType");
+	auto CS = unpack.cast<plist::String>("CompilerSpec");
 
-    auto N  = unpack.cast <plist::String> ("Name");
-    auto FT = unpack.cast <plist::String> ("FileType");
-    auto CS = unpack.cast <plist::String> ("CompilerSpec");
+	if (!unpack.complete(true)) {
+		fprintf(stderr, "%s", unpack.errorText().c_str());
+	}
 
-    if (!unpack.complete(true)) {
-        fprintf(stderr, "%s", unpack.errorText().c_str());
-    }
+	if (N != nullptr) {
+		_name = N->value();
+	}
 
-    if (N != nullptr) {
-        _name = N->value();
-    }
+	if (FT != nullptr) {
+		_fileTypes = std::vector<std::string>({ FT->value() });
+	}
 
-    if (FT != nullptr) {
-        _fileTypes = std::vector<std::string>({ FT->value() });
-    }
+	if (CS != nullptr) {
+		_compilerSpec = CS->value();
+	}
 
-    if (CS != nullptr) {
-        _compilerSpec = CS->value();
-    }
-
-    return true;
+	return true;
 }

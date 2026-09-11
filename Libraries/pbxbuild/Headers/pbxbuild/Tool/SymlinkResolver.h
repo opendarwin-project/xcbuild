@@ -22,27 +22,27 @@ namespace Tool {
 class Context;
 
 class SymlinkResolver {
-private:
-    pbxspec::PBX::Tool::shared_ptr _tool;
+    private:
+	pbxspec::PBX::Tool::shared_ptr _tool;
 
-private:
-    explicit SymlinkResolver(pbxspec::PBX::Tool::shared_ptr const &tool);
+    private:
+	explicit SymlinkResolver(pbxspec::PBX::Tool::shared_ptr const &tool);
 
-public:
-    void resolve(
-        Tool::Context *toolContext,
-        std::string const &workingDirectory,
-        std::string const &symlinkPath,
-        std::string const &targetPath,
-        bool productStructure = false) const;
+    public:
+	void resolve(Tool::Context *toolContext,
+	    std::string const &workingDirectory, std::string const &symlinkPath,
+	    std::string const &targetPath, bool productStructure = false) const;
 
-public:
-    static std::string ToolIdentifier()
-    { return "com.apple.tools.symlink"; }
+    public:
+	static std::string ToolIdentifier()
+	{
+		return "com.apple.tools.symlink";
+	}
 
-public:
-    static std::unique_ptr<SymlinkResolver>
-    Create(pbxspec::Manager::shared_ptr const &specManager, std::vector<std::string> const &specDomains);
+    public:
+	static std::unique_ptr<SymlinkResolver> Create(
+	    pbxspec::Manager::shared_ptr const &specManager,
+	    std::vector<std::string> const &specDomains);
 };
 
 }

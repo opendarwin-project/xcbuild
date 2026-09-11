@@ -6,43 +6,41 @@
  LICENSE file in the root directory of this source tree.
  */
 
-#include <xcassets/Insets.h>
 #include <plist/Keys/Unpack.h>
 #include <plist/Real.h>
+#include <xcassets/Insets.h>
 
 using xcassets::Insets;
 
-bool Insets::
-parse(plist::Dictionary const *dict)
+bool Insets::parse(plist::Dictionary const *dict)
 {
-    std::unordered_set<std::string> seen;
-    auto unpack = plist::Keys::Unpack("Insets", dict, &seen);
+	std::unordered_set<std::string> seen;
+	auto unpack = plist::Keys::Unpack("Insets", dict, &seen);
 
-    auto T = unpack.coerce <plist::Real> ("top");
-    auto L = unpack.coerce <plist::Real> ("left");
-    auto B = unpack.coerce <plist::Real> ("bottom");
-    auto R = unpack.coerce <plist::Real> ("right");
+	auto T = unpack.coerce<plist::Real>("top");
+	auto L = unpack.coerce<plist::Real>("left");
+	auto B = unpack.coerce<plist::Real>("bottom");
+	auto R = unpack.coerce<plist::Real>("right");
 
-    if (!unpack.complete(true)) {
-        fprintf(stderr, "%s", unpack.errorText().c_str());
-    }
+	if (!unpack.complete(true)) {
+		fprintf(stderr, "%s", unpack.errorText().c_str());
+	}
 
-    if (T != nullptr) {
-        _top = T->value();
-    }
+	if (T != nullptr) {
+		_top = T->value();
+	}
 
-    if (L != nullptr) {
-        _left = L->value();
-    }
+	if (L != nullptr) {
+		_left = L->value();
+	}
 
-    if (B != nullptr) {
-        _bottom = B->value();
-    }
+	if (B != nullptr) {
+		_bottom = B->value();
+	}
 
-    if (R != nullptr) {
-        _right = R->value();
-    }
+	if (R != nullptr) {
+		_right = R->value();
+	}
 
-    return true;
+	return true;
 }
-

@@ -11,34 +11,34 @@
 
 #include <pbxproj/PBX/BaseGroup.h>
 
-namespace pbxproj { namespace PBX {
+namespace pbxproj {
+namespace PBX {
 
 class Group : public BaseGroup {
-public:
-    typedef std::shared_ptr <Group> shared_ptr;
+    public:
+	typedef std::shared_ptr<Group> shared_ptr;
 
-private:
-    uint32_t _indentWidth;
-    uint32_t _tabWidth;
+    private:
+	uint32_t _indentWidth;
+	uint32_t _tabWidth;
 
-public:
-    Group();
+    public:
+	Group();
 
-public:
-    inline uint32_t indentWidth() const
-    { return _indentWidth; }
+    public:
+	inline uint32_t indentWidth() const { return _indentWidth; }
 
-    inline uint32_t tabWidth() const
-    { return _tabWidth; }
+	inline uint32_t tabWidth() const { return _tabWidth; }
 
-protected:
-    bool parse(Context &context, plist::Dictionary const *dict, std::unordered_set<std::string> *seen, bool check) override;
+    protected:
+	bool parse(Context &context, plist::Dictionary const *dict,
+	    std::unordered_set<std::string> *seen, bool check) override;
 
-public:
-    static inline char const *Isa()
-    { return ISA::PBXGroup; }
+    public:
+	static inline char const *Isa() { return ISA::PBXGroup; }
 };
 
-} }
+}
+}
 
-#endif  // !__pbxproj_PBX_Group_h
+#endif // !__pbxproj_PBX_Group_h

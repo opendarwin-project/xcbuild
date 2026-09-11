@@ -11,45 +11,52 @@
 
 #include <pbxproj/PBX/Target.h>
 
-namespace pbxproj { namespace PBX {
+namespace pbxproj {
+namespace PBX {
 
 class NativeTarget : public Target {
-public:
-    typedef std::shared_ptr <NativeTarget> shared_ptr;
+    public:
+	typedef std::shared_ptr<NativeTarget> shared_ptr;
 
-private:
-    std::string                    _productType;
-    PBX::FileReference::shared_ptr _productReference;
-    std::string                    _productInstallPath;
-    PBX::BuildRule::vector         _buildRules;
+    private:
+	std::string _productType;
+	PBX::FileReference::shared_ptr _productReference;
+	std::string _productInstallPath;
+	PBX::BuildRule::vector _buildRules;
 
-public:
-    NativeTarget();
+    public:
+	NativeTarget();
 
-public:
-    inline std::string const &productType() const
-    { return _productType; }
+    public:
+	inline std::string const &productType() const { return _productType; }
 
-public:
-    inline PBX::FileReference::shared_ptr const &productReference() const
-    { return _productReference; }
+    public:
+	inline PBX::FileReference::shared_ptr const &productReference() const
+	{
+		return _productReference;
+	}
 
-public:
-    inline std::string const &productInstallPath() const
-    { return _productInstallPath; }
+    public:
+	inline std::string const &productInstallPath() const
+	{
+		return _productInstallPath;
+	}
 
-public:
-    inline BuildRule::vector const &buildRules() const
-    { return _buildRules; }
+    public:
+	inline BuildRule::vector const &buildRules() const
+	{
+		return _buildRules;
+	}
 
-protected:
-    bool parse(Context &context, plist::Dictionary const *dict, std::unordered_set<std::string> *seen, bool check) override;
+    protected:
+	bool parse(Context &context, plist::Dictionary const *dict,
+	    std::unordered_set<std::string> *seen, bool check) override;
 
-public:
-    static inline char const *Isa()
-    { return ISA::PBXNativeTarget; }
+    public:
+	static inline char const *Isa() { return ISA::PBXNativeTarget; }
 };
 
-} }
+}
+}
 
-#endif  // !__pbxproj_PBX_NativeTarget_h
+#endif // !__pbxproj_PBX_NativeTarget_h

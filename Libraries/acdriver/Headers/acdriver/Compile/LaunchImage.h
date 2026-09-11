@@ -23,15 +23,13 @@ namespace Compile {
 class Output;
 
 class LaunchImage {
-private:
-    LaunchImage();
-    ~LaunchImage();
+    private:
+	LaunchImage();
+	~LaunchImage();
 
-public:
-    static bool Compile(
-        xcassets::Asset::LaunchImage const *launchImage,
-        Output *compileOutput,
-        Result *result);
+    public:
+	static bool Compile(xcassets::Asset::LaunchImage const *launchImage,
+	    Output *compileOutput, Result *result);
 };
 
 }

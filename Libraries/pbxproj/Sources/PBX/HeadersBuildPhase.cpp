@@ -10,8 +10,7 @@
 
 using pbxproj::PBX::HeadersBuildPhase;
 
-HeadersBuildPhase::
-HeadersBuildPhase() :
-    BuildPhase(Isa(), Type::Headers)
+HeadersBuildPhase::HeadersBuildPhase()
+    : BuildPhase(Isa(), Type::Headers)
 {
 }

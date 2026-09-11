@@ -10,8 +10,7 @@
 
 using pbxproj::PBX::FrameworksBuildPhase;
 
-FrameworksBuildPhase::
-FrameworksBuildPhase() :
-    BuildPhase(Isa(), Type::Frameworks)
+FrameworksBuildPhase::FrameworksBuildPhase()
+    : BuildPhase(Isa(), Type::Frameworks)
 {
 }

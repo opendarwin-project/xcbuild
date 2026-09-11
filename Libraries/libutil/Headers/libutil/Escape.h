@@ -14,24 +14,22 @@
 namespace libutil {
 
 class Escape {
-private:
-    Escape();
-    ~Escape();
+    private:
+	Escape();
+	~Escape();
 
-public:
-    /*
-     * Shell-escapes a string.
-     */
-    static std::string
-    Shell(std::string const &value);
+    public:
+	/*
+	 * Shell-escapes a string.
+	 */
+	static std::string Shell(std::string const &value);
 
-    /*
-     * Escape a file path for a Makefile.
-     */
-    static std::string
-    Makefile(std::string const &value);
+	/*
+	 * Escape a file path for a Makefile.
+	 */
+	static std::string Makefile(std::string const &value);
 };
 
 }
 
-#endif  // !__libutil_Escape_h
+#endif // !__libutil_Escape_h

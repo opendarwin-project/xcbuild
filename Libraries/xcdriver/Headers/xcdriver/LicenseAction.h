@@ -15,13 +15,12 @@ namespace xcdriver {
  * Prints licensing information.
  */
 class LicenseAction {
-private:
-    LicenseAction();
-    ~LicenseAction();
+    private:
+	LicenseAction();
+	~LicenseAction();
 
-public:
-    static int
-    Run();
+    public:
+	static int Run();
 };
 
 }

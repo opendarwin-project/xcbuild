@@ -9,61 +9,69 @@
 #ifndef __xcassets_Asset_ImageStack_h
 #define __xcassets_Asset_ImageStack_h
 
+#include <plist/Dictionary.h>
 #include <xcassets/Asset/Asset.h>
 #include <xcassets/Asset/ImageStackLayer.h>
-#include <plist/Dictionary.h>
 
+#include <ext/optional>
 #include <memory>
 #include <string>
 #include <vector>
-#include <ext/optional>
 
 namespace xcassets {
 namespace Asset {
 
 class ImageStack : public Asset {
-public:
-    class Layer {
+    public:
+	class Layer {
+	    private:
+		ext::optional<std::string> _fileName;
+
+	    public:
+		ext::optional<std::string> const &fileName() const
+		{
+			return _fileName;
+		}
+
+	    private:
+		friend class ImageStack;
+		bool parse(plist::Dictionary const *dict);
+	};
+
     private:
-        ext::optional<std::string>     _fileName;
+	ext::optional<std::vector<Layer>> _layers;
+	// TODO canvasSize
+	ext::optional<std::vector<std::string>> _onDemandResourceTags;
+
+    private:
+	friend class Asset;
+	using Asset::Asset;
 
     public:
-        ext::optional<std::string> const &fileName() const
-        { return _fileName; }
+	ext::optional<std::vector<Layer>> const &layers() const
+	{
+		return _layers;
+	}
+	// TODO canvasSize
+	ext::optional<std::vector<std::string>> const &
+	onDemandResourceTags() const
+	{
+		return _onDemandResourceTags;
+	}
 
-    private:
-        friend class ImageStack;
-        bool parse(plist::Dictionary const *dict);
-    };
+    public:
+	static AssetType Type() { return AssetType::ImageStack; }
+	virtual AssetType type() const { return AssetType::ImageStack; }
 
-private:
-    ext::optional<std::vector<Layer>>       _layers;
-    // TODO canvasSize
-    ext::optional<std::vector<std::string>> _onDemandResourceTags;
+    public:
+	static ext::optional<std::string> Extension()
+	{
+		return std::string("imagestack");
+	}
 
-private:
-    friend class Asset;
-    using Asset::Asset;
-
-public:
-    ext::optional<std::vector<Layer>> const &layers() const
-    { return _layers; }
-    // TODO canvasSize
-    ext::optional<std::vector<std::string>> const &onDemandResourceTags() const
-    { return _onDemandResourceTags; }
-
-public:
-    static AssetType Type()
-    { return AssetType::ImageStack; }
-    virtual AssetType type() const
-    { return AssetType::ImageStack; }
-
-public:
-    static ext::optional<std::string> Extension()
-    { return std::string("imagestack"); }
-
-protected:
-    virtual bool parse(plist::Dictionary const *dict, std::unordered_set<std::string> *seen, bool check);
+    protected:
+	virtual bool parse(plist::Dictionary const *dict,
+	    std::unordered_set<std::string> *seen, bool check);
 };
 
 }

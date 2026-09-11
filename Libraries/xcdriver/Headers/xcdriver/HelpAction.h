@@ -9,7 +9,9 @@
 #ifndef __xcdriver_HelpAction_h
 #define __xcdriver_HelpAction_h
 
-namespace process { class Context; }
+namespace process {
+class Context;
+}
 
 namespace xcdriver {
 
@@ -17,13 +19,12 @@ namespace xcdriver {
  * Prints usage, as well as explanations of each invocation option.
  */
 class HelpAction {
-private:
-    HelpAction();
-    ~HelpAction();
+    private:
+	HelpAction();
+	~HelpAction();
 
-public:
-    static int
-    Run(process::Context const *processContext);
+    public:
+	static int Run(process::Context const *processContext);
 };
 
 }

@@ -17,10 +17,10 @@
  * breaking the compilation unless we undefine them.
  */
 #ifdef major
-# undef major
+#undef major
 #endif
 #ifdef minor
-# undef minor
+#undef minor
 #endif
 
 namespace xcassets {
@@ -30,43 +30,40 @@ namespace Slot {
  * The size of an image.
  */
 class SystemVersion {
-private:
-    int                _major;
-    int                _minor;
-    ext::optional<int> _patch;
+    private:
+	int _major;
+	int _minor;
+	ext::optional<int> _patch;
 
-private:
-    SystemVersion(int major, int minor, ext::optional<int> const &patch);
+    private:
+	SystemVersion(int major, int minor, ext::optional<int> const &patch);
 
-public:
-    /*
-     * The system major version.
-     */
-    int major() const
-    { return _major; }
+    public:
+	/*
+	 * The system major version.
+	 */
+	int major() const { return _major; }
 
-    /*
-     * The system minor version.
-     */
-    int minor() const
-    { return _minor; }
+	/*
+	 * The system minor version.
+	 */
+	int minor() const { return _minor; }
 
-    /*
-     * The system patch version.
-     */
-    ext::optional<int> patch() const
-    { return _patch; }
+	/*
+	 * The system patch version.
+	 */
+	ext::optional<int> patch() const { return _patch; }
 
-public:
-    /*
-     * Parse a matching system version from a string, if valid.
-     */
-    static ext::optional<SystemVersion> Parse(std::string const &value);
+    public:
+	/*
+	 * Parse a matching system version from a string, if valid.
+	 */
+	static ext::optional<SystemVersion> Parse(std::string const &value);
 
-    /*
-     * Convert an system version to a string.
-     */
-    static std::string String(SystemVersion systemVersion);
+	/*
+	 * Convert an system version to a string.
+	 */
+	static std::string String(SystemVersion systemVersion);
 };
 
 }

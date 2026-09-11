@@ -18,19 +18,23 @@ class Environment;
 class Context;
 
 class ProductTypeResolver {
-private:
-    pbxspec::PBX::ProductType::shared_ptr _productType;
+    private:
+	pbxspec::PBX::ProductType::shared_ptr _productType;
 
-public:
-    explicit ProductTypeResolver(pbxspec::PBX::ProductType::shared_ptr const &productType);
-    ~ProductTypeResolver();
+    public:
+	explicit ProductTypeResolver(
+	    pbxspec::PBX::ProductType::shared_ptr const &productType);
+	~ProductTypeResolver();
 
-public:
-    pbxspec::PBX::ProductType::shared_ptr const &productType() const
-    { return _productType; }
+    public:
+	pbxspec::PBX::ProductType::shared_ptr const &productType() const
+	{
+		return _productType;
+	}
 
-public:
-    bool resolve(Phase::Environment const &phaseEnvironment, Phase::Context *phaseContext) const;
+    public:
+	bool resolve(Phase::Environment const &phaseEnvironment,
+	    Phase::Context *phaseContext) const;
 };
 
 }

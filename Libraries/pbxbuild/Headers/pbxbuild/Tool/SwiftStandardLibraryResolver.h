@@ -18,30 +18,32 @@ namespace Tool {
 class Context;
 
 class SwiftStandardLibraryResolver {
-private:
-    pbxspec::PBX::Tool::shared_ptr _tool;
+    private:
+	pbxspec::PBX::Tool::shared_ptr _tool;
 
-public:
-    SwiftStandardLibraryResolver(pbxspec::PBX::Tool::shared_ptr const &tool);
+    public:
+	SwiftStandardLibraryResolver(
+	    pbxspec::PBX::Tool::shared_ptr const &tool);
 
-public:
-    void resolve(
-        Tool::Context *toolContext,
-        pbxsetting::Environment const &environment,
-        Tool::Input const &executable,
-        std::vector<std::string> const &directories) const;
+    public:
+	void resolve(Tool::Context *toolContext,
+	    pbxsetting::Environment const &environment,
+	    Tool::Input const &executable,
+	    std::vector<std::string> const &directories) const;
 
-public:
-    pbxspec::PBX::Tool::shared_ptr const &tool() const
-    { return _tool; }
+    public:
+	pbxspec::PBX::Tool::shared_ptr const &tool() const { return _tool; }
 
-public:
-    static std::string ToolIdentifier()
-    { return "com.apple.build-tools.swift-stdlib-tool"; }
+    public:
+	static std::string ToolIdentifier()
+	{
+		return "com.apple.build-tools.swift-stdlib-tool";
+	}
 
-public:
-    static std::unique_ptr<SwiftStandardLibraryResolver>
-    Create(pbxspec::Manager::shared_ptr const &specManager, std::vector<std::string> const &specDomains);
+    public:
+	static std::unique_ptr<SwiftStandardLibraryResolver> Create(
+	    pbxspec::Manager::shared_ptr const &specManager,
+	    std::vector<std::string> const &specDomains);
 };
 
 }

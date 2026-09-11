@@ -9,35 +9,35 @@
 #ifndef __pbxspec_SpecificationType_h
 #define __pbxspec_SpecificationType_h
 
-#include <string>
 #include <ext/optional>
+#include <string>
 
 namespace pbxspec {
 
 enum class SpecificationType {
-    Architecture,
-    BuildPhase,
-    BuildSettings,
-    BuildStep,
-    BuildSystem,
-    Compiler,
-    FileType,
-    Linker,
-    PackageType,
-    ProductType,
-    Tool,
+	Architecture,
+	BuildPhase,
+	BuildSettings,
+	BuildStep,
+	BuildSystem,
+	Compiler,
+	FileType,
+	Linker,
+	PackageType,
+	ProductType,
+	Tool,
 };
 
 class SpecificationTypes {
-private:
-    SpecificationTypes();
-    ~SpecificationTypes();
+    private:
+	SpecificationTypes();
+	~SpecificationTypes();
 
-public:
-    static std::string Name(SpecificationType type);
-    static ext::optional<SpecificationType> Parse(std::string const &name);
+    public:
+	static std::string Name(SpecificationType type);
+	static ext::optional<SpecificationType> Parse(std::string const &name);
 };
 
 }
 
-#endif  // !__pbxspec_SpecificationType_h
+#endif // !__pbxspec_SpecificationType_h

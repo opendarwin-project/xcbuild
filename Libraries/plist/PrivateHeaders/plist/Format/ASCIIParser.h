@@ -20,92 +20,92 @@ namespace plist {
 namespace Format {
 
 struct ASCIIParser {
-private:
-    enum class ContextState {
-        Parsing = 0,
-        Done,
-        Aborted,
-    };
+    private:
+	enum class ContextState {
+		Parsing = 0,
+		Done,
+		Aborted,
+	};
 
-private:
-    enum class ValueState {
-        Init = 0,
-        Dictionary,
-        DictionaryValue,
-        Array,
-    };
+    private:
+	enum class ValueState {
+		Init = 0,
+		Dictionary,
+		DictionaryValue,
+		Array,
+	};
 
-private:
-    std::unique_ptr<plist::Object> _root;
-    int                            _level;
+    private:
+	std::unique_ptr<plist::Object> _root;
+	int _level;
 
-private:
-    ValueState                     _state;
-    std::stack<ValueState>         _stateStack;
+    private:
+	ValueState _state;
+	std::stack<ValueState> _stateStack;
 
-private:
-    std::unique_ptr<plist::Object> _container;
-    std::stack<std::unique_ptr<plist::Object>> _containerStack;
+    private:
+	std::unique_ptr<plist::Object> _container;
+	std::stack<std::unique_ptr<plist::Object>> _containerStack;
 
-private:
-    std::unique_ptr<plist::String> _key;
-    std::stack<std::unique_ptr<plist::String>> _keyStack;
+    private:
+	std::unique_ptr<plist::String> _key;
+	std::stack<std::unique_ptr<plist::String>> _keyStack;
 
-private:
-    ContextState                _contextState;
-    std::string                 _error;
+    private:
+	ContextState _contextState;
+	std::string _error;
 
-public:
-    ASCIIParser();
-    ~ASCIIParser();
+    public:
+	ASCIIParser();
+	~ASCIIParser();
 
-public:
-    bool parse(ASCIIPListLexer *lexer, bool strings);
+    public:
+	bool parse(ASCIIPListLexer *lexer, bool strings);
 
-public:
-    std::unique_ptr<plist::Object> &root()
-    { return _root; }
-    std::string error() const
-    { return _error; }
+    public:
+	std::unique_ptr<plist::Object> &root() { return _root; }
+	std::string error() const { return _error; }
 
-private:
-    bool isAborted() const;
-    void abort(std::string const &error, int line = -1);
+    private:
+	bool isAborted() const;
+	void abort(std::string const &error, int line = -1);
 
-private:
-    bool isDone() const;
-    bool finish();
+    private:
+	bool isDone() const;
+	bool finish();
 
-private:
-    int getLevel() const;
-    void incrementLevel();
-    void decrementLevel();
+    private:
+	int getLevel() const;
+	void incrementLevel();
+	void decrementLevel();
 
-private:
-    bool push(ValueState state, std::unique_ptr<plist::Object> container, std::unique_ptr<plist::String> key);
-    bool pop();
+    private:
+	bool push(ValueState state, std::unique_ptr<plist::Object> container,
+	    std::unique_ptr<plist::String> key);
+	bool pop();
 
-private:
-    bool beginContainer(std::unique_ptr<plist::Object> container);
-    bool storeKeyValue(std::unique_ptr<plist::String> key, std::unique_ptr<plist::Object> value);
-    bool endContainer(bool isArray);
+    private:
+	bool beginContainer(std::unique_ptr<plist::Object> container);
+	bool storeKeyValue(std::unique_ptr<plist::String> key,
+	    std::unique_ptr<plist::Object> value);
+	bool endContainer(bool isArray);
 
-private:
-    bool isArray() const;
-    bool beginArray();
-    bool endArray();
+    private:
+	bool isArray() const;
+	bool beginArray();
+	bool endArray();
 
-private:
-    bool isDictionary() const;
-    bool beginDictionary();
-    bool endDictionary();
+    private:
+	bool isDictionary() const;
+	bool beginDictionary();
+	bool endDictionary();
 
-private:
-    bool storeKey(std::unique_ptr<plist::String> key);
-    bool storeValue(std::unique_ptr<plist::Object> value);
+    private:
+	bool storeKey(std::unique_ptr<plist::String> key);
+	bool storeValue(std::unique_ptr<plist::Object> value);
 };
 
 }
 }
 
-#endif  // !__plist_Format_ASCIIParser_h
+#endif // !__plist_Format_ASCIIParser_h

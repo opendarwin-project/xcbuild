@@ -18,28 +18,28 @@ namespace xcassets {
  * An image compression type.
  */
 enum class Compression {
-    Automatic,
-    Lossless,
-    Lossy,
-    GPUOptimizedBest,
-    GPUOptimizedSmallest,
+	Automatic,
+	Lossless,
+	Lossy,
+	GPUOptimizedBest,
+	GPUOptimizedSmallest,
 };
 
 class Compressions {
-private:
-    Compressions();
-    ~Compressions();
+    private:
+	Compressions();
+	~Compressions();
 
-public:
-    /*
-     * Parse a matching compression from a string, if valid.
-     */
-    static ext::optional<Compression> Parse(std::string const &value);
+    public:
+	/*
+	 * Parse a matching compression from a string, if valid.
+	 */
+	static ext::optional<Compression> Parse(std::string const &value);
 
-    /*
-     * Convert a compression to a string.
-     */
-    static std::string String(Compression compression);
+	/*
+	 * Convert a compression to a string.
+	 */
+	static std::string String(Compression compression);
 };
 
 }

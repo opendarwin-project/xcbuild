@@ -12,28 +12,28 @@
 #include <libutil/Options.h>
 
 #include <string>
-#include <vector>
 #include <utility>
+#include <vector>
 
 namespace builtin {
 namespace lsRegisterURL {
 
 class Options {
-private:
-    ext::optional<std::string> _input;
+    private:
+	ext::optional<std::string> _input;
 
-public:
-    Options();
-    ~Options();
+    public:
+	Options();
+	~Options();
 
-public:
-    ext::optional<std::string> const &input() const
-    { return _input; }
+    public:
+	ext::optional<std::string> const &input() const { return _input; }
 
-private:
-    friend class libutil::Options;
-    std::pair<bool, std::string>
-    parseArgument(std::vector<std::string> const &args, std::vector<std::string>::const_iterator *it);
+    private:
+	friend class libutil::Options;
+	std::pair<bool, std::string> parseArgument(
+	    std::vector<std::string> const &args,
+	    std::vector<std::string>::const_iterator *it);
 };
 
 }

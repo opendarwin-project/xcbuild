@@ -19,40 +19,41 @@ namespace Slot {
  * The subtype of a watch.
  */
 enum class WatchSubtype {
-    Small,
-    Large,
+	Small,
+	Large,
 };
 
 class WatchSubtypes {
-private:
-    WatchSubtypes();
-    ~WatchSubtypes();
+    private:
+	WatchSubtypes();
+	~WatchSubtypes();
 
-public:
-    /*
-     * Parse a matching watch subtype physical size from a string, if valid.
-     */
-    static ext::optional<WatchSubtype> ParsePhysicalSize(std::string const &value);
+    public:
+	/*
+	 * Parse a matching watch subtype physical size from a string, if valid.
+	 */
+	static ext::optional<WatchSubtype> ParsePhysicalSize(
+	    std::string const &value);
 
-    /*
-     * Convert a watch subtype to a physical size string.
-     */
-    static std::string PhysicalSizeString(WatchSubtype watchSubtype);
+	/*
+	 * Convert a watch subtype to a physical size string.
+	 */
+	static std::string PhysicalSizeString(WatchSubtype watchSubtype);
 
-public:
-    /*
-     * Parse a matching watch subtype screen width from a string, if valid.
-     */
-    static ext::optional<WatchSubtype> ParseScreenWidth(std::string const &value);
+    public:
+	/*
+	 * Parse a matching watch subtype screen width from a string, if valid.
+	 */
+	static ext::optional<WatchSubtype> ParseScreenWidth(
+	    std::string const &value);
 
-    /*
-     * Convert a watch subtype to a screen width string.
-     */
-    static std::string ScreenWidthString(WatchSubtype watchSubtype);
+	/*
+	 * Convert a watch subtype to a screen width string.
+	 */
+	static std::string ScreenWidthString(WatchSubtype watchSubtype);
 };
 
 }
 }
 
 #endif // !__xcassets_Slot_WatchSubtype_h
-

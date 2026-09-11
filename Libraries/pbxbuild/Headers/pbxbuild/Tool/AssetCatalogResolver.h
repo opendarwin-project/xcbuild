@@ -16,7 +16,9 @@
 #include <string>
 #include <vector>
 
-namespace pbxsetting { class Environment; }
+namespace pbxsetting {
+class Environment;
+}
 
 namespace pbxbuild {
 namespace Tool {
@@ -25,25 +27,28 @@ class Context;
 class Input;
 
 class AssetCatalogResolver {
-private:
-    pbxspec::PBX::Compiler::shared_ptr _tool;
+    private:
+	pbxspec::PBX::Compiler::shared_ptr _tool;
 
-private:
-    explicit AssetCatalogResolver(pbxspec::PBX::Compiler::shared_ptr const &tool);
+    private:
+	explicit AssetCatalogResolver(
+	    pbxspec::PBX::Compiler::shared_ptr const &tool);
 
-public:
-    void resolve(
-        Tool::Context *toolContext,
-        pbxsetting::Environment const &environment,
-        std::vector<Tool::Input> const &input) const;
+    public:
+	void resolve(Tool::Context *toolContext,
+	    pbxsetting::Environment const &environment,
+	    std::vector<Tool::Input> const &input) const;
 
-public:
-    static std::string ToolIdentifier()
-    { return "com.apple.compilers.assetcatalog"; }
+    public:
+	static std::string ToolIdentifier()
+	{
+		return "com.apple.compilers.assetcatalog";
+	}
 
-public:
-    static std::unique_ptr<AssetCatalogResolver>
-    Create(pbxspec::Manager::shared_ptr const &specManager, std::vector<std::string> const &specDomains);
+    public:
+	static std::unique_ptr<AssetCatalogResolver> Create(
+	    pbxspec::Manager::shared_ptr const &specManager,
+	    std::vector<std::string> const &specDomains);
 };
 
 }

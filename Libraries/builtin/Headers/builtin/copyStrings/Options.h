@@ -12,51 +12,56 @@
 #include <libutil/Options.h>
 
 #include <string>
-#include <vector>
 #include <utility>
+#include <vector>
 
 namespace builtin {
 namespace copyStrings {
 
 class Options {
-private:
-    std::vector<std::string>   _inputs;
-    ext::optional<std::string> _outputDirectory;
+    private:
+	std::vector<std::string> _inputs;
+	ext::optional<std::string> _outputDirectory;
 
-public:
-    ext::optional<bool>        _validate;
+    public:
+	ext::optional<bool> _validate;
 
-public:
-    ext::optional<std::string> _inputEncoding;
-    ext::optional<std::string> _outputEncoding;
+    public:
+	ext::optional<std::string> _inputEncoding;
+	ext::optional<std::string> _outputEncoding;
 
-public:
-    bool                       _separator;
+    public:
+	bool _separator;
 
-public:
-    Options();
-    ~Options();
+    public:
+	Options();
+	~Options();
 
-public:
-    std::vector<std::string> const &inputs() const
-    { return _inputs; }
-    ext::optional<std::string> const &outputDirectory() const
-    { return _outputDirectory; }
+    public:
+	std::vector<std::string> const &inputs() const { return _inputs; }
+	ext::optional<std::string> const &outputDirectory() const
+	{
+		return _outputDirectory;
+	}
 
-public:
-    bool validate() const
-    { return _validate.value_or(false); }
+    public:
+	bool validate() const { return _validate.value_or(false); }
 
-public:
-    ext::optional<std::string> const &inputEncoding() const
-    { return _inputEncoding; }
-    ext::optional<std::string> const &outputEncoding() const
-    { return _outputEncoding; }
+    public:
+	ext::optional<std::string> const &inputEncoding() const
+	{
+		return _inputEncoding;
+	}
+	ext::optional<std::string> const &outputEncoding() const
+	{
+		return _outputEncoding;
+	}
 
-private:
-    friend class libutil::Options;
-    std::pair<bool, std::string>
-    parseArgument(std::vector<std::string> const &args, std::vector<std::string>::const_iterator *it);
+    private:
+	friend class libutil::Options;
+	std::pair<bool, std::string> parseArgument(
+	    std::vector<std::string> const &args,
+	    std::vector<std::string>::const_iterator *it);
 };
 
 }

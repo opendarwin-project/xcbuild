@@ -6,32 +6,30 @@
  LICENSE file in the root directory of this source tree.
  */
 
-#include <xcscheme/XC/CommandLineArgument.h>
 #include <plist/Boolean.h>
 #include <plist/Dictionary.h>
 #include <plist/String.h>
+#include <xcscheme/XC/CommandLineArgument.h>
 
 using xcscheme::XC::CommandLineArgument;
 
-CommandLineArgument::
-CommandLineArgument() :
-    _isEnabled(false)
+CommandLineArgument::CommandLineArgument()
+    : _isEnabled(false)
 {
 }
 
-bool CommandLineArgument::
-parse(plist::Dictionary const *dict)
+bool CommandLineArgument::parse(plist::Dictionary const *dict)
 {
-    auto IE = dict->value <plist::Boolean> ("isEnabled");
-    auto A  = dict->value <plist::String> ("argument");
+	auto IE = dict->value<plist::Boolean>("isEnabled");
+	auto A = dict->value<plist::String>("argument");
 
-    if (IE != nullptr) {
-        _isEnabled = IE->value();
-    }
+	if (IE != nullptr) {
+		_isEnabled = IE->value();
+	}
 
-    if (A != nullptr) {
-        _argument = A->value();
-    }
+	if (A != nullptr) {
+		_argument = A->value();
+	}
 
-    return true;
+	return true;
 }

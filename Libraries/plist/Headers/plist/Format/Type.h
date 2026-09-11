@@ -13,12 +13,12 @@ namespace plist {
 namespace Format {
 
 enum class Type {
-    Binary,
-    XML,
-    ASCII,
+	Binary,
+	XML,
+	ASCII,
 };
 
 }
 }
 
-#endif  // !__plist_Format_Type_h
+#endif // !__plist_Format_Type_h

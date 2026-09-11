@@ -16,17 +16,17 @@ namespace plist {
 namespace Format {
 
 class Binary : public Format<Binary> {
-private:
-    Binary();
+    private:
+	Binary();
 
-public:
-    static Type FormatType();
+    public:
+	static Type FormatType();
 
-public:
-    static Binary Create();
+    public:
+	static Binary Create();
 };
 
 }
 }
 
-#endif  // !__plist_Format_Binary_h
+#endif // !__plist_Format_Binary_h

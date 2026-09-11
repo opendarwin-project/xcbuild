@@ -11,34 +11,33 @@
 
 #include <xcworkspace/XC/GroupItem.h>
 
-namespace xcworkspace { namespace XC {
+namespace xcworkspace {
+namespace XC {
 
 class Group : public GroupItem {
-public:
-    typedef std::shared_ptr <Group> shared_ptr;
-    typedef std::vector <shared_ptr> vector;
+    public:
+	typedef std::shared_ptr<Group> shared_ptr;
+	typedef std::vector<shared_ptr> vector;
 
-private:
-    std::string       _name;
-    GroupItem::vector _items;
+    private:
+	std::string _name;
+	GroupItem::vector _items;
 
-public:
-    Group();
+    public:
+	Group();
 
-public:
-    inline std::string const &name() const
-    { return _name; }
+    public:
+	inline std::string const &name() const { return _name; }
 
-public:
-    inline GroupItem::vector const &items() const
-    { return _items; }
-    inline GroupItem::vector &items()
-    { return _items; }
+    public:
+	inline GroupItem::vector const &items() const { return _items; }
+	inline GroupItem::vector &items() { return _items; }
 
-public:
-    bool parse(plist::Dictionary const *dict) override;
+    public:
+	bool parse(plist::Dictionary const *dict) override;
 };
 
-} }
+}
+}
 
-#endif  // !__xcworkspace_XC_Group_h
+#endif // !__xcworkspace_XC_Group_h

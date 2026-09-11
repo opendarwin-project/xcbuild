@@ -13,22 +13,22 @@ using xcassets::FullyQualifiedName;
 
 TEST(FullyQualifiedName, Parse)
 {
-    auto name1 = FullyQualifiedName::Parse("");
-    EXPECT_EQ(name1.name(), "");
-    EXPECT_EQ(name1.groups(), std::vector<std::string>());
+	auto name1 = FullyQualifiedName::Parse("");
+	EXPECT_EQ(name1.name(), "");
+	EXPECT_EQ(name1.groups(), std::vector<std::string>());
 
-    auto name2 = FullyQualifiedName::Parse("name");
-    EXPECT_EQ(name2.name(), "name");
-    EXPECT_EQ(name2.groups(), std::vector<std::string>());
+	auto name2 = FullyQualifiedName::Parse("name");
+	EXPECT_EQ(name2.name(), "name");
+	EXPECT_EQ(name2.groups(), std::vector<std::string>());
 
-    auto name3 = FullyQualifiedName::Parse("group1/group2/name");
-    EXPECT_EQ(name3.name(), "name");
-    EXPECT_EQ(name3.groups(), std::vector<std::string>({ "group1", "group2" }));
-    EXPECT_EQ(name3.string(), "group1/group2/name");
+	auto name3 = FullyQualifiedName::Parse("group1/group2/name");
+	EXPECT_EQ(name3.name(), "name");
+	EXPECT_EQ(
+	    name3.groups(), std::vector<std::string>({ "group1", "group2" }));
+	EXPECT_EQ(name3.string(), "group1/group2/name");
 
-    auto name4 = FullyQualifiedName::Parse("//group//name");
-    EXPECT_EQ(name4.name(), "name");
-    EXPECT_EQ(name4.groups(), std::vector<std::string>({ "group" }));
-    EXPECT_EQ(name4.string(), "group/name");
+	auto name4 = FullyQualifiedName::Parse("//group//name");
+	EXPECT_EQ(name4.name(), "name");
+	EXPECT_EQ(name4.groups(), std::vector<std::string>({ "group" }));
+	EXPECT_EQ(name4.string(), "group/name");
 }
-

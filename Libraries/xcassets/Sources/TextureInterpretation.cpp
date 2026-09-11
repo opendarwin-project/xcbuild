@@ -13,28 +13,29 @@
 using xcassets::TextureInterpretation;
 using xcassets::TextureInterpretations;
 
-ext::optional<TextureInterpretation> TextureInterpretations::
-Parse(std::string const &value)
+ext::optional<TextureInterpretation> TextureInterpretations::Parse(
+    std::string const &value)
 {
-    if (value == "colors") {
-        return TextureInterpretation::Colors;
-    } else if (value == "data") {
-        return TextureInterpretation::Data;
-    } else {
-        fprintf(stderr, "warning: unknown texture interpretation %s\n", value.c_str());
-        return ext::nullopt;
-    }
+	if (value == "colors") {
+		return TextureInterpretation::Colors;
+	} else if (value == "data") {
+		return TextureInterpretation::Data;
+	} else {
+		fprintf(stderr, "warning: unknown texture interpretation %s\n",
+		    value.c_str());
+		return ext::nullopt;
+	}
 }
 
-std::string TextureInterpretations::
-String(TextureInterpretation textureInterpretation)
+std::string TextureInterpretations::String(
+    TextureInterpretation textureInterpretation)
 {
-    switch (textureInterpretation) {
-        case TextureInterpretation::Colors:
-            return "colors";
-        case TextureInterpretation::Data:
-            return "data";
-    }
+	switch (textureInterpretation) {
+	case TextureInterpretation::Colors:
+		return "colors";
+	case TextureInterpretation::Data:
+		return "data";
+	}
 
-    abort();
+	abort();
 }

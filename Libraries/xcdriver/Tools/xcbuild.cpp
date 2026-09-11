@@ -6,20 +6,20 @@
  LICENSE file in the root directory of this source tree.
  */
 
-#include <xcdriver/Driver.h>
 #include <libutil/DefaultFilesystem.h>
 #include <process/DefaultContext.h>
 #include <process/DefaultLauncher.h>
 #include <process/DefaultUser.h>
+#include <xcdriver/Driver.h>
 
 using libutil::DefaultFilesystem;
 
-int
-main(int argc, char **argv)
+int main(int argc, char **argv)
 {
-    DefaultFilesystem filesystem = DefaultFilesystem();
-    process::DefaultContext processContext = process::DefaultContext();
-    process::DefaultLauncher processLauncher = process::DefaultLauncher();
-    process::DefaultUser user = process::DefaultUser();
-    return xcdriver::Driver::Run(&user, &processContext, &processLauncher, &filesystem);
+	DefaultFilesystem filesystem = DefaultFilesystem();
+	process::DefaultContext processContext = process::DefaultContext();
+	process::DefaultLauncher processLauncher = process::DefaultLauncher();
+	process::DefaultUser user = process::DefaultUser();
+	return xcdriver::Driver::Run(
+	    &user, &processContext, &processLauncher, &filesystem);
 }

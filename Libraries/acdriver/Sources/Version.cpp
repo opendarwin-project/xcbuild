@@ -10,25 +10,10 @@
 
 using acdriver::Version;
 
-Version::
-Version()
-{
-}
+Version::Version() { }
 
-Version::
-~Version()
-{
-}
+Version::~Version() { }
 
-int Version::
-BuildVersion()
-{
-    return 1;
-}
+int Version::BuildVersion() { return 1; }
 
-std::string Version::
-UserVersion()
-{
-    return "1";
-}
-
+std::string Version::UserVersion() { return "1"; }

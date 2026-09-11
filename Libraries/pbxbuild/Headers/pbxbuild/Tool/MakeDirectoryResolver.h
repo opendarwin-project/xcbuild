@@ -22,25 +22,24 @@ namespace Tool {
 class Context;
 
 class MakeDirectoryResolver {
-private:
-    pbxspec::PBX::Tool::shared_ptr _tool;
+    private:
+	pbxspec::PBX::Tool::shared_ptr _tool;
 
-private:
-    explicit MakeDirectoryResolver(pbxspec::PBX::Tool::shared_ptr const &tool);
+    private:
+	explicit MakeDirectoryResolver(
+	    pbxspec::PBX::Tool::shared_ptr const &tool);
 
-public:
-    void resolve(
-        Tool::Context *toolContext,
-        std::string const &directory,
-        bool productStructure = false) const;
+    public:
+	void resolve(Tool::Context *toolContext, std::string const &directory,
+	    bool productStructure = false) const;
 
-public:
-    static std::string ToolIdentifier()
-    { return "com.apple.tools.mkdir"; }
+    public:
+	static std::string ToolIdentifier() { return "com.apple.tools.mkdir"; }
 
-public:
-    static std::unique_ptr<MakeDirectoryResolver>
-    Create(pbxspec::Manager::shared_ptr const &specManager, std::vector<std::string> const &specDomains);
+    public:
+	static std::unique_ptr<MakeDirectoryResolver> Create(
+	    pbxspec::Manager::shared_ptr const &specManager,
+	    std::vector<std::string> const &specDomains);
 };
 
 }

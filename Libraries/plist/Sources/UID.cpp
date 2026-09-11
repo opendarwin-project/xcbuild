@@ -11,24 +11,21 @@
 using plist::Object;
 using plist::UID;
 
-std::unique_ptr<UID> UID::
-New(uint32_t value)
+std::unique_ptr<UID> UID::New(uint32_t value)
 {
-    return std::unique_ptr<UID>(new UID(value));
+	return std::unique_ptr<UID>(new UID(value));
 }
 
-std::unique_ptr<Object> UID::
-_copy() const
+std::unique_ptr<Object> UID::_copy() const
 {
-    return plist::static_unique_pointer_cast<Object>(UID::New(value()));
+	return plist::static_unique_pointer_cast<Object>(UID::New(value()));
 }
 
-std::unique_ptr<UID> UID::
-Coerce(Object const *obj)
+std::unique_ptr<UID> UID::Coerce(Object const *obj)
 {
-    if (UID const *integer = CastTo<UID>(obj)) {
-        return integer->copy();
-    }
+	if (UID const *integer = CastTo<UID>(obj)) {
+		return integer->copy();
+	}
 
-    return nullptr;
+	return nullptr;
 }

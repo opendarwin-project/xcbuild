@@ -11,37 +11,36 @@
 using dependency::DependencyInfoFormat;
 using dependency::DependencyInfoFormats;
 
-bool DependencyInfoFormats::
-Name(DependencyInfoFormat format, std::string *name)
+bool DependencyInfoFormats::Name(DependencyInfoFormat format, std::string *name)
 {
-    switch (format) {
-        case DependencyInfoFormat::Directory:
-            *name = "directory";
-            return true;
-        case DependencyInfoFormat::Binary:
-            *name = "binary";
-            return true;
-        case DependencyInfoFormat::Makefile:
-            *name = "makefile";
-            return true;
-        default:
-            return false;
-    }
+	switch (format) {
+	case DependencyInfoFormat::Directory:
+		*name = "directory";
+		return true;
+	case DependencyInfoFormat::Binary:
+		*name = "binary";
+		return true;
+	case DependencyInfoFormat::Makefile:
+		*name = "makefile";
+		return true;
+	default:
+		return false;
+	}
 }
 
-bool DependencyInfoFormats::
-Parse(std::string const &name, DependencyInfoFormat *format)
+bool DependencyInfoFormats::Parse(
+    std::string const &name, DependencyInfoFormat *format)
 {
-    if (name == "binary") {
-        *format = DependencyInfoFormat::Binary;
-        return true;
-    } else if (name == "directory") {
-        *format = DependencyInfoFormat::Directory;
-        return true;
-    } else if (name == "makefile") {
-        *format = DependencyInfoFormat::Makefile;
-        return true;
-    } else {
-        return false;
-    }
+	if (name == "binary") {
+		*format = DependencyInfoFormat::Binary;
+		return true;
+	} else if (name == "directory") {
+		*format = DependencyInfoFormat::Directory;
+		return true;
+	} else if (name == "makefile") {
+		*format = DependencyInfoFormat::Makefile;
+		return true;
+	} else {
+		return false;
+	}
 }

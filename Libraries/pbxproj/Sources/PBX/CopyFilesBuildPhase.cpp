@@ -9,43 +9,42 @@
 #include <pbxproj/PBX/CopyFilesBuildPhase.h>
 #include <plist/Dictionary.h>
 #include <plist/Integer.h>
-#include <plist/String.h>
 #include <plist/Keys/Unpack.h>
+#include <plist/String.h>
 
-using pbxproj::PBX::CopyFilesBuildPhase;
 using pbxproj::Context;
+using pbxproj::PBX::CopyFilesBuildPhase;
 
-CopyFilesBuildPhase::
-CopyFilesBuildPhase() :
-    BuildPhase       (Isa(), Type::CopyFiles),
-    _dstPath         (pbxsetting::Value::Empty()),
-    _dstSubfolderSpec(kDestinationAbsolute)
+CopyFilesBuildPhase::CopyFilesBuildPhase()
+    : BuildPhase(Isa(), Type::CopyFiles)
+    , _dstPath(pbxsetting::Value::Empty())
+    , _dstSubfolderSpec(kDestinationAbsolute)
 {
 }
 
-bool CopyFilesBuildPhase::
-parse(Context &context, plist::Dictionary const *dict, std::unordered_set<std::string> *seen, bool check)
+bool CopyFilesBuildPhase::parse(Context &context, plist::Dictionary const *dict,
+    std::unordered_set<std::string> *seen, bool check)
 {
-    if (!BuildPhase::parse(context, dict, seen, false)) {
-        return false;
-    }
+	if (!BuildPhase::parse(context, dict, seen, false)) {
+		return false;
+	}
 
-    auto unpack = plist::Keys::Unpack("CopyFilesBuildPhase", dict, seen);
+	auto unpack = plist::Keys::Unpack("CopyFilesBuildPhase", dict, seen);
 
-    auto DP  = unpack.cast <plist::String> ("dstPath");
-    auto DSS = unpack.coerce <plist::Integer> ("dstSubfolderSpec");
+	auto DP = unpack.cast<plist::String>("dstPath");
+	auto DSS = unpack.coerce<plist::Integer>("dstSubfolderSpec");
 
-    if (!unpack.complete(check)) {
-        fprintf(stderr, "%s", unpack.errorText().c_str());
-    }
+	if (!unpack.complete(check)) {
+		fprintf(stderr, "%s", unpack.errorText().c_str());
+	}
 
-    if (DP != nullptr) {
-        _dstPath = pbxsetting::Value::Parse(DP->value());
-    }
+	if (DP != nullptr) {
+		_dstPath = pbxsetting::Value::Parse(DP->value());
+	}
 
-    if (DSS != nullptr) {
-        _dstSubfolderSpec = static_cast<Destination>(DSS->value());
-    }
+	if (DSS != nullptr) {
+		_dstSubfolderSpec = static_cast<Destination>(DSS->value());
+	}
 
-    return true;
+	return true;
 }

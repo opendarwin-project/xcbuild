@@ -18,30 +18,28 @@ namespace xcassets {
  * How mipmap levels are interpreted.
  */
 enum class MipmapLevelMode {
-    None,
-    All,
-    Fixed,
+	None,
+	All,
+	Fixed,
 };
 
 class MipmapLevelModes {
-private:
-    MipmapLevelModes();
-    ~MipmapLevelModes();
+    private:
+	MipmapLevelModes();
+	~MipmapLevelModes();
 
-public:
-    /*
-     * Parse a matching mipmap level mode from a string, if valid.
-     */
-    static ext::optional<MipmapLevelMode> Parse(std::string const &value);
+    public:
+	/*
+	 * Parse a matching mipmap level mode from a string, if valid.
+	 */
+	static ext::optional<MipmapLevelMode> Parse(std::string const &value);
 
-    /*
-     * Convert an mipmap level mode to a string.
-     */
-    static std::string String(MipmapLevelMode mipmapLevelMode);
+	/*
+	 * Convert an mipmap level mode to a string.
+	 */
+	static std::string String(MipmapLevelMode mipmapLevelMode);
 };
 
 }
 
 #endif // !__xcassets_MipmapLevelMode_h
-
-

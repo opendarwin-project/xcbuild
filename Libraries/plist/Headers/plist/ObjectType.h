@@ -19,31 +19,31 @@ namespace plist {
  * All possible object types.
  */
 enum class ObjectType {
-    None,
-    Integer,
-    Real,
-    String,
-    Boolean,
-    Null,
-    Array,
-    Dictionary,
-    Data,
-    Date,
-    UID,
+	None,
+	Integer,
+	Real,
+	String,
+	Boolean,
+	Null,
+	Array,
+	Dictionary,
+	Data,
+	Date,
+	UID,
 };
 
 class ObjectTypes {
-private:
-    ObjectTypes();
-    ~ObjectTypes();
+    private:
+	ObjectTypes();
+	~ObjectTypes();
 
-public:
-    /*
-     * Convert an object type to a user-facing name.
-     */
-    static std::string Name(ObjectType type);
+    public:
+	/*
+	 * Convert an object type to a user-facing name.
+	 */
+	static std::string Name(ObjectType type);
 };
 
 }
 
-#endif  // !__plist_ObjectType_h
+#endif // !__plist_ObjectType_h

@@ -14,8 +14,12 @@
 
 #include <vector>
 
-namespace process { class Context; }
-namespace process { class User; }
+namespace process {
+class Context;
+}
+namespace process {
+class User;
+}
 
 namespace pbxsetting {
 
@@ -24,32 +28,27 @@ namespace pbxsetting {
  * to be at the far back of an `Environment` for setting resolution.
  */
 class DefaultSettings {
-private:
-    DefaultSettings();
-    ~DefaultSettings();
+    private:
+	DefaultSettings();
+	~DefaultSettings();
 
-public:
-    static Level
-    Environment(process::User const *user, process::Context const *processContext);
-    static Level
-    Internal(void);
-    static Level
-    Local(void);
-    static Level
-    System(void);
-    static Level
-    Architecture(void);
-    static Level
-    Build(void);
+    public:
+	static Level Environment(
+	    process::User const *user, process::Context const *processContext);
+	static Level Internal(void);
+	static Level Local(void);
+	static Level System(void);
+	static Level Architecture(void);
+	static Level Build(void);
 
-public:
-    /*
-     * All of the default setting levels, in order.
-     */
-    static std::vector<Level>
-    Levels(process::User const *user, process::Context const *processContext);
+    public:
+	/*
+	 * All of the default setting levels, in order.
+	 */
+	static std::vector<Level> Levels(
+	    process::User const *user, process::Context const *processContext);
 };
 
 }
 
-#endif  // !__pbxsetting_Default_h
+#endif // !__pbxsetting_Default_h

@@ -12,10 +12,10 @@
 #include <graphics/Image.h>
 #include <graphics/PixelFormat.h>
 
+#include <ext/optional>
 #include <string>
 #include <utility>
 #include <vector>
-#include <ext/optional>
 
 namespace graphics {
 namespace Format {
@@ -24,23 +24,23 @@ namespace Format {
  * Utilities for PNG images.
  */
 class PNG {
-private:
-    PNG();
-    ~PNG();
+    private:
+	PNG();
+	~PNG();
 
-public:
-    /*
-     * Read a PNG image.
-     */
-    static std::pair<ext::optional<Image>, std::string>
-    Read(std::vector<uint8_t> const &contents);
+    public:
+	/*
+	 * Read a PNG image.
+	 */
+	static std::pair<ext::optional<Image>, std::string> Read(
+	    std::vector<uint8_t> const &contents);
 
-public:
-    /*
-     * Write a PNG image.
-     */
-    static std::pair<ext::optional<std::vector<uint8_t>>, std::string>
-    Write(Image const &image);
+    public:
+	/*
+	 * Write a PNG image.
+	 */
+	static std::pair<ext::optional<std::vector<uint8_t>>, std::string>
+	Write(Image const &image);
 };
 
 }

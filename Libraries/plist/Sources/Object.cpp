@@ -10,8 +10,7 @@
 
 using plist::Object;
 
-std::unique_ptr<Object> Object::
-Coerce(Object const *obj)
+std::unique_ptr<Object> Object::Coerce(Object const *obj)
 {
-    return obj->copy();
+	return obj->copy();
 }

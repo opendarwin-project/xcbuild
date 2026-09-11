@@ -12,10 +12,12 @@
 #include <pbxbuild/Tool/AuxiliaryFile.h>
 #include <pbxproj/PBX/Target.h>
 
-#include <string>
 #include <ext/optional>
+#include <string>
 
-namespace pbxsetting { class Environment; }
+namespace pbxsetting {
+class Environment;
+}
 
 namespace pbxbuild {
 namespace Phase {
@@ -24,16 +26,19 @@ class Context;
 class Environment;
 
 class ModuleMapResolver {
-public:
-    ModuleMapResolver();
-    ~ModuleMapResolver();
+    public:
+	ModuleMapResolver();
+	~ModuleMapResolver();
 
-public:
-    bool resolve(Phase::Environment const &phaseEnvironment, Phase::Context *phaseContext) const;
+    public:
+	bool resolve(Phase::Environment const &phaseEnvironment,
+	    Phase::Context *phaseContext) const;
 
-public:
-    static ext::optional<Tool::AuxiliaryFile::Chunk>
-    Contents(pbxsetting::Environment const &environment, pbxproj::PBX::Target::shared_ptr const &target, std::string const &workingDirectory);
+    public:
+	static ext::optional<Tool::AuxiliaryFile::Chunk> Contents(
+	    pbxsetting::Environment const &environment,
+	    pbxproj::PBX::Target::shared_ptr const &target,
+	    std::string const &workingDirectory);
 };
 
 }

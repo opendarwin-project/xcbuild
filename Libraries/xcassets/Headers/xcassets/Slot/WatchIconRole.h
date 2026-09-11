@@ -19,28 +19,28 @@ namespace Slot {
  * How an icon is used on a watch.
  */
 enum class WatchIconRole {
-    NotificationCenter,
-    CompanionSettings,
-    AppLauncher,
-    LongLookNotification,
-    ShortLookNotification,
+	NotificationCenter,
+	CompanionSettings,
+	AppLauncher,
+	LongLookNotification,
+	ShortLookNotification,
 };
 
 class WatchIconRoles {
-private:
-    WatchIconRoles();
-    ~WatchIconRoles();
+    private:
+	WatchIconRoles();
+	~WatchIconRoles();
 
-public:
-    /*
-     * Parse a matching watch icon role from a string, if valid.
-     */
-    static ext::optional<WatchIconRole> Parse(std::string const &value);
+    public:
+	/*
+	 * Parse a matching watch icon role from a string, if valid.
+	 */
+	static ext::optional<WatchIconRole> Parse(std::string const &value);
 
-    /*
-     * Convert an watch icon role to a string.
-     */
-    static std::string String(WatchIconRole watchIconRole);
+	/*
+	 * Convert an watch icon role to a string.
+	 */
+	static std::string String(WatchIconRole watchIconRole);
 };
 
 }

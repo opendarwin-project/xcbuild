@@ -9,8 +9,8 @@
 #ifndef __pbxbuild_Tool_ToolResolver_h
 #define __pbxbuild_Tool_ToolResolver_h
 
-#include <pbxbuild/Tool/Invocation.h>
 #include <pbxbuild/Tool/Input.h>
+#include <pbxbuild/Tool/Invocation.h>
 
 namespace pbxbuild {
 namespace Tool {
@@ -18,34 +18,33 @@ namespace Tool {
 class Context;
 
 class ToolResolver {
-private:
-    pbxspec::PBX::Tool::shared_ptr _tool;
+    private:
+	pbxspec::PBX::Tool::shared_ptr _tool;
 
-public:
-    explicit ToolResolver(pbxspec::PBX::Tool::shared_ptr const &tool);
-    ~ToolResolver();
+    public:
+	explicit ToolResolver(pbxspec::PBX::Tool::shared_ptr const &tool);
+	~ToolResolver();
 
-public:
-    pbxspec::PBX::Tool::shared_ptr const &tool() const
-    { return _tool; }
+    public:
+	pbxspec::PBX::Tool::shared_ptr const &tool() const { return _tool; }
 
-public:
-    void resolve(
-        Tool::Context *toolContext,
-        pbxsetting::Environment const &environment,
-        std::vector<Tool::Input> const &inputs,
-        std::string const &outputDirectory,
-        std::string const &logMessage = "") const;
-    void resolve(
-        Tool::Context *toolContext,
-        pbxsetting::Environment const &environment,
-        std::vector<Tool::Input> const &inputs,
-        std::vector<std::string> const &outputs,
-        std::string const &logMessage = "") const;
+    public:
+	void resolve(Tool::Context *toolContext,
+	    pbxsetting::Environment const &environment,
+	    std::vector<Tool::Input> const &inputs,
+	    std::string const &outputDirectory,
+	    std::string const &logMessage = "") const;
+	void resolve(Tool::Context *toolContext,
+	    pbxsetting::Environment const &environment,
+	    std::vector<Tool::Input> const &inputs,
+	    std::vector<std::string> const &outputs,
+	    std::string const &logMessage = "") const;
 
-public:
-    static std::unique_ptr<ToolResolver>
-    Create(pbxspec::Manager::shared_ptr const &specManager, std::vector<std::string> const &specDomains, std::string const &identifier);
+    public:
+	static std::unique_ptr<ToolResolver> Create(
+	    pbxspec::Manager::shared_ptr const &specManager,
+	    std::vector<std::string> const &specDomains,
+	    std::string const &identifier);
 };
 
 }

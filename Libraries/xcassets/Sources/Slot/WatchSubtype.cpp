@@ -13,55 +13,54 @@
 using xcassets::Slot::WatchSubtype;
 using xcassets::Slot::WatchSubtypes;
 
-ext::optional<WatchSubtype> WatchSubtypes::
-ParsePhysicalSize(std::string const &value)
+ext::optional<WatchSubtype> WatchSubtypes::ParsePhysicalSize(
+    std::string const &value)
 {
-    if (value == "38mm") {
-        return WatchSubtype::Small;
-    } else if (value == "42mm") {
-        return WatchSubtype::Large;
-    } else {
-        fprintf(stderr, "warning: unknown watch physical size %s\n", value.c_str());
-        return ext::nullopt;
-    }
+	if (value == "38mm") {
+		return WatchSubtype::Small;
+	} else if (value == "42mm") {
+		return WatchSubtype::Large;
+	} else {
+		fprintf(stderr, "warning: unknown watch physical size %s\n",
+		    value.c_str());
+		return ext::nullopt;
+	}
 }
 
-std::string WatchSubtypes::
-PhysicalSizeString(WatchSubtype watchSubtype)
+std::string WatchSubtypes::PhysicalSizeString(WatchSubtype watchSubtype)
 {
-    switch (watchSubtype) {
-        case WatchSubtype::Small:
-            return "38mm";
-        case WatchSubtype::Large:
-            return "42mm";
-    }
+	switch (watchSubtype) {
+	case WatchSubtype::Small:
+		return "38mm";
+	case WatchSubtype::Large:
+		return "42mm";
+	}
 
-    abort();
+	abort();
 }
 
-ext::optional<WatchSubtype> WatchSubtypes::
-ParseScreenWidth(std::string const &value)
+ext::optional<WatchSubtype> WatchSubtypes::ParseScreenWidth(
+    std::string const &value)
 {
-    if (value == "<=145") {
-        return WatchSubtype::Small;
-    } else if (value == ">145") {
-        return WatchSubtype::Large;
-    } else {
-        fprintf(stderr, "warning: unknown watch screen width %s\n", value.c_str());
-        return ext::nullopt;
-    }
+	if (value == "<=145") {
+		return WatchSubtype::Small;
+	} else if (value == ">145") {
+		return WatchSubtype::Large;
+	} else {
+		fprintf(stderr, "warning: unknown watch screen width %s\n",
+		    value.c_str());
+		return ext::nullopt;
+	}
 }
 
-std::string WatchSubtypes::
-ScreenWidthString(WatchSubtype watchSubtype)
+std::string WatchSubtypes::ScreenWidthString(WatchSubtype watchSubtype)
 {
-    switch (watchSubtype) {
-        case WatchSubtype::Small:
-            return "<=145";
-        case WatchSubtype::Large:
-            return ">145";
-    }
+	switch (watchSubtype) {
+	case WatchSubtype::Small:
+		return "<=145";
+	case WatchSubtype::Large:
+		return ">145";
+	}
 
-    abort();
+	abort();
 }
-

@@ -25,4 +25,4 @@
 
 #include <pbxspec/Manager.h>
 
-#endif  // !__pbxspec_pbxspec_h
+#endif // !__pbxspec_pbxspec_h

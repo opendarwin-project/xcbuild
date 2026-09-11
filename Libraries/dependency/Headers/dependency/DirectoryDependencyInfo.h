@@ -12,11 +12,13 @@
 #include <dependency/DependencyInfo.h>
 #include <dependency/DependencyInfoFormat.h>
 
+#include <ext/optional>
 #include <memory>
 #include <string>
-#include <ext/optional>
 
-namespace libutil { class Filesystem; }
+namespace libutil {
+class Filesystem;
+}
 
 namespace dependency {
 
@@ -24,43 +26,44 @@ namespace dependency {
  * Dependency info created from the contents of a directory.
  */
 class DirectoryDependencyInfo {
-private:
-    std::string    _directory;
+    private:
+	std::string _directory;
 
-private:
-    DependencyInfo _dependencyInfo;
+    private:
+	DependencyInfo _dependencyInfo;
 
-public:
-    DirectoryDependencyInfo(
-        std::string const &directory,
-        DependencyInfo const &dependencyInfo);
+    public:
+	DirectoryDependencyInfo(
+	    std::string const &directory, DependencyInfo const &dependencyInfo);
 
-public:
-    /*
-     * The path to the directory.
-     */
-    std::string const &directory() const
-    { return _directory; }
+    public:
+	/*
+	 * The path to the directory.
+	 */
+	std::string const &directory() const { return _directory; }
 
-public:
-    /*
-     * The loaded dependency info.
-     */
-    DependencyInfo const &dependencyInfo() const
-    { return _dependencyInfo; }
+    public:
+	/*
+	 * The loaded dependency info.
+	 */
+	DependencyInfo const &dependencyInfo() const { return _dependencyInfo; }
 
-public:
-    /*
-     * Create dependency info for a directory.
-     */
-    static ext::optional<DirectoryDependencyInfo>
-    Deserialize(libutil::Filesystem const *filesystem, std::string const &directory);
+    public:
+	/*
+	 * Create dependency info for a directory.
+	 */
+	static ext::optional<DirectoryDependencyInfo> Deserialize(
+	    libutil::Filesystem const *filesystem,
+	    std::string const &directory);
 
-public:
-    /*
-     * The dependency info format.
-     */
-    DependencyInfoFormat Format() { return DependencyInfoFormat::Directory; }
+    public:
+	/*
+	 * The dependency info format.
+	 */
+	DependencyInfoFormat Format()
+	{
+		return DependencyInfoFormat::Directory;
+	}
 };
 
 }

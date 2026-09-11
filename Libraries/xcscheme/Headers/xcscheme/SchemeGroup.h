@@ -11,57 +11,59 @@
 
 #include <xcscheme/XC/Scheme.h>
 
+#include <ext/optional>
 #include <memory>
 #include <string>
-#include <ext/optional>
 
-namespace libutil { class Filesystem; }
+namespace libutil {
+class Filesystem;
+}
 
 namespace xcscheme {
 
 class SchemeGroup {
-public:
-    typedef std::shared_ptr <SchemeGroup> shared_ptr;
+    public:
+	typedef std::shared_ptr<SchemeGroup> shared_ptr;
 
-private:
-    std::string                      _basePath;
-    std::string                      _path;
-    std::string                      _name;
+    private:
+	std::string _basePath;
+	std::string _path;
+	std::string _name;
 
-private:
-    xcscheme::XC::Scheme::vector     _schemes;
-    xcscheme::XC::Scheme::shared_ptr _defaultScheme;
+    private:
+	xcscheme::XC::Scheme::vector _schemes;
+	xcscheme::XC::Scheme::shared_ptr _defaultScheme;
 
-public:
-    SchemeGroup();
+    public:
+	SchemeGroup();
 
-public:
-    inline std::string const &basePath() const
-    { return _basePath; }
-    inline std::string const &path() const
-    { return _path; }
-    inline std::string const &name() const
-    { return _name; }
+    public:
+	inline std::string const &basePath() const { return _basePath; }
+	inline std::string const &path() const { return _path; }
+	inline std::string const &name() const { return _name; }
 
-public:
-    inline xcscheme::XC::Scheme::vector const &schemes() const
-    { return _schemes; }
-    inline xcscheme::XC::Scheme::shared_ptr const &defaultScheme() const
-    { return _defaultScheme; }
+    public:
+	inline xcscheme::XC::Scheme::vector const &schemes() const
+	{
+		return _schemes;
+	}
+	inline xcscheme::XC::Scheme::shared_ptr const &defaultScheme() const
+	{
+		return _defaultScheme;
+	}
 
-public:
-    /*
-     * Find a scheme inside the group.
-     */
-    xcscheme::XC::Scheme::shared_ptr scheme(std::string const &name) const;
+    public:
+	/*
+	 * Find a scheme inside the group.
+	 */
+	xcscheme::XC::Scheme::shared_ptr scheme(std::string const &name) const;
 
-public:
-    static SchemeGroup::shared_ptr Open(
-        libutil::Filesystem const *filesystem,
-        ext::optional<std::string> const &userName,
-        std::string const &basePath,
-        std::string const &path,
-        std::string const &name);
+    public:
+	static SchemeGroup::shared_ptr Open(
+	    libutil::Filesystem const *filesystem,
+	    ext::optional<std::string> const &userName,
+	    std::string const &basePath, std::string const &path,
+	    std::string const &name);
 };
 
 }

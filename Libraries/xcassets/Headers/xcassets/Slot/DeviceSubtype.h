@@ -19,26 +19,26 @@ namespace Slot {
  * The subtype of device a launch image is for.
  */
 enum class DeviceSubtype {
-    Retina4,
-    Height667,
-    Height736,
+	Retina4,
+	Height667,
+	Height736,
 };
 
 class DeviceSubtypes {
-private:
-    DeviceSubtypes();
-    ~DeviceSubtypes();
+    private:
+	DeviceSubtypes();
+	~DeviceSubtypes();
 
-public:
-    /*
-     * Parse a device subtype from a string.
-     */
-    static ext::optional<DeviceSubtype> Parse(std::string const &value);
+    public:
+	/*
+	 * Parse a device subtype from a string.
+	 */
+	static ext::optional<DeviceSubtype> Parse(std::string const &value);
 
-    /*
-     * Convert a device subtype to a string.
-     */
-    static std::string String(DeviceSubtype deviceSubtype);
+	/*
+	 * Convert a device subtype to a string.
+	 */
+	static std::string String(DeviceSubtype deviceSubtype);
 };
 
 }

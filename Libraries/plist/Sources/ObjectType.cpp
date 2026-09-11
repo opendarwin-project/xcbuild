@@ -11,20 +11,30 @@
 using plist::ObjectType;
 using plist::ObjectTypes;
 
-std::string ObjectTypes::
-Name(ObjectType type)
+std::string ObjectTypes::Name(ObjectType type)
 {
-    switch (type) {
-        case ObjectType::None:       return "object";
-        case ObjectType::Integer:    return "integer";
-        case ObjectType::Real:       return "real";
-        case ObjectType::String:     return "string";
-        case ObjectType::Boolean:    return "boolean";
-        case ObjectType::Null:       return "null";
-        case ObjectType::Array:      return "array";
-        case ObjectType::Dictionary: return "dictionary";
-        case ObjectType::Data:       return "data";
-        case ObjectType::Date:       return "date";
-        default: abort();
-    }
+	switch (type) {
+	case ObjectType::None:
+		return "object";
+	case ObjectType::Integer:
+		return "integer";
+	case ObjectType::Real:
+		return "real";
+	case ObjectType::String:
+		return "string";
+	case ObjectType::Boolean:
+		return "boolean";
+	case ObjectType::Null:
+		return "null";
+	case ObjectType::Array:
+		return "array";
+	case ObjectType::Dictionary:
+		return "dictionary";
+	case ObjectType::Data:
+		return "data";
+	case ObjectType::Date:
+		return "date";
+	default:
+		abort();
+	}
 }

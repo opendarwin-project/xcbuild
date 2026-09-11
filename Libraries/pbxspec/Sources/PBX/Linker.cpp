@@ -6,110 +6,105 @@
  LICENSE file in the root directory of this source tree.
  */
 
-#include <pbxspec/PBX/Linker.h>
-#include <pbxspec/Inherit.h>
 #include <pbxspec/Context.h>
+#include <pbxspec/Inherit.h>
+#include <pbxspec/PBX/Linker.h>
 #include <plist/Array.h>
 #include <plist/Boolean.h>
 #include <plist/Dictionary.h>
-#include <plist/String.h>
 #include <plist/Keys/Unpack.h>
+#include <plist/String.h>
 
 using pbxspec::PBX::Linker;
 
-Linker::
-Linker() :
-    Tool()
+Linker::Linker()
+    : Tool()
 {
 }
 
-Linker::
-~Linker()
+Linker::~Linker() { }
+
+bool Linker::inherit(Specification::shared_ptr const &base)
 {
+	if (base->type() != Linker::Type())
+		return false;
+
+	return inherit(std::static_pointer_cast<Linker>(base));
 }
 
-bool Linker::
-inherit(Specification::shared_ptr const &base)
+bool Linker::inherit(Tool::shared_ptr const &base)
 {
-    if (base->type() != Linker::Type())
-        return false;
+	if (base->type() != Linker::Type())
+		return false;
 
-    return inherit(std::static_pointer_cast<Linker>(base));
+	return inherit(std::static_pointer_cast<Linker>(base));
 }
 
-bool Linker::
-inherit(Tool::shared_ptr const &base)
+bool Linker::inherit(Linker::shared_ptr const &b)
 {
-    if (base->type() != Linker::Type())
-        return false;
+	if (!Tool::inherit(std::static_pointer_cast<Tool>(b)))
+		return false;
 
-    return inherit(std::static_pointer_cast<Linker>(base));
+	auto base = this->base();
+
+	_binaryFormats = Inherit::Combine(_binaryFormats, base->_binaryFormats);
+	_dependencyInfoFile = Inherit::Override(
+	    _dependencyInfoFile, base->_dependencyInfoFile);
+	_supportsInputFileList = Inherit::Override(
+	    _supportsInputFileList, base->_supportsInputFileList);
+
+	return true;
 }
 
-bool Linker::
-inherit(Linker::shared_ptr const &b)
+Linker::shared_ptr Linker::Parse(
+    Context *context, plist::Dictionary const *dict)
 {
-    if (!Tool::inherit(std::static_pointer_cast<Tool>(b)))
-        return false;
+	if (!ParseType(context, dict, Type())) {
+		return nullptr;
+	}
 
-    auto base = this->base();
+	Linker::shared_ptr result;
+	result.reset(new Linker());
 
-    _binaryFormats         = Inherit::Combine(_binaryFormats, base->_binaryFormats);
-    _dependencyInfoFile    = Inherit::Override(_dependencyInfoFile, base->_dependencyInfoFile);
-    _supportsInputFileList = Inherit::Override(_supportsInputFileList, base->_supportsInputFileList);
+	std::unordered_set<std::string> seen;
+	if (!result->parse(context, dict, &seen, true))
+		return nullptr;
 
-    return true;
+	return result;
 }
 
-Linker::shared_ptr Linker::
-Parse(Context *context, plist::Dictionary const *dict)
+bool Linker::parse(Context *context, plist::Dictionary const *dict,
+    std::unordered_set<std::string> *seen, bool check)
 {
-    if (!ParseType(context, dict, Type())) {
-        return nullptr;
-    }
+	if (!Tool::parse(context, dict, seen, false))
+		return false;
 
-    Linker::shared_ptr result;
-    result.reset(new Linker());
+	auto unpack = plist::Keys::Unpack("Linker", dict, seen);
 
-    std::unordered_set<std::string> seen;
-    if (!result->parse(context, dict, &seen, true))
-        return nullptr;
+	auto BFs = unpack.cast<plist::Array>("BinaryFormats");
+	auto DIF = unpack.cast<plist::String>("DependencyInfoFile");
+	auto SIFL = unpack.coerce<plist::Boolean>("SupportsInputFileList");
 
-    return result;
-}
+	if (!unpack.complete(check)) {
+		fprintf(stderr, "%s", unpack.errorText().c_str());
+	}
 
-bool Linker::
-parse(Context *context, plist::Dictionary const *dict, std::unordered_set<std::string> *seen, bool check)
-{
-    if (!Tool::parse(context, dict, seen, false))
-        return false;
+	if (BFs != nullptr) {
+		_binaryFormats = std::vector<std::string>();
+		for (size_t n = 0; n < BFs->count(); n++) {
+			if (auto BF = BFs->value<plist::String>(n)) {
+				_binaryFormats->push_back(BF->value());
+			}
+		}
+	}
 
-    auto unpack = plist::Keys::Unpack("Linker", dict, seen);
+	if (DIF != nullptr) {
+		_dependencyInfoFile = pbxsetting::Value::Parse(DIF->value());
+	}
 
-    auto BFs  = unpack.cast <plist::Array> ("BinaryFormats");
-    auto DIF  = unpack.cast <plist::String> ("DependencyInfoFile");
-    auto SIFL = unpack.coerce <plist::Boolean> ("SupportsInputFileList");
+	if (SIFL != nullptr) {
+		_supportsInputFileList = SIFL->value();
+	}
 
-    if (!unpack.complete(check)) {
-        fprintf(stderr, "%s", unpack.errorText().c_str());
-    }
-
-    if (BFs != nullptr) {
-        _binaryFormats = std::vector<std::string>();
-        for (size_t n = 0; n < BFs->count(); n++) {
-            if (auto BF = BFs->value <plist::String> (n)) {
-                _binaryFormats->push_back(BF->value());
-            }
-        }
-    }
-
-    if (DIF != nullptr) {
-        _dependencyInfoFile = pbxsetting::Value::Parse(DIF->value());
-    }
-
-    if (SIFL != nullptr) {
-        _supportsInputFileList = SIFL->value();
-    }
-
-    return true;
+	return true;
 }

@@ -10,8 +10,8 @@
 #define __xcassets_Slot_ImageSize_h
 
 #include <ext/optional>
-#include <vector>
 #include <string>
+#include <vector>
 
 namespace xcassets {
 namespace Slot {
@@ -20,36 +20,34 @@ namespace Slot {
  * The size of an image.
  */
 class ImageSize {
-private:
-    double _width;
-    double _height;
+    private:
+	double _width;
+	double _height;
 
-private:
-    ImageSize(double width, double height);
+    private:
+	ImageSize(double width, double height);
 
-public:
-    /*
-     * The represented image width.
-     */
-    double width() const
-    { return _width; }
+    public:
+	/*
+	 * The represented image width.
+	 */
+	double width() const { return _width; }
 
-    /*
-     * The represented image height.
-     */
-    double height() const
-    { return _height; }
+	/*
+	 * The represented image height.
+	 */
+	double height() const { return _height; }
 
-public:
-    /*
-     * Parse a matching image scale from a string, if valid.
-     */
-    static ext::optional<ImageSize> Parse(std::string const &value);
+    public:
+	/*
+	 * Parse a matching image scale from a string, if valid.
+	 */
+	static ext::optional<ImageSize> Parse(std::string const &value);
 
-    /*
-     * Convert an image size to a string.
-     */
-    static std::string String(ImageSize imageSize);
+	/*
+	 * Convert an image size to a string.
+	 */
+	static std::string String(ImageSize imageSize);
 };
 
 }

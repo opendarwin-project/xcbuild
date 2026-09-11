@@ -6,29 +6,28 @@
  LICENSE file in the root directory of this source tree.
  */
 
-#include <pbxspec/pbxspec.h>
 #include <libutil/DefaultFilesystem.h>
 #include <libutil/Filesystem.h>
+#include <pbxspec/pbxspec.h>
 
 #include <cstdio>
 
+using libutil::DefaultFilesystem;
 using pbxspec::Manager;
 using pbxspec::PBX::Specification;
-using libutil::DefaultFilesystem;
 
-int
-main(int argc, char **argv)
+int main(int argc, char **argv)
 {
-    DefaultFilesystem filesystem = DefaultFilesystem();
+	DefaultFilesystem filesystem = DefaultFilesystem();
 
-    if (argc < 2) {
-        fprintf(stderr, "usage: %s path\n", argv[0]);
-        return -1;
-    }
+	if (argc < 2) {
+		fprintf(stderr, "usage: %s path\n", argv[0]);
+		return -1;
+	}
 
-    std::string path = argv[1];
-    Manager::shared_ptr manager = Manager::Create();
-    manager->registerDomains(&filesystem, { { "xcspec", path } });
+	std::string path = argv[1];
+	Manager::shared_ptr manager = Manager::Create();
+	manager->registerDomains(&filesystem, { { "xcspec", path } });
 
-    return 0;
+	return 0;
 }

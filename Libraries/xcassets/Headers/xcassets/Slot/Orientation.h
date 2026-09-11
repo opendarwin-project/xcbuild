@@ -19,26 +19,25 @@ namespace Slot {
  * Physical device orientation class.
  */
 enum class Orientation {
-    Portrait,
-    Landscape,
+	Portrait,
+	Landscape,
 };
 
 class Orientations {
-private:
-    Orientations();
-    ~Orientations();
+    private:
+	Orientations();
+	~Orientations();
 
-public:
-    /*
-     * Parse an orientation from a string, if valid.
-     */
-    static ext::optional<Orientation>
-    Parse(std::string const &value);
+    public:
+	/*
+	 * Parse an orientation from a string, if valid.
+	 */
+	static ext::optional<Orientation> Parse(std::string const &value);
 
-    /*
-     * Convert an orientation to a string.
-     */
-    static std::string String(Orientation orientation);
+	/*
+	 * Convert an orientation to a string.
+	 */
+	static std::string String(Orientation orientation);
 };
 
 }

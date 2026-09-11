@@ -12,8 +12,12 @@
 #include <string>
 #include <vector>
 
-namespace libutil { class Filesystem; }
-namespace process { class Context; }
+namespace libutil {
+class Filesystem;
+}
+namespace process {
+class Context;
+}
 
 namespace acdriver {
 
@@ -21,13 +25,13 @@ namespace acdriver {
  * Implements the actool command line tool.
  */
 class Driver {
-private:
-    Driver();
-    ~Driver();
+    private:
+	Driver();
+	~Driver();
 
-public:
-    static int
-    Run(process::Context const *processContext, libutil::Filesystem *filesystem);
+    public:
+	static int Run(process::Context const *processContext,
+	    libutil::Filesystem *filesystem);
 };
 
 }

@@ -6,33 +6,30 @@
  LICENSE file in the root directory of this source tree.
  */
 
-#include <process/MemoryLauncher.h>
-#include <process/Context.h>
 #include <libutil/Filesystem.h>
+#include <process/Context.h>
+#include <process/MemoryLauncher.h>
 
-using process::MemoryLauncher;
-using process::Context;
 using libutil::Filesystem;
+using process::Context;
+using process::MemoryLauncher;
 
-MemoryLauncher::
-MemoryLauncher(std::unordered_map<std::string, Handler> const &handlers) :
-    Launcher (),
-    _handlers(handlers)
+MemoryLauncher::MemoryLauncher(
+    std::unordered_map<std::string, Handler> const &handlers)
+    : Launcher()
+    , _handlers(handlers)
 {
 }
 
-MemoryLauncher::
-~MemoryLauncher()
-{
-}
+MemoryLauncher::~MemoryLauncher() { }
 
-ext::optional<int> MemoryLauncher::
-launch(Filesystem *filesystem, Context const *context)
+ext::optional<int> MemoryLauncher::launch(
+    Filesystem *filesystem, Context const *context)
 {
-    auto it = _handlers.find(context->executablePath());
-    if (it != _handlers.end()) {
-        return it->second(filesystem, context);
-    } else {
-        return ext::nullopt;
-    }
+	auto it = _handlers.find(context->executablePath());
+	if (it != _handlers.end()) {
+		return it->second(filesystem, context);
+	} else {
+		return ext::nullopt;
+	}
 }

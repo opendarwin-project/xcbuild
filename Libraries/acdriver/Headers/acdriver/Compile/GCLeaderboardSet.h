@@ -14,7 +14,9 @@
 
 #include <memory>
 
-namespace libutil { class Filesystem; }
+namespace libutil {
+class Filesystem;
+}
 
 namespace acdriver {
 
@@ -25,16 +27,15 @@ namespace Compile {
 class Output;
 
 class GCLeaderboardSet {
-private:
-    GCLeaderboardSet();
-    ~GCLeaderboardSet();
+    private:
+	GCLeaderboardSet();
+	~GCLeaderboardSet();
 
-public:
-    static bool Compile(
-        xcassets::Asset::GCLeaderboardSet const *gcLeaderboardSet,
-        libutil::Filesystem *filesystem,
-        Output *compileOutput,
-        Result *result);
+    public:
+	static bool Compile(
+	    xcassets::Asset::GCLeaderboardSet const *gcLeaderboardSet,
+	    libutil::Filesystem *filesystem, Output *compileOutput,
+	    Result *result);
 };
 
 }

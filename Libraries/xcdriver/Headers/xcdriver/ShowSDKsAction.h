@@ -9,22 +9,29 @@
 #ifndef __xcdriver_ShowSDKsAction_h
 #define __xcdriver_ShowSDKsAction_h
 
-namespace libutil { class Filesystem; }
-namespace process { class Context; }
-namespace process { class User; }
+namespace libutil {
+class Filesystem;
+}
+namespace process {
+class Context;
+}
+namespace process {
+class User;
+}
 
 namespace xcdriver {
 
 class Options;
 
 class ShowSDKsAction {
-private:
-    ShowSDKsAction();
-    ~ShowSDKsAction();
+    private:
+	ShowSDKsAction();
+	~ShowSDKsAction();
 
-public:
-    static int
-    Run(process::User const *user, process::Context const *processContext, libutil::Filesystem const *filesystem, Options const &options);
+    public:
+	static int Run(process::User const *user,
+	    process::Context const *processContext,
+	    libutil::Filesystem const *filesystem, Options const &options);
 };
 
 }

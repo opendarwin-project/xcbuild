@@ -11,35 +11,38 @@
 
 #include <pbxproj/PBX/BuildPhase.h>
 
-namespace pbxproj { namespace PBX {
+namespace pbxproj {
+namespace PBX {
 
 class AppleScriptBuildPhase : public BuildPhase {
-public:
-    typedef std::shared_ptr <AppleScriptBuildPhase> shared_ptr;
+    public:
+	typedef std::shared_ptr<AppleScriptBuildPhase> shared_ptr;
 
-private:
-    std::string _contextName;
-    bool        _isSharedContext;
+    private:
+	std::string _contextName;
+	bool _isSharedContext;
 
-public:
-    AppleScriptBuildPhase();
+    public:
+	AppleScriptBuildPhase();
 
-public:
-    inline std::string const &contextName() const
-    { return _contextName; }
+    public:
+	inline std::string const &contextName() const { return _contextName; }
 
-public:
-    inline bool isSharedContext() const
-    { return _isSharedContext; }
+    public:
+	inline bool isSharedContext() const { return _isSharedContext; }
 
-protected:
-    bool parse(Context &context, plist::Dictionary const *dict, std::unordered_set<std::string> *seen, bool check) override;
+    protected:
+	bool parse(Context &context, plist::Dictionary const *dict,
+	    std::unordered_set<std::string> *seen, bool check) override;
 
-public:
-    static inline char const *Isa()
-    { return ISA::PBXAppleScriptBuildPhase; }
+    public:
+	static inline char const *Isa()
+	{
+		return ISA::PBXAppleScriptBuildPhase;
+	}
 };
 
-} }
+}
+}
 
-#endif  // !__pbxproj_PBX_BuildPhase_h
+#endif // !__pbxproj_PBX_BuildPhase_h

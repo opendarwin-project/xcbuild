@@ -13,59 +13,66 @@
 
 namespace Tool = pbxbuild::Tool;
 
-std::vector<std::string> Tool::InterfaceBuilderCommon::
-TargetedDeviceNames(std::string const &platformName, std::string const &deviceFamily)
+std::vector<std::string> Tool::InterfaceBuilderCommon::TargetedDeviceNames(
+    std::string const &platformName, std::string const &deviceFamily)
 {
-    if (platformName == "macosx") {
-        return { "mac" };
-    } else {
-        std::vector<std::string> targetedDeviceNames;
+	if (platformName == "macosx") {
+		return { "mac" };
+	} else {
+		std::vector<std::string> targetedDeviceNames;
 
-        std::string::size_type off = 0;
-        do {
-            std::string::size_type noff = deviceFamily.find(',', off);
-            std::string entry = (noff == std::string::npos ? deviceFamily.substr(off) : deviceFamily.substr(off, noff));
+		std::string::size_type off = 0;
+		do {
+			std::string::size_type noff = deviceFamily.find(
+			    ',', off);
+			std::string entry = (noff == std::string::npos
+				? deviceFamily.substr(off)
+				: deviceFamily.substr(off, noff));
 
-            if (!entry.empty()) {
-                if (entry == "1") {
-                    targetedDeviceNames.push_back("iphone");
-                } else if (entry == "2") {
-                    targetedDeviceNames.push_back("ipad");
-                } else if (entry == "3") {
-                    targetedDeviceNames.push_back("tv");
-                } else if (entry == "4") {
-                    targetedDeviceNames.push_back("watch");
-                }
-            }
+			if (!entry.empty()) {
+				if (entry == "1") {
+					targetedDeviceNames.push_back("iphone");
+				} else if (entry == "2") {
+					targetedDeviceNames.push_back("ipad");
+				} else if (entry == "3") {
+					targetedDeviceNames.push_back("tv");
+				} else if (entry == "4") {
+					targetedDeviceNames.push_back("watch");
+				}
+			}
 
-            off = noff;
-        } while ((off != std::string::npos) && (off++ < deviceFamily.size()));
+			off = noff;
+		} while ((off != std::string::npos) &&
+		    (off++ < deviceFamily.size()));
 
-        return targetedDeviceNames;
-    }
+		return targetedDeviceNames;
+	}
 }
 
-pbxsetting::Setting Tool::InterfaceBuilderCommon::
-TargetedDeviceSetting(pbxsetting::Environment const &environment)
+pbxsetting::Setting Tool::InterfaceBuilderCommon::TargetedDeviceSetting(
+    pbxsetting::Environment const &environment)
 {
-    /*
-     * Determine the target devices from the environment.
-     */
-    std::vector<std::string> targetDeviceNames = InterfaceBuilderCommon::TargetedDeviceNames(
-        environment.resolve("PLATFORM_NAME"),
-        environment.resolve("TARGETED_DEVICE_FAMILY"));
+	/*
+	 * Determine the target devices from the environment.
+	 */
+	std::vector<std::string> targetDeviceNames =
+	    InterfaceBuilderCommon::TargetedDeviceNames(
+		environment.resolve("PLATFORM_NAME"),
+		environment.resolve("TARGETED_DEVICE_FAMILY"));
 
-    return pbxsetting::Setting::Create("RESOURCES_TARGETED_DEVICE_FAMILY", pbxsetting::Type::FormatList(targetDeviceNames));
+	return pbxsetting::Setting::Create("RESOURCES_TARGETED_DEVICE_FAMILY",
+	    pbxsetting::Type::FormatList(targetDeviceNames));
 }
 
-std::vector<std::string> Tool::InterfaceBuilderCommon::
-DeploymentTargetArguments(pbxsetting::Environment const &environment)
+std::vector<std::string>
+Tool::InterfaceBuilderCommon::DeploymentTargetArguments(
+    pbxsetting::Environment const &environment)
 {
-    std::string deploymentTarget = environment.resolve(environment.resolve("DEPLOYMENT_TARGET_SETTING_NAME"));
-    if (deploymentTarget.empty()) {
-        return std::vector<std::string>();
-    } else {
-        return { "--minimum-deployment-target", deploymentTarget };
-    }
+	std::string deploymentTarget = environment.resolve(
+	    environment.resolve("DEPLOYMENT_TARGET_SETTING_NAME"));
+	if (deploymentTarget.empty()) {
+		return std::vector<std::string>();
+	} else {
+		return { "--minimum-deployment-target", deploymentTarget };
+	}
 }
-

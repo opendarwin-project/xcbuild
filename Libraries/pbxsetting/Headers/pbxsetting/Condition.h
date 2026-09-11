@@ -15,44 +15,44 @@
 namespace pbxsetting {
 
 class Condition {
-public:
-private:
-    std::unordered_map<std::string, std::string> _values;
+    public:
+    private:
+	std::unordered_map<std::string, std::string> _values;
 
-public:
-    Condition(std::unordered_map<std::string, std::string> const &values);
-    ~Condition();
+    public:
+	Condition(std::unordered_map<std::string, std::string> const &values);
+	~Condition();
 
-public:
-    friend struct std::hash<Condition>;
+    public:
+	friend struct std::hash<Condition>;
 
-public:
-    std::unordered_map<std::string, std::string> const &
-    values() const { return _values; }
+    public:
+	std::unordered_map<std::string, std::string> const &values() const
+	{
+		return _values;
+	}
 
-public:
-    bool
-    match(Condition const &condition) const;
+    public:
+	bool match(Condition const &condition) const;
 
-public:
-    static Condition const &
-    Empty(void);
+    public:
+	static Condition const &Empty(void);
 };
 
 }
 
 namespace std {
-template<>
-struct hash<pbxsetting::Condition> {
-    size_t operator()(pbxsetting::Condition const &condition) const {
-        size_t hash = 0;
-        for (auto pair : condition._values) {
-            hash ^= std::hash<std::string>()(pair.first);
-            hash ^= std::hash<std::string>()(pair.second);
-        }
-        return hash;
-    }
+template <> struct hash<pbxsetting::Condition> {
+	size_t operator()(pbxsetting::Condition const &condition) const
+	{
+		size_t hash = 0;
+		for (auto pair : condition._values) {
+			hash ^= std::hash<std::string>()(pair.first);
+			hash ^= std::hash<std::string>()(pair.second);
+		}
+		return hash;
+	}
 };
 }
 
-#endif  // !__pbxsetting_Condition_h
+#endif // !__pbxsetting_Condition_h

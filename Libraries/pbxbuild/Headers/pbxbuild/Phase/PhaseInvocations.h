@@ -19,25 +19,29 @@ namespace Phase {
 class Environment;
 
 class PhaseInvocations {
-private:
-    std::vector<Tool::Invocation>    _invocations;
-    std::vector<Tool::AuxiliaryFile> _auxiliaryFiles;
+    private:
+	std::vector<Tool::Invocation> _invocations;
+	std::vector<Tool::AuxiliaryFile> _auxiliaryFiles;
 
-public:
-    PhaseInvocations(
-        std::vector<Tool::Invocation> const &invocations,
-        std::vector<Tool::AuxiliaryFile> const &auxiliaryFiles);
-    ~PhaseInvocations();
+    public:
+	PhaseInvocations(std::vector<Tool::Invocation> const &invocations,
+	    std::vector<Tool::AuxiliaryFile> const &auxiliaryFiles);
+	~PhaseInvocations();
 
-public:
-    std::vector<Tool::Invocation> const &invocations() const
-    { return _invocations; }
-    std::vector<Tool::AuxiliaryFile> const &auxiliaryFiles() const
-    { return _auxiliaryFiles; }
+    public:
+	std::vector<Tool::Invocation> const &invocations() const
+	{
+		return _invocations;
+	}
+	std::vector<Tool::AuxiliaryFile> const &auxiliaryFiles() const
+	{
+		return _auxiliaryFiles;
+	}
 
-public:
-    static PhaseInvocations
-    Create(Phase::Environment const &phaseEnvironment, pbxproj::PBX::Target::shared_ptr const &target);
+    public:
+	static PhaseInvocations Create(
+	    Phase::Environment const &phaseEnvironment,
+	    pbxproj::PBX::Target::shared_ptr const &target);
 };
 
 }

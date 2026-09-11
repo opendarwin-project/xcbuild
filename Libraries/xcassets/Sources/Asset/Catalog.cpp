@@ -6,38 +6,37 @@
  LICENSE file in the root directory of this source tree.
  */
 
-#include <xcassets/Asset/Catalog.h>
-#include <plist/Keys/Unpack.h>
 #include <libutil/Filesystem.h>
+#include <plist/Keys/Unpack.h>
+#include <xcassets/Asset/Catalog.h>
 
-using xcassets::Asset::Catalog;
 using libutil::Filesystem;
+using xcassets::Asset::Catalog;
 
-bool Catalog::
-parse(plist::Dictionary const *dict, std::unordered_set<std::string> *seen, bool check)
+bool Catalog::parse(plist::Dictionary const *dict,
+    std::unordered_set<std::string> *seen, bool check)
 {
-    if (!Asset::parse(dict, seen, false)) {
-        return false;
-    }
+	if (!Asset::parse(dict, seen, false)) {
+		return false;
+	}
 
-    /* No contents is allowed for catalogs. */
-    if (dict != nullptr) {
-        auto unpack = plist::Keys::Unpack("Catalog", dict, seen);
+	/* No contents is allowed for catalogs. */
+	if (dict != nullptr) {
+		auto unpack = plist::Keys::Unpack("Catalog", dict, seen);
 
-        /* No additional contents. */
+		/* No additional contents. */
 
-        if (!unpack.complete(check)) {
-            fprintf(stderr, "%s", unpack.errorText().c_str());
-        }
-    }
+		if (!unpack.complete(check)) {
+			fprintf(stderr, "%s", unpack.errorText().c_str());
+		}
+	}
 
-    return true;
+	return true;
 }
 
-std::unique_ptr<Catalog> Catalog::
-Load(libutil::Filesystem const *filesystem, std::string const &path)
+std::unique_ptr<Catalog> Catalog::Load(
+    libutil::Filesystem const *filesystem, std::string const &path)
 {
-    auto asset = Asset::Load(filesystem, path, { }, Catalog::Extension());
-    return libutil::static_unique_pointer_cast<Catalog>(std::move(asset));
+	auto asset = Asset::Load(filesystem, path, { }, Catalog::Extension());
+	return libutil::static_unique_pointer_cast<Catalog>(std::move(asset));
 }
-

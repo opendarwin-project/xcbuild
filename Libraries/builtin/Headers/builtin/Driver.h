@@ -10,24 +10,29 @@
 #define __builtin_Driver_h
 
 #include <string>
-#include <vector>
 #include <unordered_map>
+#include <vector>
 
-namespace libutil { class Filesystem; }
-namespace process { class Context; }
+namespace libutil {
+class Filesystem;
+}
+namespace process {
+class Context;
+}
 
 namespace builtin {
 
 class Driver {
-protected:
-    Driver();
-    virtual ~Driver();
+    protected:
+	Driver();
+	virtual ~Driver();
 
-public:
-    virtual std::string name() = 0;
+    public:
+	virtual std::string name() = 0;
 
-public:
-    virtual int run(process::Context const *processContext, libutil::Filesystem *filesystem) = 0;
+    public:
+	virtual int run(process::Context const *processContext,
+	    libutil::Filesystem *filesystem) = 0;
 };
 
 }

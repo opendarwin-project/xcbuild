@@ -16,7 +16,9 @@
 #include <string>
 #include <vector>
 
-namespace pbxsetting { class Environment; }
+namespace pbxsetting {
+class Environment;
+}
 
 namespace pbxbuild {
 namespace Tool {
@@ -25,27 +27,29 @@ class Context;
 class Input;
 
 class CopyResolver {
-private:
-    pbxspec::PBX::Tool::shared_ptr _tool;
+    private:
+	pbxspec::PBX::Tool::shared_ptr _tool;
 
-private:
-    explicit CopyResolver(pbxspec::PBX::Tool::shared_ptr const &tool);
+    private:
+	explicit CopyResolver(pbxspec::PBX::Tool::shared_ptr const &tool);
 
-public:
-    void resolve(
-        Tool::Context *toolContext,
-        pbxsetting::Environment const &environment,
-        std::vector<Tool::Input> const &input,
-        std::string const &outputDirectory,
-        std::string const &logMessageTitle) const;
+    public:
+	void resolve(Tool::Context *toolContext,
+	    pbxsetting::Environment const &environment,
+	    std::vector<Tool::Input> const &input,
+	    std::string const &outputDirectory,
+	    std::string const &logMessageTitle) const;
 
-public:
-    static std::string ToolIdentifier()
-    { return "com.apple.compilers.pbxcp"; }
+    public:
+	static std::string ToolIdentifier()
+	{
+		return "com.apple.compilers.pbxcp";
+	}
 
-public:
-    static std::unique_ptr<CopyResolver>
-    Create(pbxspec::Manager::shared_ptr const &specManager, std::vector<std::string> const &specDomains);
+    public:
+	static std::unique_ptr<CopyResolver> Create(
+	    pbxspec::Manager::shared_ptr const &specManager,
+	    std::vector<std::string> const &specDomains);
 };
 
 }

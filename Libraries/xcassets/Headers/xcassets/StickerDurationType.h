@@ -18,31 +18,32 @@ namespace xcassets {
  * How a sticker duration is interpreted.
  */
 enum class StickerDurationType {
-    /*
-     * Fixed number of seconds.
-     */
-    Fixed,
-    /*
-     * Frames to show per second.
-     */
-    FPS,
+	/*
+	 * Fixed number of seconds.
+	 */
+	Fixed,
+	/*
+	 * Frames to show per second.
+	 */
+	FPS,
 };
 
 class StickerDurationTypes {
-private:
-    StickerDurationTypes();
-    ~StickerDurationTypes();
+    private:
+	StickerDurationTypes();
+	~StickerDurationTypes();
 
-public:
-    /*
-     * Parse a duration type string.
-     */
-    static ext::optional<StickerDurationType> Parse(std::string const &value);
+    public:
+	/*
+	 * Parse a duration type string.
+	 */
+	static ext::optional<StickerDurationType> Parse(
+	    std::string const &value);
 
-    /*
-     * String representation of a duration type.
-     */
-    static std::string String(StickerDurationType stickerDurationType);
+	/*
+	 * String representation of a duration type.
+	 */
+	static std::string String(StickerDurationType stickerDurationType);
 };
 
 }

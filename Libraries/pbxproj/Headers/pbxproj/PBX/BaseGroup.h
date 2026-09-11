@@ -15,28 +15,32 @@
 #include <string>
 #include <unordered_set>
 
-namespace plist { class Dictionary; }
+namespace plist {
+class Dictionary;
+}
 
-namespace pbxproj { namespace PBX {
+namespace pbxproj {
+namespace PBX {
 
 class BaseGroup : public GroupItem {
-public:
-    typedef std::shared_ptr <BaseGroup> shared_ptr;
+    public:
+	typedef std::shared_ptr<BaseGroup> shared_ptr;
 
-private:
-    GroupItem::vector _children;
+    private:
+	GroupItem::vector _children;
 
-protected:
-    BaseGroup(std::string const &isa, GroupItem::Type type);
+    protected:
+	BaseGroup(std::string const &isa, GroupItem::Type type);
 
-public:
-    inline GroupItem::vector const &children() const
-    { return _children; }
+    public:
+	inline GroupItem::vector const &children() const { return _children; }
 
-protected:
-    bool parse(Context &context, plist::Dictionary const *dict, std::unordered_set<std::string> *seen, bool check) override;
+    protected:
+	bool parse(Context &context, plist::Dictionary const *dict,
+	    std::unordered_set<std::string> *seen, bool check) override;
 };
 
-} }
+}
+}
 
-#endif  // !__pbxproj_PBX_BaseGroup_h
+#endif // !__pbxproj_PBX_BaseGroup_h

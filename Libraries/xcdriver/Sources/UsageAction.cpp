@@ -6,33 +6,26 @@
  LICENSE file in the root directory of this source tree.
  */
 
-#include <xcdriver/UsageAction.h>
-#include <xcdriver/Usage.h>
 #include <libutil/FSUtil.h>
 #include <process/Context.h>
+#include <xcdriver/Usage.h>
+#include <xcdriver/UsageAction.h>
 
 #include <cstdio>
 
-using xcdriver::UsageAction;
-using xcdriver::Usage;
 using libutil::FSUtil;
+using xcdriver::Usage;
+using xcdriver::UsageAction;
 
-UsageAction::
-UsageAction()
+UsageAction::UsageAction() { }
+
+UsageAction::~UsageAction() { }
+
+int UsageAction::Run(process::Context const *processContext)
 {
-}
+	std::string path = processContext->executablePath();
+	std::string text = Usage::Text(FSUtil::GetBaseName(path));
+	fprintf(stdout, "%s", text.c_str());
 
-UsageAction::
-~UsageAction()
-{
-}
-
-int UsageAction::
-Run(process::Context const *processContext)
-{
-    std::string path = processContext->executablePath();
-    std::string text = Usage::Text(FSUtil::GetBaseName(path));
-    fprintf(stdout, "%s", text.c_str());
-
-    return 0;
+	return 0;
 }

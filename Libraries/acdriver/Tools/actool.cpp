@@ -12,10 +12,9 @@
 
 using libutil::DefaultFilesystem;
 
-int
-main(int argc, char **argv)
+int main(int argc, char **argv)
 {
-    DefaultFilesystem filesystem = DefaultFilesystem();
-    process::DefaultContext processContext = process::DefaultContext();
-    return acdriver::Driver::Run(&processContext, &filesystem);
+	DefaultFilesystem filesystem = DefaultFilesystem();
+	process::DefaultContext processContext = process::DefaultContext();
+	return acdriver::Driver::Run(&processContext, &filesystem);
 }

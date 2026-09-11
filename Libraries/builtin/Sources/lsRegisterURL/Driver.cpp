@@ -23,53 +23,48 @@ using builtin::lsRegisterURL::Driver;
 using builtin::lsRegisterURL::Options;
 using libutil::Filesystem;
 
-Driver::
-Driver()
-{
-}
+Driver::Driver() { }
 
-Driver::
-~Driver()
-{
-}
+Driver::~Driver() { }
 
-std::string Driver::
-name()
-{
-    return "builtin-lsRegisterURL";
-}
+std::string Driver::name() { return "builtin-lsRegisterURL"; }
 
-int Driver::
-run(process::Context const *processContext, libutil::Filesystem *filesystem)
+int Driver::run(
+    process::Context const *processContext, libutil::Filesystem *filesystem)
 {
-    Options options;
-    std::pair<bool, std::string> result = libutil::Options::Parse<Options>(&options, processContext->commandLineArguments());
-    if (!result.first) {
-        fprintf(stderr, "error: %s\n", result.second.c_str());
-        return 1;
-    }
+	Options options;
+	std::pair<bool, std::string> result = libutil::Options::Parse<Options>(
+	    &options, processContext->commandLineArguments());
+	if (!result.first) {
+		fprintf(stderr, "error: %s\n", result.second.c_str());
+		return 1;
+	}
 
-    if (!options.input()) {
-        fprintf(stderr, "error: no input specified\n");
-        return 1;
-    }
+	if (!options.input()) {
+		fprintf(stderr, "error: no input specified\n");
+		return 1;
+	}
 
 #if defined(__APPLE__) && TARGET_OS_MAC && !TARGET_OS_IPHONE
-    CFURLRef URL = CFURLCreateFromFileSystemRepresentation(kCFAllocatorDefault, reinterpret_cast<const UInt8 *>(options.input()->c_str()), options.input()->size(), false);
-    if (URL == NULL) {
-        fprintf(stderr, "error: failed to create URL\n");
-        return 1;
-    }
+	CFURLRef URL = CFURLCreateFromFileSystemRepresentation(
+	    kCFAllocatorDefault,
+	    reinterpret_cast<const UInt8 *>(options.input()->c_str()),
+	    options.input()->size(), false);
+	if (URL == NULL) {
+		fprintf(stderr, "error: failed to create URL\n");
+		return 1;
+	}
 
-    OSStatus status = LSRegisterURL(URL, true);
-    CFRelease(URL);
-    if (status != noErr) {
-        fprintf(stderr, "error: LSRegisterURL failed %ld\n", (long)status);
-        return 1;
-    }
+	OSStatus status = LSRegisterURL(URL, true);
+	CFRelease(URL);
+	if (status != noErr) {
+		fprintf(
+		    stderr, "error: LSRegisterURL failed %ld\n", (long)status);
+		return 1;
+	}
 #else
-    fprintf(stderr, "warning: not supported on this platform\n");
+	fprintf(stderr, "warning: not supported on this platform\n");
 #endif
 
-    return 0;
+	return 0;
 }

@@ -14,7 +14,9 @@
 
 #include <memory>
 
-namespace libutil { class Filesystem; }
+namespace libutil {
+class Filesystem;
+}
 
 namespace acdriver {
 
@@ -25,23 +27,19 @@ namespace Compile {
 class Output;
 
 class ImageSet {
-private:
-    ImageSet();
-    ~ImageSet();
+    private:
+	ImageSet();
+	~ImageSet();
 
-public:
-    static bool Compile(
-        xcassets::Asset::ImageSet const *imageSet,
-        libutil::Filesystem *filesystem,
-        Output *compileOutput,
-        Result *result);
+    public:
+	static bool Compile(xcassets::Asset::ImageSet const *imageSet,
+	    libutil::Filesystem *filesystem, Output *compileOutput,
+	    Result *result);
 
-    static bool CompileAsset(
-        xcassets::Asset::ImageSet const *imageSet,
-        xcassets::Asset::ImageSet::Image const &image,
-        libutil::Filesystem *filesystem,
-        Output *compileOutput,
-        Result *result);
+	static bool CompileAsset(xcassets::Asset::ImageSet const *imageSet,
+	    xcassets::Asset::ImageSet::Image const &image,
+	    libutil::Filesystem *filesystem, Output *compileOutput,
+	    Result *result);
 };
 
 }

@@ -13,37 +13,45 @@
 
 #include <ext/optional>
 
-namespace pbxspec { class Manager; }
+namespace pbxspec {
+class Manager;
+}
 
-namespace pbxspec { namespace PBX {
+namespace pbxspec {
+namespace PBX {
 
 class BuildRule {
-public:
-    typedef std::shared_ptr <BuildRule> shared_ptr;
-    typedef std::vector <shared_ptr> vector;
+    public:
+	typedef std::shared_ptr<BuildRule> shared_ptr;
+	typedef std::vector<shared_ptr> vector;
 
-private:
-    ext::optional<std::string>              _name;
-    ext::optional<std::vector<std::string>> _fileTypes;
-    ext::optional<std::string>              _compilerSpec;
+    private:
+	ext::optional<std::string> _name;
+	ext::optional<std::vector<std::string>> _fileTypes;
+	ext::optional<std::string> _compilerSpec;
 
-protected:
-    friend class pbxspec::Manager;
-    BuildRule();
-    BuildRule(std::vector<std::string> const &fileTypes, std::string const &compilerSpec);
+    protected:
+	friend class pbxspec::Manager;
+	BuildRule();
+	BuildRule(std::vector<std::string> const &fileTypes,
+	    std::string const &compilerSpec);
 
-public:
-    inline ext::optional<std::string> const &name() const
-    { return _name; }
-    inline ext::optional<std::vector<std::string>> const &fileTypes() const
-    { return _fileTypes; }
-    inline ext::optional<std::string> const &compilerSpec() const
-    { return _compilerSpec; }
+    public:
+	inline ext::optional<std::string> const &name() const { return _name; }
+	inline ext::optional<std::vector<std::string>> const &fileTypes() const
+	{
+		return _fileTypes;
+	}
+	inline ext::optional<std::string> const &compilerSpec() const
+	{
+		return _compilerSpec;
+	}
 
-protected:
-    bool parse(plist::Dictionary const *dict);
+    protected:
+	bool parse(plist::Dictionary const *dict);
 };
 
-} }
+}
+}
 
-#endif  // !__pbxspec_PBX_BuildRule_h
+#endif // !__pbxspec_PBX_BuildRule_h

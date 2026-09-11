@@ -12,48 +12,51 @@
 #include <libutil/Options.h>
 
 #include <string>
-#include <vector>
 #include <utility>
+#include <vector>
 
 namespace builtin {
 namespace copyTiff {
 
 class Options {
-private:
-    std::vector<std::string>   _inputs;
-    ext::optional<std::string> _outputDirectory;
+    private:
+	std::vector<std::string> _inputs;
+	ext::optional<std::string> _outputDirectory;
 
-public:
-    ext::optional<bool>        _validate;
+    public:
+	ext::optional<bool> _validate;
 
-public:
-    ext::optional<std::string> _compressionFormat;
+    public:
+	ext::optional<std::string> _compressionFormat;
 
-public:
-    bool                       _separator;
+    public:
+	bool _separator;
 
-public:
-    Options();
-    ~Options();
+    public:
+	Options();
+	~Options();
 
-public:
-    std::vector<std::string> const &inputs() const
-    { return _inputs; }
-    ext::optional<std::string> const &outputDirectory() const
-    { return _outputDirectory; }
+    public:
+	std::vector<std::string> const &inputs() const { return _inputs; }
+	ext::optional<std::string> const &outputDirectory() const
+	{
+		return _outputDirectory;
+	}
 
-public:
-    ext::optional<bool> validate() const
-    { return _validate; }
+    public:
+	ext::optional<bool> validate() const { return _validate; }
 
-public:
-    ext::optional<std::string> const &compressionFormat() const
-    { return _compressionFormat; }
+    public:
+	ext::optional<std::string> const &compressionFormat() const
+	{
+		return _compressionFormat;
+	}
 
-private:
-    friend class libutil::Options;
-    std::pair<bool, std::string>
-    parseArgument(std::vector<std::string> const &args, std::vector<std::string>::const_iterator *it);
+    private:
+	friend class libutil::Options;
+	std::pair<bool, std::string> parseArgument(
+	    std::vector<std::string> const &args,
+	    std::vector<std::string>::const_iterator *it);
 };
 
 }

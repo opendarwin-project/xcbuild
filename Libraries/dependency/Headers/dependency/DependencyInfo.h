@@ -20,30 +20,27 @@ namespace dependency {
  * that and it's unnecessary for build dependencies.
  */
 class DependencyInfo {
-private:
-    std::vector<std::string> _inputs;
-    std::vector<std::string> _outputs;
+    private:
+	std::vector<std::string> _inputs;
+	std::vector<std::string> _outputs;
 
-public:
-    DependencyInfo(std::vector<std::string> const &inputs, std::vector<std::string> const &outputs);
-    DependencyInfo();
+    public:
+	DependencyInfo(std::vector<std::string> const &inputs,
+	    std::vector<std::string> const &outputs);
+	DependencyInfo();
 
-public:
-    /*
-     * The inputs to the tool.
-     */
-    std::vector<std::string> const &inputs() const
-    { return _inputs; }
-    std::vector<std::string> &inputs()
-    { return _inputs; }
+    public:
+	/*
+	 * The inputs to the tool.
+	 */
+	std::vector<std::string> const &inputs() const { return _inputs; }
+	std::vector<std::string> &inputs() { return _inputs; }
 
-    /*
-     * The files output by the tool.
-     */
-    std::vector<std::string> const &outputs() const
-    { return _outputs; }
-    std::vector<std::string> &outputs()
-    { return _outputs; }
+	/*
+	 * The files output by the tool.
+	 */
+	std::vector<std::string> const &outputs() const { return _outputs; }
+	std::vector<std::string> &outputs() { return _outputs; }
 };
 
 }

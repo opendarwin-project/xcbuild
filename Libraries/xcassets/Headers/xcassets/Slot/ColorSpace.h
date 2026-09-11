@@ -19,32 +19,32 @@ namespace Slot {
  * An image color space.
  */
 enum class ColorSpace {
-    /*
-     * Standard color space.
-     */
-    sRGB,
+	/*
+	 * Standard color space.
+	 */
+	sRGB,
 
-    /*
-     * Expanded color space.
-     */
-    DisplayP3,
+	/*
+	 * Expanded color space.
+	 */
+	DisplayP3,
 };
 
 class ColorSpaces {
-private:
-    ColorSpaces();
-    ~ColorSpaces();
+    private:
+	ColorSpaces();
+	~ColorSpaces();
 
-public:
-    /*
-     * Parse a matching compression from a string, if valid.
-     */
-    static ext::optional<ColorSpace> Parse(std::string const &value);
+    public:
+	/*
+	 * Parse a matching compression from a string, if valid.
+	 */
+	static ext::optional<ColorSpace> Parse(std::string const &value);
 
-    /*
-     * Convert a compression to a string.
-     */
-    static std::string String(ColorSpace compression);
+	/*
+	 * Convert a compression to a string.
+	 */
+	static std::string String(ColorSpace compression);
 };
 
 }

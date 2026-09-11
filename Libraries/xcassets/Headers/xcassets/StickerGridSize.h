@@ -18,26 +18,26 @@ namespace xcassets {
  * The sizes to display stickers to pick.
  */
 enum class StickerGridSize {
-    Small,
-    Regular,
-    Large,
+	Small,
+	Regular,
+	Large,
 };
 
 class StickerGridSizes {
-private:
-    StickerGridSizes();
-    ~StickerGridSizes();
+    private:
+	StickerGridSizes();
+	~StickerGridSizes();
 
-public:
-    /*
-     * Parse a grid size string.
-     */
-    static ext::optional<StickerGridSize> Parse(std::string const &value);
+    public:
+	/*
+	 * Parse a grid size string.
+	 */
+	static ext::optional<StickerGridSize> Parse(std::string const &value);
 
-    /*
-     * String representation of a grid size.
-     */
-    static std::string String(StickerGridSize stickerGridSize);
+	/*
+	 * String representation of a grid size.
+	 */
+	static std::string String(StickerGridSize stickerGridSize);
 };
 
 }

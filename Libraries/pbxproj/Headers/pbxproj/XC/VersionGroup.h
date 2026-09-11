@@ -11,35 +11,41 @@
 
 #include <pbxproj/PBX/BaseGroup.h>
 
-namespace pbxproj { namespace XC {
+namespace pbxproj {
+namespace XC {
 
 class VersionGroup : public PBX::BaseGroup {
-public:
-    typedef std::shared_ptr <VersionGroup> shared_ptr;
+    public:
+	typedef std::shared_ptr<VersionGroup> shared_ptr;
 
-private:
-    PBX::GroupItem::shared_ptr _currentVersion;
-    std::string                _versionGroupType;
+    private:
+	PBX::GroupItem::shared_ptr _currentVersion;
+	std::string _versionGroupType;
 
-public:
-    VersionGroup();
+    public:
+	VersionGroup();
 
-public:
-    inline PBX::GroupItem::shared_ptr const &currentVersion() const
-    { return _currentVersion; }
+    public:
+	inline PBX::GroupItem::shared_ptr const &currentVersion() const
+	{
+		return _currentVersion;
+	}
 
-public:
-    inline std::string const &versionGroupType() const
-    { return _versionGroupType; }
+    public:
+	inline std::string const &versionGroupType() const
+	{
+		return _versionGroupType;
+	}
 
-protected:
-    bool parse(Context &context, plist::Dictionary const *dict, std::unordered_set<std::string> *seen, bool check) override;
+    protected:
+	bool parse(Context &context, plist::Dictionary const *dict,
+	    std::unordered_set<std::string> *seen, bool check) override;
 
-public:
-    static inline char const *Isa()
-    { return ISA::XCVersionGroup; }
+    public:
+	static inline char const *Isa() { return ISA::XCVersionGroup; }
 };
 
-} }
+}
+}
 
-#endif  // !__pbxproj_XC_VersionGroup_h
+#endif // !__pbxproj_XC_VersionGroup_h

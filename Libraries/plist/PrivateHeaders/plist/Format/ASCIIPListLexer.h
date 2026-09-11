@@ -10,52 +10,52 @@
 #define __plist_ASCIIPListLexer_h
 
 enum {
-    kASCIIPListLexerStyleASCII,
-    kASCIIPListLexerStyleJSON,
+	kASCIIPListLexerStyleASCII,
+	kASCIIPListLexerStyleJSON,
 };
 
 typedef struct ASCIIPListLexer {
-    char const *inputBuffer;
-    char const *endBuffer;
-    char const *pointer;
-    char const *lineStart;
-    int         style;
-    int         line;
-    int         tokenBegin;
-    int         tokenLength;
+	char const *inputBuffer;
+	char const *endBuffer;
+	char const *pointer;
+	char const *lineStart;
+	int style;
+	int line;
+	int tokenBegin;
+	int tokenLength;
 } ASCIIPListLexer;
 
 enum {
-    kASCIIPListLexerTokenInlineComment = 1000,
-    kASCIIPListLexerTokenLongComment,
-    kASCIIPListLexerTokenUnquotedString,
-    kASCIIPListLexerTokenQuotedString,
-    kASCIIPListLexerTokenNumberInteger,
-    kASCIIPListLexerTokenNumberReal,
-    kASCIIPListLexerTokenBoolFalse,
-    kASCIIPListLexerTokenBoolTrue,
-    kASCIIPListLexerTokenNull,
-    kASCIIPListLexerTokenDictionaryStart,
-    kASCIIPListLexerTokenDictionaryKeyValSeparator,
-    kASCIIPListLexerTokenDictionaryEnd,
-    kASCIIPListLexerTokenArrayStart,
-    kASCIIPListLexerTokenArrayEnd,
-    kASCIIPListLexerTokenData,
+	kASCIIPListLexerTokenInlineComment = 1000,
+	kASCIIPListLexerTokenLongComment,
+	kASCIIPListLexerTokenUnquotedString,
+	kASCIIPListLexerTokenQuotedString,
+	kASCIIPListLexerTokenNumberInteger,
+	kASCIIPListLexerTokenNumberReal,
+	kASCIIPListLexerTokenBoolFalse,
+	kASCIIPListLexerTokenBoolTrue,
+	kASCIIPListLexerTokenNull,
+	kASCIIPListLexerTokenDictionaryStart,
+	kASCIIPListLexerTokenDictionaryKeyValSeparator,
+	kASCIIPListLexerTokenDictionaryEnd,
+	kASCIIPListLexerTokenArrayStart,
+	kASCIIPListLexerTokenArrayEnd,
+	kASCIIPListLexerTokenData,
 
-    kASCIIPListLexerInvalidToken = -1,
-    kASCIIPListLexerEndOfFile = -2,
-    kASCIIPListLexerUnterminatedLongComment = -3,
-    kASCIIPListLexerUnterminatedUnquotedString = -4,
-    kASCIIPListLexerUnterminatedQuotedString = -5,
-    kASCIIPListLexerUnterminatedData = -6,
+	kASCIIPListLexerInvalidToken = -1,
+	kASCIIPListLexerEndOfFile = -2,
+	kASCIIPListLexerUnterminatedLongComment = -3,
+	kASCIIPListLexerUnterminatedUnquotedString = -4,
+	kASCIIPListLexerUnterminatedQuotedString = -5,
+	kASCIIPListLexerUnterminatedData = -6,
 };
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-void ASCIIPListLexerInit(ASCIIPListLexer *lexer, char const *buffer,
-        int length, int style);
+void ASCIIPListLexerInit(
+    ASCIIPListLexer *lexer, char const *buffer, int length, int style);
 
 int ASCIIPListLexerReadToken(ASCIIPListLexer *lexer);
 char *ASCIIPListCopyUnquotedString(ASCIIPListLexer const *lexer, int lossByte);
@@ -65,4 +65,4 @@ char *ASCIIPListCopyData(ASCIIPListLexer const *lexer);
 }
 #endif
 
-#endif  /* !__plist_ASCIIPListLexer_h */
+#endif /* !__plist_ASCIIPListLexer_h */

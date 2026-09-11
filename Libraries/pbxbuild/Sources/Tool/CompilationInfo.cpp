@@ -10,12 +10,6 @@
 
 namespace Tool = pbxbuild::Tool;
 
-Tool::CompilationInfo::
-CompilationInfo()
-{
-}
+Tool::CompilationInfo::CompilationInfo() { }
 
-Tool::CompilationInfo::
-~CompilationInfo()
-{
-}
+Tool::CompilationInfo::~CompilationInfo() { }

@@ -9,8 +9,8 @@
 #ifndef __pbxbuild_Tool_LinkerResolver_h
 #define __pbxbuild_Tool_LinkerResolver_h
 
-#include <pbxbuild/Tool/Invocation.h>
 #include <pbxbuild/Tool/Input.h>
+#include <pbxbuild/Tool/Invocation.h>
 
 namespace pbxbuild {
 namespace Tool {
@@ -18,39 +18,47 @@ namespace Tool {
 class Context;
 
 class LinkerResolver {
-private:
-    pbxspec::PBX::Linker::shared_ptr _linker;
+    private:
+	pbxspec::PBX::Linker::shared_ptr _linker;
 
-public:
-    explicit LinkerResolver(pbxspec::PBX::Linker::shared_ptr const &tool);
-    ~LinkerResolver();
+    public:
+	explicit LinkerResolver(pbxspec::PBX::Linker::shared_ptr const &tool);
+	~LinkerResolver();
 
-public:
-    void resolve(
-        Tool::Context *toolContext,
-        pbxsetting::Environment const &environment,
-        std::vector<Tool::Input> const &inputFiles,
-        std::vector<Tool::Input> const &inputLibraries,
-        std::string const &output,
-        std::vector<std::string> const &additionalArguments,
-        std::string const &executable = ""
-    );
+    public:
+	void resolve(Tool::Context *toolContext,
+	    pbxsetting::Environment const &environment,
+	    std::vector<Tool::Input> const &inputFiles,
+	    std::vector<Tool::Input> const &inputLibraries,
+	    std::string const &output,
+	    std::vector<std::string> const &additionalArguments,
+	    std::string const &executable = "");
 
-public:
-    pbxspec::PBX::Linker::shared_ptr const &linker() const
-    { return _linker; }
+    public:
+	pbxspec::PBX::Linker::shared_ptr const &linker() const
+	{
+		return _linker;
+	}
 
-public:
-    static std::string LinkerToolIdentifier()
-    { return "com.apple.pbx.linkers.ld"; }
-    static std::string LibtoolToolIdentifier()
-    { return "com.apple.pbx.linkers.libtool"; }
-    static std::string LipoToolIdentifier()
-    { return "com.apple.xcode.linkers.lipo"; }
+    public:
+	static std::string LinkerToolIdentifier()
+	{
+		return "com.apple.pbx.linkers.ld";
+	}
+	static std::string LibtoolToolIdentifier()
+	{
+		return "com.apple.pbx.linkers.libtool";
+	}
+	static std::string LipoToolIdentifier()
+	{
+		return "com.apple.xcode.linkers.lipo";
+	}
 
-public:
-    static std::unique_ptr<LinkerResolver>
-    Create(pbxspec::Manager::shared_ptr const &specManager, std::vector<std::string> const &specDomains, std::string const &identifier);
+    public:
+	static std::unique_ptr<LinkerResolver> Create(
+	    pbxspec::Manager::shared_ptr const &specManager,
+	    std::vector<std::string> const &specDomains,
+	    std::string const &identifier);
 };
 
 }

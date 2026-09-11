@@ -11,20 +11,21 @@
 
 #include <pbxproj/PBX/BuildPhase.h>
 
-namespace pbxproj { namespace PBX {
+namespace pbxproj {
+namespace PBX {
 
 class RezBuildPhase : public BuildPhase {
-public:
-    typedef std::shared_ptr <RezBuildPhase> shared_ptr;
+    public:
+	typedef std::shared_ptr<RezBuildPhase> shared_ptr;
 
-public:
-    RezBuildPhase();
+    public:
+	RezBuildPhase();
 
-public:
-    static inline char const *Isa()
-    { return ISA::PBXRezBuildPhase; }
+    public:
+	static inline char const *Isa() { return ISA::PBXRezBuildPhase; }
 };
 
-} }
+}
+}
 
-#endif  // !__pbxproj_PBX_BuildPhase_h
+#endif // !__pbxproj_PBX_BuildPhase_h

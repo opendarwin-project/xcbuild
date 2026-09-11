@@ -7,9 +7,10 @@
  */
 
 /*
- * This is a modified version of libc++'s <experimental/optional> with its dependency
- * on libc++-specific defines and includes removed to be usable with all C++11 compilers.
- * It also moves it from namespace std to namespace ext to not conflict with the real one.
+ * This is a modified version of libc++'s <experimental/optional> with its
+ * dependency on libc++-specific defines and includes removed to be usable with
+ * all C++11 compilers. It also moves it from namespace std to namespace ext to
+ * not conflict with the real one.
  */
 
 //===------------------------ optional.cpp --------------------------------===//

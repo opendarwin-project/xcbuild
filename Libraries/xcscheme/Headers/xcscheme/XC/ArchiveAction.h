@@ -11,26 +11,30 @@
 
 #include <xcscheme/XC/Action.h>
 
-namespace xcscheme { namespace XC {
+namespace xcscheme {
+namespace XC {
 
 class ArchiveAction : public Action {
-public:
-    typedef std::shared_ptr <ArchiveAction> shared_ptr;
+    public:
+	typedef std::shared_ptr<ArchiveAction> shared_ptr;
 
-private:
-    bool _revealArchiveInOrganizer;
+    private:
+	bool _revealArchiveInOrganizer;
 
-public:
-    ArchiveAction();
+    public:
+	ArchiveAction();
 
-public:
-    inline bool revealArchiverInOrganize() const
-    { return _revealArchiveInOrganizer; }
+    public:
+	inline bool revealArchiverInOrganize() const
+	{
+		return _revealArchiveInOrganizer;
+	}
 
-public:
-    bool parse(plist::Dictionary const *dict) override;
+    public:
+	bool parse(plist::Dictionary const *dict) override;
 };
 
-} }
+}
+}
 
-#endif  // !__xcscheme_XC_ArchiveAction_h
+#endif // !__xcscheme_XC_ArchiveAction_h

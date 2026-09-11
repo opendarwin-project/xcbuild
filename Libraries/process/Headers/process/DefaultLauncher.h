@@ -11,7 +11,9 @@
 
 #include <process/Launcher.h>
 
-namespace libutil { class Filesystem; }
+namespace libutil {
+class Filesystem;
+}
 
 namespace process {
 
@@ -19,15 +21,15 @@ namespace process {
  * Abstract process launcher.
  */
 class DefaultLauncher : public Launcher {
-public:
-    DefaultLauncher();
-    ~DefaultLauncher();
+    public:
+	DefaultLauncher();
+	~DefaultLauncher();
 
-public:
-    virtual ext::optional<int> launch(libutil::Filesystem *filesystem, Context const *context);
+    public:
+	virtual ext::optional<int> launch(
+	    libutil::Filesystem *filesystem, Context const *context);
 };
 
 }
 
-#endif  // !__process_DefaultLauncher_h
-
+#endif // !__process_DefaultLauncher_h

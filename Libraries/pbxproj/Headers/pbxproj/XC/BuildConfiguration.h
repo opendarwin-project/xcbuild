@@ -12,42 +12,48 @@
 #include <pbxproj/PBX/FileReference.h>
 #include <pbxsetting/Level.h>
 
-namespace pbxproj { namespace XC {
+namespace pbxproj {
+namespace XC {
 
 class BuildConfiguration : public PBX::Object {
-public:
-    typedef std::shared_ptr <BuildConfiguration> shared_ptr;
-    typedef std::vector <shared_ptr> vector;
+    public:
+	typedef std::shared_ptr<BuildConfiguration> shared_ptr;
+	typedef std::vector<shared_ptr> vector;
 
-private:
-    std::string                     _name;
-    PBX::FileReference::shared_ptr  _baseConfigurationReference;
-    pbxsetting::Level               _buildSettings;
+    private:
+	std::string _name;
+	PBX::FileReference::shared_ptr _baseConfigurationReference;
+	pbxsetting::Level _buildSettings;
 
-public:
-    BuildConfiguration();
-    ~BuildConfiguration();
+    public:
+	BuildConfiguration();
+	~BuildConfiguration();
 
-public:
-    inline PBX::FileReference::shared_ptr const &baseConfigurationReference() const
-    { return _baseConfigurationReference; }
+    public:
+	inline PBX::FileReference::shared_ptr const &
+	baseConfigurationReference() const
+	{
+		return _baseConfigurationReference;
+	}
 
-public:
-    inline pbxsetting::Level const &buildSettings() const
-    { return _buildSettings; }
+    public:
+	inline pbxsetting::Level const &buildSettings() const
+	{
+		return _buildSettings;
+	}
 
-public:
-    inline std::string const &name() const
-    { return _name; }
+    public:
+	inline std::string const &name() const { return _name; }
 
-protected:
-    bool parse(Context &context, plist::Dictionary const *dict, std::unordered_set<std::string> *seen, bool check) override;
+    protected:
+	bool parse(Context &context, plist::Dictionary const *dict,
+	    std::unordered_set<std::string> *seen, bool check) override;
 
-public:
-    static inline char const *Isa()
-    { return ISA::XCBuildConfiguration; }
+    public:
+	static inline char const *Isa() { return ISA::XCBuildConfiguration; }
 };
 
-} }
+}
+}
 
-#endif  // !__pbxproj_XC_BuildConfiguration_h
+#endif // !__pbxproj_XC_BuildConfiguration_h

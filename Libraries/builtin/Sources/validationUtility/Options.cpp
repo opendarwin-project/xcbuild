@@ -10,27 +10,21 @@
 
 using builtin::validationUtility::Options;
 
-Options::
-Options()
+Options::Options() { }
+
+Options::~Options() { }
+
+std::pair<bool, std::string> Options::parseArgument(
+    std::vector<std::string> const &args,
+    std::vector<std::string>::const_iterator *it)
 {
+	std::string const &arg = **it;
+
+	if (arg == "-validate-for-store") {
+		return libutil::Options::Current<bool>(&_validateForStore, arg);
+	} else if (!arg.empty() && arg[0] != '-') {
+		return libutil::Options::Current<std::string>(&_input, arg);
+	} else {
+		return std::make_pair(false, "unknown argument " + arg);
+	}
 }
-
-Options::
-~Options()
-{
-}
-
-std::pair<bool, std::string> Options::
-parseArgument(std::vector<std::string> const &args, std::vector<std::string>::const_iterator *it)
-{
-    std::string const &arg = **it;
-
-    if (arg == "-validate-for-store") {
-        return libutil::Options::Current<bool>(&_validateForStore, arg);
-    } else if (!arg.empty() && arg[0] != '-') {
-        return libutil::Options::Current<std::string>(&_input, arg);
-    } else {
-        return std::make_pair(false, "unknown argument " + arg);
-    }
-}
-

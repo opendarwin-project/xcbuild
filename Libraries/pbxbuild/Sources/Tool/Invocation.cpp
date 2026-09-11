@@ -6,9 +6,9 @@
  LICENSE file in the root directory of this source tree.
  */
 
-#include <pbxbuild/Tool/Invocation.h>
-#include <libutil/Filesystem.h>
 #include <libutil/FSUtil.h>
+#include <libutil/Filesystem.h>
+#include <pbxbuild/Tool/Invocation.h>
 #include <process/Context.h>
 
 namespace Tool = pbxbuild::Tool;
@@ -17,61 +17,51 @@ using Executable = Tool::Invocation::Executable;
 using libutil::Filesystem;
 using libutil::FSUtil;
 
-DependencyInfo::
-DependencyInfo(dependency::DependencyInfoFormat format, std::string const &path) :
-    _format(format),
-    _path  (path)
+DependencyInfo::DependencyInfo(
+    dependency::DependencyInfoFormat format, std::string const &path)
+    : _format(format)
+    , _path(path)
 {
 }
 
-Executable::
-Executable(
-    ext::optional<std::string> const &external,
-    ext::optional<std::string> const &builtin) :
-    _external(external),
-    _builtin (builtin)
+Executable::Executable(ext::optional<std::string> const &external,
+    ext::optional<std::string> const &builtin)
+    : _external(external)
+    , _builtin(builtin)
 {
 }
 
-Executable Executable::
-External(std::string const &path)
+Executable Executable::External(std::string const &path)
 {
-    return Executable(path, ext::nullopt);
+	return Executable(path, ext::nullopt);
 }
 
-Executable Executable::
-Builtin(std::string const &name)
+Executable Executable::Builtin(std::string const &name)
 {
-    return Executable(ext::nullopt, name);
+	return Executable(ext::nullopt, name);
 }
 
-ext::optional<Executable> Executable::
-Determine(std::string const &executable)
+ext::optional<Executable> Executable::Determine(std::string const &executable)
 {
-    if (executable.empty()) {
-        return ext::nullopt;
-    }
+	if (executable.empty()) {
+		return ext::nullopt;
+	}
 
-    std::string builtinPrefix = "builtin-";
-    if (executable.compare(0, builtinPrefix.size(), builtinPrefix) == 0) {
-        /* Has a builtin prefix. */
-        return Builtin(executable);
-    } else {
-        /* Unknown external tool. */
-        return External(executable);
-    }
+	std::string builtinPrefix = "builtin-";
+	if (executable.compare(0, builtinPrefix.size(), builtinPrefix) == 0) {
+		/* Has a builtin prefix. */
+		return Builtin(executable);
+	} else {
+		/* Unknown external tool. */
+		return External(executable);
+	}
 }
 
-Tool::Invocation::
-Invocation() :
-    _showEnvironmentInLog   (true),
-    _createsProductStructure(false),
-    _waitForSwiftArtifacts  (false)
+Tool::Invocation::Invocation()
+    : _showEnvironmentInLog(true)
+    , _createsProductStructure(false)
+    , _waitForSwiftArtifacts(false)
 {
 }
 
-Tool::Invocation::
-~Invocation()
-{
-}
-
+Tool::Invocation::~Invocation() { }

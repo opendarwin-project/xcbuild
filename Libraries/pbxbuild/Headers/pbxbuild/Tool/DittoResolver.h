@@ -22,25 +22,23 @@ namespace Tool {
 class Context;
 
 class DittoResolver {
-private:
-    pbxspec::PBX::Tool::shared_ptr _tool;
+    private:
+	pbxspec::PBX::Tool::shared_ptr _tool;
 
-private:
-    explicit DittoResolver(pbxspec::PBX::Tool::shared_ptr const &tool);
+    private:
+	explicit DittoResolver(pbxspec::PBX::Tool::shared_ptr const &tool);
 
-public:
-    void resolve(
-        Tool::Context *toolContext,
-        std::string const &sourcePath,
-        std::string const &targetPath) const;
+    public:
+	void resolve(Tool::Context *toolContext, std::string const &sourcePath,
+	    std::string const &targetPath) const;
 
-public:
-    static std::string ToolIdentifier()
-    { return "com.apple.tools.ditto"; }
+    public:
+	static std::string ToolIdentifier() { return "com.apple.tools.ditto"; }
 
-public:
-    static std::unique_ptr<DittoResolver>
-    Create(pbxspec::Manager::shared_ptr const &specManager, std::vector<std::string> const &specDomains);
+    public:
+	static std::unique_ptr<DittoResolver> Create(
+	    pbxspec::Manager::shared_ptr const &specManager,
+	    std::vector<std::string> const &specDomains);
 };
 
 }

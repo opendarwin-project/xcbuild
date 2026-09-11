@@ -11,24 +11,18 @@
 #include <acdriver/Result.h>
 #include <libutil/Filesystem.h>
 
+using acdriver::Result;
 using acdriver::Compile::GCLeaderboardSet;
 using acdriver::Compile::Output;
-using acdriver::Result;
 using libutil::Filesystem;
 
-bool GCLeaderboardSet::
-Compile(
+bool GCLeaderboardSet::Compile(
     xcassets::Asset::GCLeaderboardSet const *gcComplicationSet,
-    Filesystem *filesystem,
-    Output *compileOutput,
-    Result *result)
+    Filesystem *filesystem, Output *compileOutput, Result *result)
 {
-    result->document(
-        Result::Severity::Warning,
-        gcComplicationSet->path(),
-        { Output::AssetReference(gcComplicationSet) },
-        "Not Implemented",
-        "gc leaderboard set not yet supported");
+	result->document(Result::Severity::Warning, gcComplicationSet->path(),
+	    { Output::AssetReference(gcComplicationSet) }, "Not Implemented",
+	    "gc leaderboard set not yet supported");
 
-    return false;
+	return false;
 }

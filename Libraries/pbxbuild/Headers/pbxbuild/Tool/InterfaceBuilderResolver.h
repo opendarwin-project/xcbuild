@@ -17,33 +17,43 @@ namespace Tool {
 class Context;
 
 class InterfaceBuilderResolver {
-private:
-    pbxspec::PBX::Compiler::shared_ptr _tool;
+    private:
+	pbxspec::PBX::Compiler::shared_ptr _tool;
 
-private:
-    explicit InterfaceBuilderResolver(pbxspec::PBX::Compiler::shared_ptr const &tool);
+    private:
+	explicit InterfaceBuilderResolver(
+	    pbxspec::PBX::Compiler::shared_ptr const &tool);
 
-public:
-    void resolve(
-        Tool::Context *toolContext,
-        pbxsetting::Environment const &environment,
-        std::vector<Tool::Input> const &input) const;
+    public:
+	void resolve(Tool::Context *toolContext,
+	    pbxsetting::Environment const &environment,
+	    std::vector<Tool::Input> const &input) const;
 
-public:
-    static std::string CompilerToolIdentifier()
-    { return "com.apple.xcode.tools.ibtool.compiler"; }
-    static std::string StoryboardCompilerToolIdentifier()
-    { return "com.apple.xcode.tools.ibtool.storyboard.compiler"; }
+    public:
+	static std::string CompilerToolIdentifier()
+	{
+		return "com.apple.xcode.tools.ibtool.compiler";
+	}
+	static std::string StoryboardCompilerToolIdentifier()
+	{
+		return "com.apple.xcode.tools.ibtool.storyboard.compiler";
+	}
 
-public:
-    static std::string PostprocessorToolIdentifier()
-    { return "com.apple.xcode.tools.ibtool.postprocessor"; }
-    static std::string StoryboardPostprocessorToolIdentifier()
-    { return "com.apple.xcode.tools.ibtool.storyboard.postprocessor"; }
+    public:
+	static std::string PostprocessorToolIdentifier()
+	{
+		return "com.apple.xcode.tools.ibtool.postprocessor";
+	}
+	static std::string StoryboardPostprocessorToolIdentifier()
+	{
+		return "com.apple.xcode.tools.ibtool.storyboard.postprocessor";
+	}
 
-public:
-    static std::unique_ptr<InterfaceBuilderResolver>
-    Create(pbxspec::Manager::shared_ptr const &specManager, std::vector<std::string> const &specDomains, std::string const &toolIdentifier);
+    public:
+	static std::unique_ptr<InterfaceBuilderResolver> Create(
+	    pbxspec::Manager::shared_ptr const &specManager,
+	    std::vector<std::string> const &specDomains,
+	    std::string const &toolIdentifier);
 };
 
 }

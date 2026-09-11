@@ -8,27 +8,21 @@
 
 #include <plist/Null.h>
 
-using plist::Object;
 using plist::Null;
+using plist::Object;
 
-std::unique_ptr<Null> Null::
-New()
+std::unique_ptr<Null> Null::New() { return std::unique_ptr<Null>(new Null()); }
+
+std::unique_ptr<Object> Null::_copy() const
 {
-    return std::unique_ptr<Null>(new Null());
+	return plist::static_unique_pointer_cast<Object>(Null::New());
 }
 
-std::unique_ptr<Object> Null::
-_copy() const
+std::unique_ptr<Null> Null::Coerce(Object const *obj)
 {
-    return plist::static_unique_pointer_cast<Object>(Null::New());
-}
+	if (Null const *null = CastTo<Null>(obj)) {
+		return null->copy();
+	}
 
-std::unique_ptr<Null> Null::
-Coerce(Object const *obj)
-{
-    if (Null const *null = CastTo<Null>(obj)) {
-        return null->copy();
-    }
-
-    return nullptr;
+	return nullptr;
 }

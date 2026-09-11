@@ -14,7 +14,9 @@
 
 #include <memory>
 
-namespace libutil { class Filesystem; }
+namespace libutil {
+class Filesystem;
+}
 
 namespace acdriver {
 
@@ -25,16 +27,15 @@ namespace Compile {
 class Output;
 
 class GCDashboardImage {
-private:
-    GCDashboardImage();
-    ~GCDashboardImage();
+    private:
+	GCDashboardImage();
+	~GCDashboardImage();
 
-public:
-    static bool Compile(
-        xcassets::Asset::GCDashboardImage const *gcDashboardImage,
-        libutil::Filesystem *filesystem,
-        Output *compileOutput,
-        Result *result);
+    public:
+	static bool Compile(
+	    xcassets::Asset::GCDashboardImage const *gcDashboardImage,
+	    libutil::Filesystem *filesystem, Output *compileOutput,
+	    Result *result);
 };
 
 }

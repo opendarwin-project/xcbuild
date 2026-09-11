@@ -11,24 +11,18 @@
 #include <acdriver/Result.h>
 #include <libutil/Filesystem.h>
 
+using acdriver::Result;
 using acdriver::Compile::ImageStackLayer;
 using acdriver::Compile::Output;
-using acdriver::Result;
 using libutil::Filesystem;
 
-bool ImageStackLayer::
-Compile(
+bool ImageStackLayer::Compile(
     xcassets::Asset::ImageStackLayer const *imageStackLayer,
-    Filesystem *filesystem,
-    Output *compileOutput,
-    Result *result)
+    Filesystem *filesystem, Output *compileOutput, Result *result)
 {
-    result->document(
-        Result::Severity::Warning,
-        imageStackLayer->path(),
-        { Output::AssetReference(imageStackLayer) },
-        "Not Implemented",
-        "image stack layer not yet supported");
+	result->document(Result::Severity::Warning, imageStackLayer->path(),
+	    { Output::AssetReference(imageStackLayer) }, "Not Implemented",
+	    "image stack layer not yet supported");
 
-    return false;
+	return false;
 }

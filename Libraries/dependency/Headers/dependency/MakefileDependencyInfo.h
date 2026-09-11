@@ -12,11 +12,11 @@
 #include <dependency/DependencyInfo.h>
 #include <dependency/DependencyInfoFormat.h>
 
+#include <ext/optional>
 #include <memory>
 #include <string>
-#include <vector>
 #include <utility>
-#include <ext/optional>
+#include <vector>
 
 namespace dependency {
 
@@ -24,39 +24,43 @@ namespace dependency {
  * The Makefile-based dependency info format used by clang and swiftc.
  */
 class MakefileDependencyInfo {
-private:
-    std::vector<DependencyInfo> _dependencyInfo;
+    private:
+	std::vector<DependencyInfo> _dependencyInfo;
 
-public:
-    MakefileDependencyInfo();
+    public:
+	MakefileDependencyInfo();
 
-public:
-    /*
-     * The encoded dependency info.
-     */
-    std::vector<DependencyInfo> const &dependencyInfo() const
-    { return _dependencyInfo; }
-    std::vector<DependencyInfo> &dependencyInfo()
-    { return _dependencyInfo; }
+    public:
+	/*
+	 * The encoded dependency info.
+	 */
+	std::vector<DependencyInfo> const &dependencyInfo() const
+	{
+		return _dependencyInfo;
+	}
+	std::vector<DependencyInfo> &dependencyInfo()
+	{
+		return _dependencyInfo;
+	}
 
-public:
-    /*
-     * Serialize the dependency info.
-     */
-    std::string serialize() const;
+    public:
+	/*
+	 * Serialize the dependency info.
+	 */
+	std::string serialize() const;
 
-public:
-    /*
-     * Create the dependency info from the Makefile contents.
-     */
-    static ext::optional<MakefileDependencyInfo>
-    Deserialize(std::string const &contents);
+    public:
+	/*
+	 * Create the dependency info from the Makefile contents.
+	 */
+	static ext::optional<MakefileDependencyInfo> Deserialize(
+	    std::string const &contents);
 
-public:
-    /*
-     * The dependency info format.
-     */
-    DependencyInfoFormat Format() { return DependencyInfoFormat::Makefile; }
+    public:
+	/*
+	 * The dependency info format.
+	 */
+	DependencyInfoFormat Format() { return DependencyInfoFormat::Makefile; }
 };
 
 }

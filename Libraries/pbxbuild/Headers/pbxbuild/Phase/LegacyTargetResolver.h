@@ -18,19 +18,23 @@ class Environment;
 class Context;
 
 class LegacyTargetResolver {
-private:
-    pbxproj::PBX::LegacyTarget::shared_ptr _legacyTarget;
+    private:
+	pbxproj::PBX::LegacyTarget::shared_ptr _legacyTarget;
 
-public:
-    explicit LegacyTargetResolver(pbxproj::PBX::LegacyTarget::shared_ptr const &legacyTarget);
-    ~LegacyTargetResolver();
+    public:
+	explicit LegacyTargetResolver(
+	    pbxproj::PBX::LegacyTarget::shared_ptr const &legacyTarget);
+	~LegacyTargetResolver();
 
-public:
-    pbxproj::PBX::LegacyTarget::shared_ptr const &legacyTarget() const
-    { return _legacyTarget; }
+    public:
+	pbxproj::PBX::LegacyTarget::shared_ptr const &legacyTarget() const
+	{
+		return _legacyTarget;
+	}
 
-public:
-    bool resolve(Phase::Environment const &phaseEnvironment, Phase::Context *phaseContext);
+    public:
+	bool resolve(Phase::Environment const &phaseEnvironment,
+	    Phase::Context *phaseContext);
 };
 
 }

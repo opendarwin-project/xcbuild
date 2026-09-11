@@ -11,38 +11,38 @@
 
 #include <plist/Format/abplist-format.h>
 
-#include <vector>
-#include <cstdio>
 #include <cstdint>
+#include <cstdio>
+#include <vector>
 
 class ABPContext {
-protected:
-    unsigned                    _flags;
-    abplist_header_t            _header;
-    abplist_trailer_t           _trailer;
-    uint64_t                   *_offsets;
+    protected:
+	unsigned _flags;
+	abplist_header_t _header;
+	abplist_trailer_t _trailer;
+	uint64_t *_offsets;
 
-protected:
-    off_t                       _offset;
-    std::vector<uint8_t> const *_contents;
+    protected:
+	off_t _offset;
+	std::vector<uint8_t> const *_contents;
 
-protected:
-    ABPContext(std::vector<uint8_t> const *contents);
-    ~ABPContext();
+    protected:
+	ABPContext(std::vector<uint8_t> const *contents);
+	~ABPContext();
 
-protected:
-    off_t seek(off_t offset, int whence);
-    off_t tell();
+    protected:
+	off_t seek(off_t offset, int whence);
+	off_t tell();
 
-protected:
-    size_t objectsCount();
+    protected:
+	size_t objectsCount();
 };
 
 /* Private Context Flags */
 enum {
-    kABPContextOpened   = (1 << 1),
-    kABPContextComplete = (1 << 2),
-    kABPContextFlushed  = (1 << 3)
+	kABPContextOpened = (1 << 1),
+	kABPContextComplete = (1 << 2),
+	kABPContextFlushed = (1 << 3)
 };
 
-#endif  /* !__plist_Format_ABPContext_h */
+#endif /* !__plist_Format_ABPContext_h */

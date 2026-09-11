@@ -15,36 +15,42 @@ namespace pbxbuild {
 namespace Tool {
 
 class CompilationInfo {
-private:
-    std::unordered_map<std::string, PrecompiledHeaderInfo> _precompiledHeaderInfo;
+    private:
+	std::unordered_map<std::string, PrecompiledHeaderInfo>
+	    _precompiledHeaderInfo;
 
-private:
-    std::string                                            _linkerDriver;
-    std::vector<std::string>                               _linkerArguments;
+    private:
+	std::string _linkerDriver;
+	std::vector<std::string> _linkerArguments;
 
-public:
-    CompilationInfo();
-    ~CompilationInfo();
+    public:
+	CompilationInfo();
+	~CompilationInfo();
 
-public:
-    std::unordered_map<std::string, PrecompiledHeaderInfo> const &precompiledHeaderInfo() const
-    { return _precompiledHeaderInfo; }
+    public:
+	std::unordered_map<std::string, PrecompiledHeaderInfo> const &
+	precompiledHeaderInfo() const
+	{
+		return _precompiledHeaderInfo;
+	}
 
-public:
-    std::unordered_map<std::string, PrecompiledHeaderInfo> &precompiledHeaderInfo()
-    { return _precompiledHeaderInfo; }
+    public:
+	std::unordered_map<std::string, PrecompiledHeaderInfo> &
+	precompiledHeaderInfo()
+	{
+		return _precompiledHeaderInfo;
+	}
 
-public:
-    std::string const &linkerDriver() const
-    { return _linkerDriver; }
-    std::vector<std::string> const &linkerArguments() const
-    { return _linkerArguments; }
+    public:
+	std::string const &linkerDriver() const { return _linkerDriver; }
+	std::vector<std::string> const &linkerArguments() const
+	{
+		return _linkerArguments;
+	}
 
-public:
-    std::string &linkerDriver()
-    { return _linkerDriver; }
-    std::vector<std::string> &linkerArguments()
-    { return _linkerArguments; }
+    public:
+	std::string &linkerDriver() { return _linkerDriver; }
+	std::vector<std::string> &linkerArguments() { return _linkerArguments; }
 };
 
 }

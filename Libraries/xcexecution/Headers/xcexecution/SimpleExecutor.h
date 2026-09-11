@@ -9,9 +9,9 @@
 #ifndef __xcexecution_SimpleExecutor_h
 #define __xcexecution_SimpleExecutor_h
 
-#include <xcexecution/Executor.h>
-#include <pbxbuild/Tool/AuxiliaryFile.h>
 #include <builtin/Registry.h>
+#include <pbxbuild/Tool/AuxiliaryFile.h>
+#include <xcexecution/Executor.h>
 
 namespace xcexecution {
 
@@ -20,45 +20,42 @@ namespace xcexecution {
  * like incremental builds, dependency info, and such are not supported.
  */
 class SimpleExecutor : public Executor {
-private:
-    builtin::Registry _builtins;
+    private:
+	builtin::Registry _builtins;
 
-public:
-    SimpleExecutor(std::shared_ptr<xcformatter::Formatter> const &formatter, bool dryRun, builtin::Registry const &builtins);
-    ~SimpleExecutor();
+    public:
+	SimpleExecutor(std::shared_ptr<xcformatter::Formatter> const &formatter,
+	    bool dryRun, builtin::Registry const &builtins);
+	~SimpleExecutor();
 
-public:
-    virtual bool build(
-        process::User const *user,
-        process::Context const *processContext,
-        process::Launcher *processLauncher,
-        libutil::Filesystem *filesystem,
-        pbxbuild::Build::Environment const &buildEnvironment,
-        Parameters const &buildParameters);
+    public:
+	virtual bool build(process::User const *user,
+	    process::Context const *processContext,
+	    process::Launcher *processLauncher, libutil::Filesystem *filesystem,
+	    pbxbuild::Build::Environment const &buildEnvironment,
+	    Parameters const &buildParameters);
 
-public:
-    bool writeAuxiliaryFiles(
-        libutil::Filesystem *filesystem,
-        std::vector<pbxbuild::Tool::AuxiliaryFile> const &auxiliaryFiles);
-    std::pair<bool, std::vector<pbxbuild::Tool::Invocation>> performInvocations(
-        process::Context const *processContext,
-        process::Launcher *processLauncher,
-        libutil::Filesystem *filesystem,
-        std::vector<std::string> const &executablePaths,
-        std::vector<pbxbuild::Tool::Invocation> const &orderedInvocations,
-        bool createProductStructure);
-    std::pair<bool, std::vector<pbxbuild::Tool::Invocation>> buildTarget(
-        process::Context const *processContext,
-        process::Launcher *processLauncher,
-        libutil::Filesystem *filesystem,
-        pbxproj::PBX::Target::shared_ptr const &target,
-        pbxbuild::Target::Environment const &targetEnvironment,
-        std::vector<pbxbuild::Tool::AuxiliaryFile> const &auxiliaryFiles,
-        std::vector<pbxbuild::Tool::Invocation> const &invocations);
+    public:
+	bool writeAuxiliaryFiles(libutil::Filesystem *filesystem,
+	    std::vector<pbxbuild::Tool::AuxiliaryFile> const &auxiliaryFiles);
+	std::pair<bool, std::vector<pbxbuild::Tool::Invocation>>
+	performInvocations(process::Context const *processContext,
+	    process::Launcher *processLauncher, libutil::Filesystem *filesystem,
+	    std::vector<std::string> const &executablePaths,
+	    std::vector<pbxbuild::Tool::Invocation> const &orderedInvocations,
+	    bool createProductStructure);
+	std::pair<bool, std::vector<pbxbuild::Tool::Invocation>> buildTarget(
+	    process::Context const *processContext,
+	    process::Launcher *processLauncher, libutil::Filesystem *filesystem,
+	    pbxproj::PBX::Target::shared_ptr const &target,
+	    pbxbuild::Target::Environment const &targetEnvironment,
+	    std::vector<pbxbuild::Tool::AuxiliaryFile> const &auxiliaryFiles,
+	    std::vector<pbxbuild::Tool::Invocation> const &invocations);
 
-public:
-    static std::unique_ptr<SimpleExecutor>
-    Create(std::shared_ptr<xcformatter::Formatter> const &formatter, bool dryRun, builtin::Registry const &builtins);
+    public:
+	static std::unique_ptr<SimpleExecutor> Create(
+	    std::shared_ptr<xcformatter::Formatter> const &formatter,
+	    bool dryRun, builtin::Registry const &builtins);
 };
 
 }

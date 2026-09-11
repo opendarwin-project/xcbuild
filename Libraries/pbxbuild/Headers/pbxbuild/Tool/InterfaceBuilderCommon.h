@@ -14,35 +14,37 @@
 #include <string>
 #include <vector>
 
-namespace pbxsetting { class Environment; }
+namespace pbxsetting {
+class Environment;
+}
 
 namespace pbxbuild {
 namespace Tool {
 
 class InterfaceBuilderCommon {
-private:
-    InterfaceBuilderCommon();
-    ~InterfaceBuilderCommon();
+    private:
+	InterfaceBuilderCommon();
+	~InterfaceBuilderCommon();
 
-public:
-    /*
-     * List device names for the given platform and device family.
-     */
-    static std::vector<std::string>
-    TargetedDeviceNames(std::string const &platformName, std::string const &deviceFamily);
+    public:
+	/*
+	 * List device names for the given platform and device family.
+	 */
+	static std::vector<std::string> TargetedDeviceNames(
+	    std::string const &platformName, std::string const &deviceFamily);
 
-    /*
-     * The standard setting for the targeted devices.
-     */
-    static pbxsetting::Setting
-    TargetedDeviceSetting(pbxsetting::Environment const &environment);
+	/*
+	 * The standard setting for the targeted devices.
+	 */
+	static pbxsetting::Setting TargetedDeviceSetting(
+	    pbxsetting::Environment const &environment);
 
-public:
-    /*
-     * The arguments needed to add a deployment target.
-     */
-    static std::vector<std::string>
-    DeploymentTargetArguments(pbxsetting::Environment const &environment);
+    public:
+	/*
+	 * The arguments needed to add a deployment target.
+	 */
+	static std::vector<std::string> DeploymentTargetArguments(
+	    pbxsetting::Environment const &environment);
 };
 
 }

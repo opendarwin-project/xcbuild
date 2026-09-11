@@ -13,32 +13,31 @@
 using xcassets::StickerGridSize;
 using xcassets::StickerGridSizes;
 
-ext::optional<StickerGridSize> StickerGridSizes::
-Parse(std::string const &value)
+ext::optional<StickerGridSize> StickerGridSizes::Parse(std::string const &value)
 {
-    if (value == "small") {
-        return StickerGridSize::Small;
-    } else if (value == "regular") {
-        return StickerGridSize::Regular;
-    } else if (value == "large") {
-        return StickerGridSize::Large;
-    } else {
-        fprintf(stderr, "warning: unknown sticker grid size %s\n", value.c_str());
-        return ext::nullopt;
-    }
+	if (value == "small") {
+		return StickerGridSize::Small;
+	} else if (value == "regular") {
+		return StickerGridSize::Regular;
+	} else if (value == "large") {
+		return StickerGridSize::Large;
+	} else {
+		fprintf(stderr, "warning: unknown sticker grid size %s\n",
+		    value.c_str());
+		return ext::nullopt;
+	}
 }
 
-std::string StickerGridSizes::
-String(StickerGridSize stickerGridSize)
+std::string StickerGridSizes::String(StickerGridSize stickerGridSize)
 {
-    switch (stickerGridSize) {
-        case StickerGridSize::Small:
-            return "small";
-        case StickerGridSize::Regular:
-            return "regular";
-        case StickerGridSize::Large:
-            return "large";
-    }
+	switch (stickerGridSize) {
+	case StickerGridSize::Small:
+		return "small";
+	case StickerGridSize::Regular:
+		return "regular";
+	case StickerGridSize::Large:
+		return "large";
+	}
 
-    abort();
+	abort();
 }

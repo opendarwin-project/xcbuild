@@ -15,28 +15,30 @@ namespace xcassets {
 namespace Asset {
 
 class Catalog : public Asset {
-private:
-    friend class Asset;
-    using Asset::Asset;
+    private:
+	friend class Asset;
+	using Asset::Asset;
 
-public:
-    static AssetType Type()
-    { return AssetType::Catalog; }
-    virtual AssetType type() const
-    { return AssetType::Catalog; }
+    public:
+	static AssetType Type() { return AssetType::Catalog; }
+	virtual AssetType type() const { return AssetType::Catalog; }
 
-public:
-    static ext::optional<std::string> Extension()
-    { return std::string("xcassets"); }
+    public:
+	static ext::optional<std::string> Extension()
+	{
+		return std::string("xcassets");
+	}
 
-public:
-    /*
-     * Load an asset catalog from a directory.
-     */
-    static std::unique_ptr<Catalog> Load(libutil::Filesystem const *filesystem, std::string const &path);
+    public:
+	/*
+	 * Load an asset catalog from a directory.
+	 */
+	static std::unique_ptr<Catalog> Load(
+	    libutil::Filesystem const *filesystem, std::string const &path);
 
-protected:
-    virtual bool parse(plist::Dictionary const *dict, std::unordered_set<std::string> *seen, bool check);
+    protected:
+	virtual bool parse(plist::Dictionary const *dict,
+	    std::unordered_set<std::string> *seen, bool check);
 };
 
 }

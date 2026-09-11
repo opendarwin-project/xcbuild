@@ -9,22 +9,29 @@
 #ifndef __xcdriver_ListAction_h
 #define __xcdriver_ListAction_h
 
-namespace libutil { class Filesystem; }
-namespace process { class Context; }
-namespace process { class User; }
+namespace libutil {
+class Filesystem;
+}
+namespace process {
+class Context;
+}
+namespace process {
+class User;
+}
 
 namespace xcdriver {
 
 class Options;
 
 class ListAction {
-private:
-    ListAction();
-    ~ListAction();
+    private:
+	ListAction();
+	~ListAction();
 
-public:
-    static int
-    Run(process::User const *user, process::Context const *processContext, libutil::Filesystem const *filesystem, Options const &options);
+    public:
+	static int Run(process::User const *user,
+	    process::Context const *processContext,
+	    libutil::Filesystem const *filesystem, Options const &options);
 };
 
 }

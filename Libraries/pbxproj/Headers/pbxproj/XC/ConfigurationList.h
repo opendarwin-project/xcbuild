@@ -11,36 +11,44 @@
 
 #include <pbxproj/XC/BuildConfiguration.h>
 
-namespace pbxproj { namespace XC {
+namespace pbxproj {
+namespace XC {
 
 class ConfigurationList : public PBX::Object {
-public:
-    typedef std::shared_ptr <ConfigurationList> shared_ptr;
+    public:
+	typedef std::shared_ptr<ConfigurationList> shared_ptr;
 
-private:
-    BuildConfiguration::vector _buildConfigurations;
-    std::string                _defaultConfigurationName;
-    bool                       _defaultConfigurationIsVisible;
+    private:
+	BuildConfiguration::vector _buildConfigurations;
+	std::string _defaultConfigurationName;
+	bool _defaultConfigurationIsVisible;
 
-public:
-    ConfigurationList();
+    public:
+	ConfigurationList();
 
-public:
-    inline BuildConfiguration::vector const &buildConfigurations() const
-    { return _buildConfigurations; }
-    inline std::string const &defaultConfigurationName() const
-    { return _defaultConfigurationName; }
-    inline bool defaultConfigurationIsVisible() const
-    { return _defaultConfigurationIsVisible; }
+    public:
+	inline BuildConfiguration::vector const &buildConfigurations() const
+	{
+		return _buildConfigurations;
+	}
+	inline std::string const &defaultConfigurationName() const
+	{
+		return _defaultConfigurationName;
+	}
+	inline bool defaultConfigurationIsVisible() const
+	{
+		return _defaultConfigurationIsVisible;
+	}
 
-protected:
-    bool parse(Context &context, plist::Dictionary const *dict, std::unordered_set<std::string> *seen, bool check) override;
+    protected:
+	bool parse(Context &context, plist::Dictionary const *dict,
+	    std::unordered_set<std::string> *seen, bool check) override;
 
-public:
-    static inline char const *Isa()
-    { return ISA::XCConfigurationList; }
+    public:
+	static inline char const *Isa() { return ISA::XCConfigurationList; }
 };
 
-} }
+}
+}
 
-#endif  // !__pbxproj_XC_ConfigurationList_h
+#endif // !__pbxproj_XC_ConfigurationList_h

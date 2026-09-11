@@ -8,40 +8,37 @@
 
 #include <pbxproj/PBX/Object.h>
 #include <plist/Dictionary.h>
-#include <plist/String.h>
 #include <plist/Keys/Unpack.h>
+#include <plist/String.h>
 
-using pbxproj::PBX::Object;
 using pbxproj::Context;
+using pbxproj::PBX::Object;
 
-Object::
-Object(std::string const &isa) :
-    _isa(isa)
+Object::Object(std::string const &isa)
+    : _isa(isa)
 {
 }
 
-bool Object::
-parseObject(Context &context, plist::Dictionary const *dict)
+bool Object::parseObject(Context &context, plist::Dictionary const *dict)
 {
-    std::unordered_set<std::string> seen;
-    return parse(context, dict, &seen, true);
+	std::unordered_set<std::string> seen;
+	return parse(context, dict, &seen, true);
 }
 
-bool Object::
-parse(Context &context, plist::Dictionary const *dict, std::unordered_set<std::string> *seen, bool check)
+bool Object::parse(Context &context, plist::Dictionary const *dict,
+    std::unordered_set<std::string> *seen, bool check)
 {
-    auto unpack = plist::Keys::Unpack("Object", dict, seen);
+	auto unpack = plist::Keys::Unpack("Object", dict, seen);
 
-    auto I = unpack.cast <plist::String> ("isa");
+	auto I = unpack.cast<plist::String>("isa");
 
-    if (!unpack.complete(check)) {
-        fprintf(stderr, "%s", unpack.errorText().c_str());
-    }
+	if (!unpack.complete(check)) {
+		fprintf(stderr, "%s", unpack.errorText().c_str());
+	}
 
-    if (I != nullptr) {
-        (void)I;
-    }
+	if (I != nullptr) {
+		(void)I;
+	}
 
-    return true;
+	return true;
 }
-

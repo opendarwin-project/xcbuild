@@ -11,24 +11,17 @@
 #include <acdriver/Result.h>
 #include <libutil/Filesystem.h>
 
+using acdriver::Result;
 using acdriver::Compile::BrandAssets;
 using acdriver::Compile::Output;
-using acdriver::Result;
 using libutil::Filesystem;
 
-bool BrandAssets::
-Compile(
-    xcassets::Asset::BrandAssets const *brandAssets,
-    Filesystem *filesystem,
-    Output *compileOutput,
-    Result *result)
+bool BrandAssets::Compile(xcassets::Asset::BrandAssets const *brandAssets,
+    Filesystem *filesystem, Output *compileOutput, Result *result)
 {
-    result->document(
-        Result::Severity::Warning,
-        brandAssets->path(),
-        { Output::AssetReference(brandAssets) },
-        "Not Implemented",
-        "brand assets not yet supported");
+	result->document(Result::Severity::Warning, brandAssets->path(),
+	    { Output::AssetReference(brandAssets) }, "Not Implemented",
+	    "brand assets not yet supported");
 
-    return false;
+	return false;
 }

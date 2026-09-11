@@ -11,20 +11,21 @@
 
 #include <pbxproj/PBX/BuildPhase.h>
 
-namespace pbxproj { namespace PBX {
+namespace pbxproj {
+namespace PBX {
 
 class SourcesBuildPhase : public BuildPhase {
-public:
-    typedef std::shared_ptr <SourcesBuildPhase> shared_ptr;
+    public:
+	typedef std::shared_ptr<SourcesBuildPhase> shared_ptr;
 
-public:
-    SourcesBuildPhase();
+    public:
+	SourcesBuildPhase();
 
-public:
-    static inline char const *Isa()
-    { return ISA::PBXSourcesBuildPhase; }
+    public:
+	static inline char const *Isa() { return ISA::PBXSourcesBuildPhase; }
 };
 
-} }
+}
+}
 
-#endif  // !__pbxproj_PBX_BuildPhase_h
+#endif // !__pbxproj_PBX_BuildPhase_h

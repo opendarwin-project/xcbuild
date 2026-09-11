@@ -17,25 +17,28 @@ namespace Tool {
 class Context;
 
 class InterfaceBuilderStoryboardLinkerResolver {
-private:
-    pbxspec::PBX::Compiler::shared_ptr _tool;
+    private:
+	pbxspec::PBX::Compiler::shared_ptr _tool;
 
-private:
-    explicit InterfaceBuilderStoryboardLinkerResolver(pbxspec::PBX::Compiler::shared_ptr const &tool);
+    private:
+	explicit InterfaceBuilderStoryboardLinkerResolver(
+	    pbxspec::PBX::Compiler::shared_ptr const &tool);
 
-public:
-    void resolve(
-        Tool::Context *toolContext,
-        pbxsetting::Environment const &environment,
-        std::vector<Tool::Input> const &input) const;
+    public:
+	void resolve(Tool::Context *toolContext,
+	    pbxsetting::Environment const &environment,
+	    std::vector<Tool::Input> const &input) const;
 
-public:
-    static std::string ToolIdentifier()
-    { return "com.apple.xcode.tools.ibtool.storyboard.linker"; }
+    public:
+	static std::string ToolIdentifier()
+	{
+		return "com.apple.xcode.tools.ibtool.storyboard.linker";
+	}
 
-public:
-    static std::unique_ptr<InterfaceBuilderStoryboardLinkerResolver>
-    Create(pbxspec::Manager::shared_ptr const &specManager, std::vector<std::string> const &specDomains);
+    public:
+	static std::unique_ptr<InterfaceBuilderStoryboardLinkerResolver> Create(
+	    pbxspec::Manager::shared_ptr const &specManager,
+	    std::vector<std::string> const &specDomains);
 };
 
 }

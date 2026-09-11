@@ -6,40 +6,41 @@
  LICENSE file in the root directory of this source tree.
  */
 
-#include <dependency/DirectoryDependencyInfo.h>
 #include <dependency/DependencyInfo.h>
+#include <dependency/DirectoryDependencyInfo.h>
 #include <libutil/Filesystem.h>
 
-using dependency::DirectoryDependencyInfo;
 using dependency::DependencyInfo;
+using dependency::DirectoryDependencyInfo;
 using libutil::Filesystem;
 
-DirectoryDependencyInfo::
-DirectoryDependencyInfo(std::string const &directory, DependencyInfo const &dependencyInfo) :
-    _directory     (directory),
-    _dependencyInfo(dependencyInfo)
+DirectoryDependencyInfo::DirectoryDependencyInfo(
+    std::string const &directory, DependencyInfo const &dependencyInfo)
+    : _directory(directory)
+    , _dependencyInfo(dependencyInfo)
 {
 }
 
-ext::optional<DirectoryDependencyInfo> DirectoryDependencyInfo::
-Deserialize(Filesystem const *filesystem, std::string const &directory)
+ext::optional<DirectoryDependencyInfo> DirectoryDependencyInfo::Deserialize(
+    Filesystem const *filesystem, std::string const &directory)
 {
-    std::vector<std::string> inputs;
+	std::vector<std::string> inputs;
 
-    /* Verify is directory. */
-    if (filesystem->type(directory) != Filesystem::Type::Directory) {
-        return ext::nullopt;
-    }
+	/* Verify is directory. */
+	if (filesystem->type(directory) != Filesystem::Type::Directory) {
+		return ext::nullopt;
+	}
 
-    /* Recursively add all paths under this directory. */
-    filesystem->readDirectory(directory, true, [&](std::string const &path) -> bool {
-        inputs.push_back(directory + "/" + path);
-        return true;
-    });
+	/* Recursively add all paths under this directory. */
+	filesystem->readDirectory(
+	    directory, true, [&](std::string const &path) -> bool {
+		    inputs.push_back(directory + "/" + path);
+		    return true;
+	    });
 
-    /* Create dependency info. */
-    auto info = DependencyInfo(inputs, std::vector<std::string>());
-    auto directoryInfo = DirectoryDependencyInfo(directory, info);
+	/* Create dependency info. */
+	auto info = DependencyInfo(inputs, std::vector<std::string>());
+	auto directoryInfo = DirectoryDependencyInfo(directory, info);
 
-    return DirectoryDependencyInfo(directoryInfo);
+	return DirectoryDependencyInfo(directoryInfo);
 }

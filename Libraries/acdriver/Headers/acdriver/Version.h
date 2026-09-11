@@ -17,20 +17,20 @@ namespace acdriver {
  * Computes driver version information.
  */
 class Version {
-private:
-    Version();
-    ~Version();
+    private:
+	Version();
+	~Version();
 
-public:
-    /*
-     * The machine-readable build version.
-     */
-    static int BuildVersion();
+    public:
+	/*
+	 * The machine-readable build version.
+	 */
+	static int BuildVersion();
 
-    /*
-     * The human-readable user version.
-     */
-    static std::string UserVersion();
+	/*
+	 * The human-readable user version.
+	 */
+	static std::string UserVersion();
 };
 
 }

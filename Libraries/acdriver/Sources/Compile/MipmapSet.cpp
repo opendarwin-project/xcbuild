@@ -11,24 +11,17 @@
 #include <acdriver/Result.h>
 #include <libutil/Filesystem.h>
 
+using acdriver::Result;
 using acdriver::Compile::MipmapSet;
 using acdriver::Compile::Output;
-using acdriver::Result;
 using libutil::Filesystem;
 
-bool MipmapSet::
-Compile(
-    xcassets::Asset::MipmapSet const *mipmapSet,
-    Filesystem *filesystem,
-    Output *compileOutput,
-    Result *result)
+bool MipmapSet::Compile(xcassets::Asset::MipmapSet const *mipmapSet,
+    Filesystem *filesystem, Output *compileOutput, Result *result)
 {
-    result->document(
-        Result::Severity::Warning,
-        mipmapSet->path(),
-        { Output::AssetReference(mipmapSet) },
-        "Not Implemented",
-        "mipmap set not yet supported");
+	result->document(Result::Severity::Warning, mipmapSet->path(),
+	    { Output::AssetReference(mipmapSet) }, "Not Implemented",
+	    "mipmap set not yet supported");
 
-    return false;
+	return false;
 }

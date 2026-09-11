@@ -9,33 +9,37 @@
 #ifndef __xcsdk_Environment_h
 #define __xcsdk_Environment_h
 
-#include <string>
 #include <ext/optional>
+#include <string>
 
-namespace libutil { class Filesystem; };
-namespace process { class Context; };
-namespace process { class User; };
+namespace libutil {
+class Filesystem;
+};
+namespace process {
+class Context;
+};
+namespace process {
+class User;
+};
 
 namespace xcsdk {
 
 class Environment {
-private:
-    Environment();
-    ~Environment();
+    private:
+	Environment();
+	~Environment();
 
-public:
-    static ext::optional<std::string> DeveloperRoot(
-        process::User const *user,
-        process::Context const *processContext,
-        libutil::Filesystem const *filesystem);
+    public:
+	static ext::optional<std::string> DeveloperRoot(
+	    process::User const *user, process::Context const *processContext,
+	    libutil::Filesystem const *filesystem);
 
-public:
-    /*
-     * Set a new developer root. Returns success;
-     */
-    static bool WriteDeveloperRoot(
-        libutil::Filesystem *filesystem,
-        ext::optional<std::string> const &path);
+    public:
+	/*
+	 * Set a new developer root. Returns success;
+	 */
+	static bool WriteDeveloperRoot(libutil::Filesystem *filesystem,
+	    ext::optional<std::string> const &path);
 };
 
 }

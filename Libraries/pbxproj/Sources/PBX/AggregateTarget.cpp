@@ -8,36 +8,35 @@
 
 #include <pbxproj/PBX/AggregateTarget.h>
 #include <pbxproj/PBX/BuildPhases.h>
-#include <plist/String.h>
 #include <plist/Keys/Unpack.h>
+#include <plist/String.h>
 
-using pbxproj::PBX::AggregateTarget;
 using pbxproj::Context;
+using pbxproj::PBX::AggregateTarget;
 
-AggregateTarget::
-AggregateTarget() :
-    Target(Isa(), Type::Aggregate)
+AggregateTarget::AggregateTarget()
+    : Target(Isa(), Type::Aggregate)
 {
 }
 
-bool AggregateTarget::
-parse(Context &context, plist::Dictionary const *dict, std::unordered_set<std::string> *seen, bool check)
+bool AggregateTarget::parse(Context &context, plist::Dictionary const *dict,
+    std::unordered_set<std::string> *seen, bool check)
 {
-    if (!Target::parse(context, dict, seen, false)) {
-        return false;
-    }
+	if (!Target::parse(context, dict, seen, false)) {
+		return false;
+	}
 
-    auto unpack = plist::Keys::Unpack("AggregateTarget", dict, seen);
+	auto unpack = plist::Keys::Unpack("AggregateTarget", dict, seen);
 
-    auto PN  = unpack.cast <plist::String> ("productName");
+	auto PN = unpack.cast<plist::String>("productName");
 
-    if (!unpack.complete(check)) {
-        fprintf(stderr, "%s", unpack.errorText().c_str());
-    }
+	if (!unpack.complete(check)) {
+		fprintf(stderr, "%s", unpack.errorText().c_str());
+	}
 
-    if (PN != nullptr) {
-        _productName = PN->value();
-    }
+	if (PN != nullptr) {
+		_productName = PN->value();
+	}
 
-    return true;
+	return true;
 }

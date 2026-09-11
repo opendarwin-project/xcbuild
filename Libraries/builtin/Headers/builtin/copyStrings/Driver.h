@@ -15,15 +15,16 @@ namespace builtin {
 namespace copyStrings {
 
 class Driver : public builtin::Driver {
-public:
-    Driver();
-    ~Driver();
+    public:
+	Driver();
+	~Driver();
 
-public:
-    virtual std::string name();
+    public:
+	virtual std::string name();
 
-public:
-    virtual int run(process::Context const *processContext, libutil::Filesystem *filesystem);
+    public:
+	virtual int run(process::Context const *processContext,
+	    libutil::Filesystem *filesystem);
 };
 
 }

@@ -11,43 +11,45 @@
 
 #include <pbxproj/PBX/FileReference.h>
 
-namespace pbxproj { namespace PBX {
+namespace pbxproj {
+namespace PBX {
 
 // Avoid circular dependencies
 class Target;
 class ContainerItemProxy;
 
 class TargetDependency : public Object {
-public:
-    typedef std::shared_ptr <TargetDependency> shared_ptr;
-    typedef std::vector <shared_ptr> vector;
+    public:
+	typedef std::shared_ptr<TargetDependency> shared_ptr;
+	typedef std::vector<shared_ptr> vector;
 
-private:
-    std::string                          _name;
-    std::shared_ptr <Target>             _target;
-    std::shared_ptr <ContainerItemProxy> _targetProxy;
+    private:
+	std::string _name;
+	std::shared_ptr<Target> _target;
+	std::shared_ptr<ContainerItemProxy> _targetProxy;
 
-public:
-    TargetDependency();
+    public:
+	TargetDependency();
 
-public:
-    inline std::string const &name() const
-    { return _name; }
+    public:
+	inline std::string const &name() const { return _name; }
 
-public:
-    inline std::shared_ptr<Target> const &target() const
-    { return _target; }
-    inline std::shared_ptr<ContainerItemProxy> const &targetProxy() const
-    { return _targetProxy; }
+    public:
+	inline std::shared_ptr<Target> const &target() const { return _target; }
+	inline std::shared_ptr<ContainerItemProxy> const &targetProxy() const
+	{
+		return _targetProxy;
+	}
 
-protected:
-    bool parse(Context &context, plist::Dictionary const *dict, std::unordered_set<std::string> *seen, bool check) override;
+    protected:
+	bool parse(Context &context, plist::Dictionary const *dict,
+	    std::unordered_set<std::string> *seen, bool check) override;
 
-public:
-    static inline char const *Isa()
-    { return ISA::PBXTargetDependency; }
+    public:
+	static inline char const *Isa() { return ISA::PBXTargetDependency; }
 };
 
-} }
+}
+}
 
-#endif  // !__pbxproj_PBX_TargetDependency_h
+#endif // !__pbxproj_PBX_TargetDependency_h

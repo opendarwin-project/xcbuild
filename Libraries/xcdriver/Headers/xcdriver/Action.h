@@ -13,63 +13,68 @@
 #include <pbxsetting/Level.h>
 #include <xcexecution/Parameters.h>
 
+#include <ext/optional>
 #include <string>
 #include <vector>
-#include <ext/optional>
 
-namespace libutil { class Filesystem; }
-namespace process { class Context; }
+namespace libutil {
+class Filesystem;
+}
+namespace process {
+class Context;
+}
 
 namespace xcdriver {
 
 class Options;
 
 class Action {
-private:
-    Action();
-    ~Action();
+    private:
+	Action();
+	~Action();
 
-public:
-    /*
-     * The possible basic actions that the driver can take.
-     */
-    enum Type {
-        Build,
-        ShowBuildSettings,
-        List,
-        Version,
-        Usage,
-        Help,
-        License,
-        CheckFirstLaunch,
-        ShowSDKs,
-        Find,
-        ExportArchive,
-        Localizations,
-    };
+    public:
+	/*
+	 * The possible basic actions that the driver can take.
+	 */
+	enum Type {
+		Build,
+		ShowBuildSettings,
+		List,
+		Version,
+		Usage,
+		Help,
+		License,
+		CheckFirstLaunch,
+		ShowSDKs,
+		Find,
+		ExportArchive,
+		Localizations,
+	};
 
-public:
-    /*
-     * Determine the action from a raw set of options. Picks the right
-     * action even if multiple are specified or conflicting options are.
-     */
-    static Type
-    Determine(Options const &options);
+    public:
+	/*
+	 * Determine the action from a raw set of options. Picks the right
+	 * action even if multiple are specified or conflicting options are.
+	 */
+	static Type Determine(Options const &options);
 
-public:
-    /*
-     * Verifies that the passed in build actions are valid.
-     */
-    static bool
-    VerifyBuildActions(std::vector<std::string> const &actions);
+    public:
+	/*
+	 * Verifies that the passed in build actions are valid.
+	 */
+	static bool VerifyBuildActions(std::vector<std::string> const &actions);
 
-public:
-    static std::vector<pbxsetting::Level>
-    CreateOverrideLevels(process::Context const *processContext, libutil::Filesystem const *filesystem, pbxsetting::Environment const &environment, Options const &options, std::string const &workingDirectory);
+    public:
+	static std::vector<pbxsetting::Level> CreateOverrideLevels(
+	    process::Context const *processContext,
+	    libutil::Filesystem const *filesystem,
+	    pbxsetting::Environment const &environment, Options const &options,
+	    std::string const &workingDirectory);
 
-public:
-    static xcexecution::Parameters
-    CreateParameters(Options const &options, std::vector<pbxsetting::Level> const &overrideLevels);
+    public:
+	static xcexecution::Parameters CreateParameters(Options const &options,
+	    std::vector<pbxsetting::Level> const &overrideLevels);
 };
 
 }

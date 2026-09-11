@@ -9,7 +9,9 @@
 #ifndef __xcdriver_UsageAction_h
 #define __xcdriver_UsageAction_h
 
-namespace process { class Context; }
+namespace process {
+class Context;
+}
 
 namespace xcdriver {
 
@@ -17,13 +19,12 @@ namespace xcdriver {
  * Prints usage details for correct invocation.
  */
 class UsageAction {
-private:
-    UsageAction();
-    ~UsageAction();
+    private:
+	UsageAction();
+	~UsageAction();
 
-public:
-    static int
-    Run(process::Context const *processContext);
+    public:
+	static int Run(process::Context const *processContext);
 };
 
 }

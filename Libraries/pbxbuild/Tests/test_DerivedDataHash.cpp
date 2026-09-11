@@ -13,18 +13,27 @@ using pbxbuild::DerivedDataHash;
 
 TEST(DerivedDataHash, Project)
 {
-    EXPECT_EQ(DerivedDataHash::Create("/tmp/test.xcodeproj").derivedDataHash(), "test-gebdbcuasvwschgbtxnniurxjukt");
-    EXPECT_EQ(DerivedDataHash::Create("/var/tmp/test.xcodeproj").derivedDataHash(), "test-bcocmrrfgjqtchaacscrvidwhtxm");
+	EXPECT_EQ(
+	    DerivedDataHash::Create("/tmp/test.xcodeproj").derivedDataHash(),
+	    "test-gebdbcuasvwschgbtxnniurxjukt");
+	EXPECT_EQ(DerivedDataHash::Create("/var/tmp/test.xcodeproj")
+		      .derivedDataHash(),
+	    "test-bcocmrrfgjqtchaacscrvidwhtxm");
 }
 
 TEST(DerivedDataHash, Workspace)
 {
-    EXPECT_EQ(DerivedDataHash::Create("/tmp/test.xcworkspace").derivedDataHash(), "test-gwbccjllutzxldarzgubidlxvvrx");
-    EXPECT_EQ(DerivedDataHash::Create("/var/tmp/test.xcworkspace").derivedDataHash(), "test-fmtsuzukhpemgpcoyvsqwhcyyesj");
+	EXPECT_EQ(
+	    DerivedDataHash::Create("/tmp/test.xcworkspace").derivedDataHash(),
+	    "test-gwbccjllutzxldarzgubidlxvvrx");
+	EXPECT_EQ(DerivedDataHash::Create("/var/tmp/test.xcworkspace")
+		      .derivedDataHash(),
+	    "test-fmtsuzukhpemgpcoyvsqwhcyyesj");
 }
 
 TEST(DerivedDataHash, Extension)
 {
-    EXPECT_EQ(DerivedDataHash::Create("/tmp/test.extension.xcodeproj").derivedDataHash(), "test.extension-gxmolhxorxkzjraqwuwsazdcensd");
+	EXPECT_EQ(DerivedDataHash::Create("/tmp/test.extension.xcodeproj")
+		      .derivedDataHash(),
+	    "test.extension-gxmolhxorxkzjraqwuwsazdcensd");
 }
-

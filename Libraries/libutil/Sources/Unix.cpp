@@ -13,34 +13,23 @@
 
 namespace Path = libutil::Path;
 
-char Path::Unix::
-Separator = '/';
+char Path::Unix::Separator = '/';
 
-bool Path::Unix::
-IsSeparator(char c)
+bool Path::Unix::IsSeparator(char c) { return (c == Path::Unix::Separator); }
+
+bool Path::Unix::IsAbsolute(std::string const &path, size_t *start)
 {
-    return (c == Path::Unix::Separator);
+	bool absolute = (path.size() >= 1 && path[0] == Path::Unix::Separator);
+	if (start != nullptr) {
+		*start = (absolute ? 1 : 0);
+	}
+	return absolute;
 }
 
-bool Path::Unix::
-IsAbsolute(std::string const &path, size_t *start)
+bool Path::Unix::Resolve(std::string const &path, std::string const &against,
+    std::string *base, std::string *relative)
 {
-    bool absolute = (path.size() >= 1 && path[0] == Path::Unix::Separator);
-    if (start != nullptr) {
-        *start = (absolute ? 1 : 0);
-    }
-    return absolute;
+	*base = against;
+	*relative = path;
+	return true;
 }
-
-bool Path::Unix::
-Resolve(
-    std::string const &path,
-    std::string const &against,
-    std::string *base,
-    std::string *relative)
-{
-    *base = against;
-    *relative = path;
-    return true;
-}
-

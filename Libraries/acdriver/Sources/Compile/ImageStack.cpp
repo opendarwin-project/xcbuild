@@ -11,24 +11,17 @@
 #include <acdriver/Result.h>
 #include <libutil/Filesystem.h>
 
+using acdriver::Result;
 using acdriver::Compile::ImageStack;
 using acdriver::Compile::Output;
-using acdriver::Result;
 using libutil::Filesystem;
 
-bool ImageStack::
-Compile(
-    xcassets::Asset::ImageStack const *imageStack,
-    Filesystem *filesystem,
-    Output *compileOutput,
-    Result *result)
+bool ImageStack::Compile(xcassets::Asset::ImageStack const *imageStack,
+    Filesystem *filesystem, Output *compileOutput, Result *result)
 {
-    result->document(
-        Result::Severity::Warning,
-        imageStack->path(),
-        { Output::AssetReference(imageStack) },
-        "Not Implemented",
-        "image stack not yet supported");
+	result->document(Result::Severity::Warning, imageStack->path(),
+	    { Output::AssetReference(imageStack) }, "Not Implemented",
+	    "image stack not yet supported");
 
-    return false;
+	return false;
 }

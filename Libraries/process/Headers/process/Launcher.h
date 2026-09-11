@@ -11,7 +11,9 @@
 
 #include <ext/optional>
 
-namespace libutil { class Filesystem; }
+namespace libutil {
+class Filesystem;
+}
 
 namespace process {
 
@@ -21,18 +23,19 @@ class Context;
  * Abstract process launcher.
  */
 class Launcher {
-protected:
-    Launcher();
-    ~Launcher();
+    protected:
+	Launcher();
+	~Launcher();
 
-public:
-    /*
-     * Launch and wait for a process. The filesystem is symbolic, to note
-     * that launching a process could arbitrarily affect the filesystem.
-     */
-    virtual ext::optional<int> launch(libutil::Filesystem *filesystem, Context const *context) = 0;
+    public:
+	/*
+	 * Launch and wait for a process. The filesystem is symbolic, to note
+	 * that launching a process could arbitrarily affect the filesystem.
+	 */
+	virtual ext::optional<int> launch(
+	    libutil::Filesystem *filesystem, Context const *context) = 0;
 };
 
 }
 
-#endif  // !__process_Launcher_h
+#endif // !__process_Launcher_h

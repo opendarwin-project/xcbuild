@@ -19,31 +19,31 @@ namespace Slot {
  * A class of device interaction.
  */
 enum class Idiom {
-    Universal,
-    Phone,
-    Pad,
-    Desktop,
-    TV,
-    Watch,
-    Car,
-    iOSMarketing,
+	Universal,
+	Phone,
+	Pad,
+	Desktop,
+	TV,
+	Watch,
+	Car,
+	iOSMarketing,
 };
 
 class Idioms {
-private:
-    Idioms();
-    ~Idioms();
+    private:
+	Idioms();
+	~Idioms();
 
-public:
-    /*
-     * Parse a matching idiom from a string, if valid.
-     */
-    static ext::optional<Idiom> Parse(std::string const &value);
+    public:
+	/*
+	 * Parse a matching idiom from a string, if valid.
+	 */
+	static ext::optional<Idiom> Parse(std::string const &value);
 
-    /*
-     * Convert an idiom to a string.
-     */
-    static std::string String(Idiom idiom);
+	/*
+	 * Convert an idiom to a string.
+	 */
+	static std::string String(Idiom idiom);
 };
 
 }

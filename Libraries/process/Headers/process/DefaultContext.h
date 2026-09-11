@@ -18,23 +18,26 @@ namespace process {
  * be created in `main()` and passed down to anywhere else that needs it.
  */
 class DefaultContext : public Context {
-public:
-    explicit DefaultContext();
-    virtual ~DefaultContext();
+    public:
+	explicit DefaultContext();
+	virtual ~DefaultContext();
 
-public:
-    virtual std::string const &executablePath() const;
-    virtual std::string const &currentDirectory() const;
+    public:
+	virtual std::string const &executablePath() const;
+	virtual std::string const &currentDirectory() const;
 
-public:
-    virtual std::vector<std::string> const &commandLineArguments() const;
-    virtual std::unordered_map<std::string, std::string> const &environmentVariables() const;
-    virtual ext::optional<std::string> environmentVariable(std::string const &variable) const;
+    public:
+	virtual std::vector<std::string> const &commandLineArguments() const;
+	virtual std::unordered_map<std::string, std::string> const &
+	environmentVariables() const;
+	virtual ext::optional<std::string> environmentVariable(
+	    std::string const &variable) const;
 
-public:
-    virtual ext::optional<std::string> const shellExpand(std::string const &s) const;
+    public:
+	virtual ext::optional<std::string> const shellExpand(
+	    std::string const &s) const;
 };
 
 }
 
-#endif  // !__process_DefaultContext_h
+#endif // !__process_DefaultContext_h

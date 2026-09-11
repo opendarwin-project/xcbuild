@@ -19,25 +19,25 @@ namespace Slot {
  * A general class of the available screen space in a dimension.
  */
 enum class SizeClass {
-    Compact,
-    Regular,
+	Compact,
+	Regular,
 };
 
 class SizeClasses {
-private:
-    SizeClasses();
-    ~SizeClasses();
+    private:
+	SizeClasses();
+	~SizeClasses();
 
-public:
-    /*
-     * Parse a matching size class from a string, if valid.
-     */
-    static ext::optional<SizeClass> Parse(std::string const &value);
+    public:
+	/*
+	 * Parse a matching size class from a string, if valid.
+	 */
+	static ext::optional<SizeClass> Parse(std::string const &value);
 
-    /*
-     * Convert an size class to a string.
-     */
-    static std::string String(SizeClass sizeClass);
+	/*
+	 * Convert an size class to a string.
+	 */
+	static std::string String(SizeClass sizeClass);
 };
 
 }

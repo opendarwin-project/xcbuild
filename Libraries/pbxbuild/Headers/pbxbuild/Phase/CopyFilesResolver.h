@@ -18,19 +18,23 @@ class Environment;
 class Context;
 
 class CopyFilesResolver {
-private:
-    pbxproj::PBX::CopyFilesBuildPhase::shared_ptr _buildPhase;
+    private:
+	pbxproj::PBX::CopyFilesBuildPhase::shared_ptr _buildPhase;
 
-public:
-    explicit CopyFilesResolver(pbxproj::PBX::CopyFilesBuildPhase::shared_ptr const &buildPhase);
-    ~CopyFilesResolver();
+    public:
+	explicit CopyFilesResolver(
+	    pbxproj::PBX::CopyFilesBuildPhase::shared_ptr const &buildPhase);
+	~CopyFilesResolver();
 
-public:
-    pbxproj::PBX::CopyFilesBuildPhase::shared_ptr const &buildPhase() const
-    { return _buildPhase; }
+    public:
+	pbxproj::PBX::CopyFilesBuildPhase::shared_ptr const &buildPhase() const
+	{
+		return _buildPhase;
+	}
 
-public:
-    bool resolve(Phase::Environment const &phaseEnvironment, Phase::Context *phaseContext);
+    public:
+	bool resolve(Phase::Environment const &phaseEnvironment,
+	    Phase::Context *phaseContext);
 };
 
 }

@@ -16,33 +16,38 @@
 namespace libutil {
 
 class FSUtil {
-public:
-    static std::string GetDirectoryName(std::string const &path);
-    static std::string GetBaseName(std::string const &path);
-    static std::string GetBaseNameWithoutExtension(std::string const &path);
-    static std::string GetRelativePath(std::string const &path, std::string const &to);
-    static std::string GetFileExtension(std::string const &path);
+    public:
+	static std::string GetDirectoryName(std::string const &path);
+	static std::string GetBaseName(std::string const &path);
+	static std::string GetBaseNameWithoutExtension(std::string const &path);
+	static std::string GetRelativePath(
+	    std::string const &path, std::string const &to);
+	static std::string GetFileExtension(std::string const &path);
 
-public:
-    static bool IsFileExtension(std::string const &path,
-            std::string const &extension, bool insensitive = false);
-    static bool IsFileExtension(std::string const &path,
-            std::initializer_list <std::string> const &extensions,
-            bool insensitive = false);
+    public:
+	static bool IsFileExtension(std::string const &path,
+	    std::string const &extension, bool insensitive = false);
+	static bool IsFileExtension(std::string const &path,
+	    std::initializer_list<std::string> const &extensions,
+	    bool insensitive = false);
 
-public:
-    static bool IsAbsolutePath(std::string const &path);
+    public:
+	static bool IsAbsolutePath(std::string const &path);
 
-public:
-    static std::string ResolveRelativePath(std::string const &path, std::string const &workingDirectory);
-    static std::string NormalizePath(std::string const &path);
-    static std::vector<std::string> NormalizePathComponents(std::string const &path);
+    public:
+	static std::string ResolveRelativePath(
+	    std::string const &path, std::string const &workingDirectory);
+	static std::string NormalizePath(std::string const &path);
+	static std::vector<std::string> NormalizePathComponents(
+	    std::string const &path);
 
-public:
-    static std::string FindFile(std::string const &name, std::vector<std::string> const &paths);
-    static std::string FindExecutable(std::string const &name, std::vector<std::string> const &paths);
+    public:
+	static std::string FindFile(
+	    std::string const &name, std::vector<std::string> const &paths);
+	static std::string FindExecutable(
+	    std::string const &name, std::vector<std::string> const &paths);
 };
 
 }
 
-#endif  // !__libutil_FSUtil_h
+#endif // !__libutil_FSUtil_h

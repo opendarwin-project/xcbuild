@@ -13,32 +13,31 @@
 using xcassets::BrandAssetRole;
 using xcassets::BrandAssetRoles;
 
-ext::optional<BrandAssetRole> BrandAssetRoles::
-Parse(std::string const &value)
+ext::optional<BrandAssetRole> BrandAssetRoles::Parse(std::string const &value)
 {
-    if (value == "primary-app-icon") {
-        return BrandAssetRole::PrimaryAppIcon;
-    } else if (value == "top-shelf-image") {
-        return BrandAssetRole::TopShelfImage;
-    } else if (value == "top-shelf-image-wide") {
-        return BrandAssetRole::TopShelfImageWide;
-    } else {
-        fprintf(stderr, "warning: unknown brand asset role %s\n", value.c_str());
-        return ext::nullopt;
-    }
+	if (value == "primary-app-icon") {
+		return BrandAssetRole::PrimaryAppIcon;
+	} else if (value == "top-shelf-image") {
+		return BrandAssetRole::TopShelfImage;
+	} else if (value == "top-shelf-image-wide") {
+		return BrandAssetRole::TopShelfImageWide;
+	} else {
+		fprintf(stderr, "warning: unknown brand asset role %s\n",
+		    value.c_str());
+		return ext::nullopt;
+	}
 }
 
-std::string BrandAssetRoles::
-String(BrandAssetRole brandAssetRole)
+std::string BrandAssetRoles::String(BrandAssetRole brandAssetRole)
 {
-    switch (brandAssetRole) {
-        case BrandAssetRole::PrimaryAppIcon:
-            return "primary-app-icon";
-        case BrandAssetRole::TopShelfImage:
-            return "top-shelf-image";
-        case BrandAssetRole::TopShelfImageWide:
-            return "top-shelf-image-wide";
-    }
+	switch (brandAssetRole) {
+	case BrandAssetRole::PrimaryAppIcon:
+		return "primary-app-icon";
+	case BrandAssetRole::TopShelfImage:
+		return "top-shelf-image";
+	case BrandAssetRole::TopShelfImageWide:
+		return "top-shelf-image-wide";
+	}
 
-    abort();
+	abort();
 }

@@ -16,7 +16,9 @@
 #include <string>
 #include <vector>
 
-namespace pbxsetting { class Environment; }
+namespace pbxsetting {
+class Environment;
+}
 
 namespace pbxbuild {
 namespace Tool {
@@ -27,35 +29,38 @@ class PrecompiledHeaderInfo;
 class SearchPaths;
 
 class ClangResolver {
-private:
-    pbxspec::PBX::Compiler::shared_ptr _compiler;
+    private:
+	pbxspec::PBX::Compiler::shared_ptr _compiler;
 
-public:
-    ClangResolver(pbxspec::PBX::Compiler::shared_ptr const &compiler);
-    ~ClangResolver();
+    public:
+	ClangResolver(pbxspec::PBX::Compiler::shared_ptr const &compiler);
+	~ClangResolver();
 
-public:
-    void resolveSource(
-        Tool::Context *toolContext,
-        pbxsetting::Environment const &environment,
-        Tool::Input const &input,
-        std::string const &outputDirectory) const;
-    void resolvePrecompiledHeader(
-        Tool::Context *toolContext,
-        pbxsetting::Environment const &environment,
-        PrecompiledHeaderInfo const &precompiledHeaderInfo) const;
+    public:
+	void resolveSource(Tool::Context *toolContext,
+	    pbxsetting::Environment const &environment,
+	    Tool::Input const &input, std::string const &outputDirectory) const;
+	void resolvePrecompiledHeader(Tool::Context *toolContext,
+	    pbxsetting::Environment const &environment,
+	    PrecompiledHeaderInfo const &precompiledHeaderInfo) const;
 
-public:
-    pbxspec::PBX::Compiler::shared_ptr const &compiler() const
-    { return _compiler; }
+    public:
+	pbxspec::PBX::Compiler::shared_ptr const &compiler() const
+	{
+		return _compiler;
+	}
 
-public:
-    static std::string ToolIdentifier()
-    { return "com.apple.compilers.gcc"; }
+    public:
+	static std::string ToolIdentifier()
+	{
+		return "com.apple.compilers.gcc";
+	}
 
-public:
-    static std::unique_ptr<ClangResolver>
-    Create(pbxspec::Manager::shared_ptr const &specManager, std::vector<std::string> const &specDomains, std::string const &compilerIdentifier);
+    public:
+	static std::unique_ptr<ClangResolver> Create(
+	    pbxspec::Manager::shared_ptr const &specManager,
+	    std::vector<std::string> const &specDomains,
+	    std::string const &compilerIdentifier);
 };
 
 }

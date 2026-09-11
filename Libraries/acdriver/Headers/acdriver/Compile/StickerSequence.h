@@ -14,7 +14,9 @@
 
 #include <memory>
 
-namespace libutil { class Filesystem; }
+namespace libutil {
+class Filesystem;
+}
 
 namespace acdriver {
 
@@ -25,16 +27,15 @@ namespace Compile {
 class Output;
 
 class StickerSequence {
-private:
-    StickerSequence();
-    ~StickerSequence();
+    private:
+	StickerSequence();
+	~StickerSequence();
 
-public:
-    static bool Compile(
-        xcassets::Asset::StickerSequence const *stickerSequence,
-        libutil::Filesystem *filesystem,
-        Output *compileOutput,
-        Result *result);
+    public:
+	static bool Compile(
+	    xcassets::Asset::StickerSequence const *stickerSequence,
+	    libutil::Filesystem *filesystem, Output *compileOutput,
+	    Result *result);
 };
 
 }

@@ -17,10 +17,10 @@
 namespace plist {
 
 struct Base64 {
-    static void Decode(std::string const &in, std::vector<uint8_t> &out);
-    static std::string Encode(std::vector<uint8_t> const &in);
+	static void Decode(std::string const &in, std::vector<uint8_t> &out);
+	static std::string Encode(std::vector<uint8_t> const &in);
 };
 
 }
 
-#endif  // !__plist_Base64_h
+#endif // !__plist_Base64_h

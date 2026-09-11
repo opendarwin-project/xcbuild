@@ -13,24 +13,23 @@
 using xcassets::TextureOrigin;
 using xcassets::TextureOrigins;
 
-ext::optional<TextureOrigin> TextureOrigins::
-Parse(std::string const &value)
+ext::optional<TextureOrigin> TextureOrigins::Parse(std::string const &value)
 {
-    if (value == "bottom-left") {
-        return TextureOrigin::BottomLeft;
-    } else {
-        fprintf(stderr, "warning: unknown texture origin %s\n", value.c_str());
-        return ext::nullopt;
-    }
+	if (value == "bottom-left") {
+		return TextureOrigin::BottomLeft;
+	} else {
+		fprintf(stderr, "warning: unknown texture origin %s\n",
+		    value.c_str());
+		return ext::nullopt;
+	}
 }
 
-std::string TextureOrigins::
-String(TextureOrigin textureOrigin)
+std::string TextureOrigins::String(TextureOrigin textureOrigin)
 {
-    switch (textureOrigin) {
-        case TextureOrigin::BottomLeft:
-            return "bottom-left";
-    }
+	switch (textureOrigin) {
+	case TextureOrigin::BottomLeft:
+		return "bottom-left";
+	}
 
-    abort();
+	abort();
 }
