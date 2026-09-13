@@ -10,6 +10,7 @@
 #define __pbxproj_PBX_ContainerItemProxy_h
 
 #include <pbxproj/PBX/FileReference.h>
+#include <cstdint>
 
 namespace pbxproj {
 namespace PBX {

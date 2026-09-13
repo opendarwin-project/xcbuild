@@ -6,6 +6,7 @@
  LICENSE file in the root directory of this source tree.
  */
 
+#include <cstdint>
 #include <pbxbuild/DerivedDataHash.h>
 
 #include <libutil/FSUtil.h>

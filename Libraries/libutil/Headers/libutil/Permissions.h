@@ -10,8 +10,8 @@
 #define __libutil_Permissions_h
 
 #include <bitset>
+#include <cstdint>
 #include <limits>
-
 namespace libutil {
 
 /*

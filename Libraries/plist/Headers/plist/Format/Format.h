@@ -13,6 +13,7 @@
 #include <plist/Object.h>
 
 #include <vector>
+#include <cstdint>
 
 namespace plist {
 namespace Format {

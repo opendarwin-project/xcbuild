@@ -11,6 +11,7 @@
 
 #include <plist/Base.h>
 #include <plist/Object.h>
+#include <cstdint>
 
 namespace plist {
 

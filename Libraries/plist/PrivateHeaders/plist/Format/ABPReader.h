@@ -14,6 +14,7 @@
 
 #include <string>
 #include <unordered_set>
+#include <cstdint>
 
 class ABPReader : public ABPContext {
     public:

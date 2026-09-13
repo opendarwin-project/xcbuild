@@ -14,6 +14,7 @@
 
 #include <cstring>
 #include <vector>
+#include <cstdint>
 
 namespace plist {
 

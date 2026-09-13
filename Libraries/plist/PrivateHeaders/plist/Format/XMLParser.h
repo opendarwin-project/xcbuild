@@ -11,6 +11,7 @@
 
 #include <plist/Format/BaseXMLParser.h>
 #include <plist/Object.h>
+#include <cstdint>
 
 namespace plist {
 namespace Format {

@@ -10,6 +10,7 @@
 #define __pbxproj_PBX_FileReference_h
 
 #include <pbxproj/PBX/GroupItem.h>
+#include <cstdint>
 
 namespace pbxproj {
 namespace PBX {

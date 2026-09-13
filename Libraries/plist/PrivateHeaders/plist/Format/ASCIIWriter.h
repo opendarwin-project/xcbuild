@@ -10,6 +10,7 @@
 #define __plist_Format_ASCIIWriter_h
 
 #include <plist/Objects.h>
+#include <cstdint>
 
 namespace plist {
 namespace Format {

@@ -22,6 +22,7 @@
 #include <map>
 #include <string>
 #include <vector>
+#include <cstdint>
 
 #define PHASE_INVOCATION_PRIORITY_BASE	    0x100
 #define PHASE_INVOCATION_PRIORITY_INCREMENT 0x100

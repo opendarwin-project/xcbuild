@@ -13,6 +13,7 @@
 #include <ext/optional>
 
 #include <string>
+#include <cstdint>
 
 namespace car {
 

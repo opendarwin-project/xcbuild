@@ -14,6 +14,7 @@
 #include <xcscheme/XC/BuildableReference.h>
 #include <xcscheme/XC/CommandLineArgument.h>
 #include <xcscheme/XC/LocationScenarioReference.h>
+#include <cstdint>
 
 namespace xcscheme {
 namespace XC {

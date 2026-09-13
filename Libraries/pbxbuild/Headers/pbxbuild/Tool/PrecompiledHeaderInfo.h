@@ -15,6 +15,7 @@
 
 #include <string>
 #include <vector>
+#include <cstdint>
 
 namespace pbxbuild {
 namespace Tool {

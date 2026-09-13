@@ -16,6 +16,7 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include <cstdint>
 
 namespace plist {
 class Array;

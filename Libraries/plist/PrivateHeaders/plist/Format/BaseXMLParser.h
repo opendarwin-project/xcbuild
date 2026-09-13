@@ -22,6 +22,7 @@
 #include <xmllite.h>
 #else
 #include <libxml/xmlreader.h>
+#include <cstdint>
 #endif
 
 namespace plist {

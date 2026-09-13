@@ -26,6 +26,7 @@
 #define _BOM_FORMAT_H
 
 #include <libutil/CompilerSupport.h>
+#include <stdint.h>
 
 #ifdef __cplusplus
 extern "C" {

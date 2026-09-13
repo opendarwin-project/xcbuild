@@ -10,6 +10,7 @@
 #define __libutil_MemoryFilesystem_h
 
 #include <libutil/Filesystem.h>
+#include <cstdint>
 
 namespace libutil {
 

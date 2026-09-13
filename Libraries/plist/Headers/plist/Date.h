@@ -13,6 +13,7 @@
 #include <plist/Object.h>
 
 #include <ctime>
+#include <cstdint>
 
 namespace plist {
 
